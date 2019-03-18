@@ -1,0 +1,5 @@
+Space rhythm 0.1 
+  18/03/2019
+  - Implement initial display
+  - Implement run function
+  
