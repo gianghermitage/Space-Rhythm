@@ -9,16 +9,17 @@ public abstract class GameObject {
     protected int velX = 0;
     protected int velY = 0;
 
-
-    public abstract void tick();
-    public abstract void render(Graphics g);
-    public abstract Rectangle getBounds();
-
-    public GameObject(int x, int y, ObjectID ID){
+    public GameObject(int x, int y, ObjectID ID) {
         this.ID = ID;
         this.x = x;
         this.y = y;
     }
+
+    public abstract void tick();
+
+    public abstract void render(Graphics g);
+
+    public abstract Rectangle getBounds();
 
     public ObjectID getID() {
         return ID;

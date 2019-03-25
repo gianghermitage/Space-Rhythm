@@ -1,10 +1,12 @@
 package spaceRhythm.Game;
 
+import spaceRhythm.ImageLoader.BufferedImageLoader;
 import spaceRhythm.Input.KeyInput;
 import spaceRhythm.Window.Window;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
 
 
 public class Game extends Canvas implements Runnable {
@@ -12,14 +14,19 @@ public class Game extends Canvas implements Runnable {
     private boolean isRunning = false;
     private Thread thread;
     private Handler handler;
+    private BufferedImage map = null;
+    private Camera camera;
+
 
     public Game() {
-        new Window(1280, 768, "GameTest", this);
+        new Window(1280, 720, "GameTest", this);
         start();
         handler = new Handler();
+        camera = new Camera(0, 0);
         this.addKeyListener(new KeyInput(handler));
-        handler.addObject(new Player(100,100,ObjectID.Player,handler));
-
+        BufferedImageLoader loader = new BufferedImageLoader();
+        map = loader.loadImage("/map.png");
+        loadLevel(map);
     }
 
     private synchronized void start() {
@@ -74,6 +81,12 @@ public class Game extends Canvas implements Runnable {
     //update everything
     private void tick() {
         handler.tick();
+        for (int i = 0; i < handler.object.size(); i++) {
+            if (handler.object.get(i).getID() == ObjectID.Player) {
+                camera.tick(handler.object.get(i));
+            }
+        }
+
     }
 
     //render everything
@@ -83,14 +96,33 @@ public class Game extends Canvas implements Runnable {
             this.createBufferStrategy(3);    //load 3 frames ahead
             return;
         }
+
         Graphics g = bs.getDrawGraphics();
-        g.setColor(Color.white);
-        g.fillRect(0, 0, 1280, 768);
+        Graphics2D g2d = (Graphics2D) g;
+        g.setColor(Color.DARK_GRAY);
+        g.fillRect(0, 0, 1280, 720);
+        g2d.translate(-camera.getX(), -camera.getY());
         ////////////////Draw thing here lmao///////////////
         handler.render(g);
         //////////////////////////////////////////////////
         bs.show();
         g.dispose();
+    }
+
+    private void loadLevel(BufferedImage image) {
+        int w = image.getWidth();
+        int h = image.getHeight();
+
+        for (int iX = 0; iX < w; iX++) {
+            for (int iY = 0; iY < h; iY++) {
+                int pixel = image.getRGB(iX, iY);
+                int red = (pixel >> 16) & 0xff;
+                int green = (pixel >> 8) & 0xff;
+                int blue = (pixel) & 0xff;
+                if (red == 255) handler.addObject(new Block(iX * 32, iY * 32, ObjectID.Block));
+                if (blue == 255) handler.addObject(new Player(iX * 32, iY * 32, ObjectID.Player, handler));
+            }
+        }
     }
 
 }

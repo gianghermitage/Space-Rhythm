@@ -5,7 +5,7 @@ import java.util.LinkedList;
 
 public class Handler {
     public LinkedList<GameObject> object = new LinkedList<GameObject>();
-    private boolean up = false, down =false, left = false, right = false;
+    private boolean up = false, down = false, left = false, right = false;
 
     public boolean isUp() {
         return up;
@@ -39,27 +39,26 @@ public class Handler {
         this.right = right;
     }
 
-    public void tick(){
+    public void tick() {
         for (int i = 0, objectSize = object.size(); i < objectSize; i++) {
             GameObject tempObject = object.get(i);
             tempObject.tick();
         }
     }
 
-    public void render(Graphics g){
+    public void render(Graphics g) {
         for (int i = 0, objectSize = object.size(); i < objectSize; i++) {
             GameObject tempObject = object.get(i);
             tempObject.render(g);
         }
     }
 
-    public void addObject(GameObject tempObject){
+    public void addObject(GameObject tempObject) {
         object.add(tempObject);
     }
 
-    public void removeObject(GameObject tempObject){
+    public void removeObject(GameObject tempObject) {
         object.remove(tempObject);
     }
-
 
 }
