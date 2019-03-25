@@ -1,9 +1,17 @@
 Space rhythm 0.1 
-  18/03/2019
-  - Implement initial display
-  - Implement run function
+  	18/03/2019
+  	- Implement initial display
+  	- Implement run function
   
-  Version 0.2
-  24/3/2019
-  -Implement 2 movement mechanic
+Version 0.2
+  	24/3/2019
+  	-Implement 2 movement mechanic
+  
+Version 0.3
+	25/3/2019
+  	-Implement 2 camera mechanic
+	-implement collision mechanic
+	-add initial map
+
+
   
