@@ -1,8 +1,8 @@
 package spaceRhythm.Input;
 
-import spaceRhythm.Game.GameObject;
+import spaceRhythm.Game.GameObjects.GameObject;
 import spaceRhythm.Game.Handler;
-import spaceRhythm.Game.ObjectID;
+import spaceRhythm.Game.GameObjects.ObjectID;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -23,6 +23,7 @@ public class KeyInput extends KeyAdapter {
                 if (key == KeyEvent.VK_S) handler.setDown(true);
                 if (key == KeyEvent.VK_A) handler.setLeft(true);
                 if (key == KeyEvent.VK_D) handler.setRight(true);
+                if (key == KeyEvent.VK_SPACE)  handler.setShooting(true);
             }
         }
     }
@@ -36,6 +37,7 @@ public class KeyInput extends KeyAdapter {
                 if (key == KeyEvent.VK_S) handler.setDown(false);
                 if (key == KeyEvent.VK_A) handler.setLeft(false);
                 if (key == KeyEvent.VK_D) handler.setRight(false);
+                if (key == KeyEvent.VK_SPACE)  handler.setShooting(false);
             }
         }
     }

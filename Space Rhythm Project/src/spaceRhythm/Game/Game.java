@@ -1,7 +1,11 @@
 package spaceRhythm.Game;
 
+import spaceRhythm.Game.GameObjects.Block;
+import spaceRhythm.Game.GameObjects.ObjectID;
+import spaceRhythm.Game.GameObjects.Player;
 import spaceRhythm.ImageLoader.BufferedImageLoader;
 import spaceRhythm.Input.KeyInput;
+import spaceRhythm.Input.MouseInput;
 import spaceRhythm.Window.Window;
 
 import java.awt.*;
@@ -24,6 +28,7 @@ public class Game extends Canvas implements Runnable {
         handler = new Handler();
         camera = new Camera(0, 0);
         this.addKeyListener(new KeyInput(handler));
+        this.addMouseListener(new MouseInput(handler,camera));
         BufferedImageLoader loader = new BufferedImageLoader();
         map = loader.loadImage("/map.png");
         loadLevel(map);

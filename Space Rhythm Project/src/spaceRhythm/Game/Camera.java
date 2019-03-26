@@ -1,5 +1,7 @@
 package spaceRhythm.Game;
 
+import spaceRhythm.Game.GameObjects.GameObject;
+
 public class Camera {
     private float x;
     private float y;
