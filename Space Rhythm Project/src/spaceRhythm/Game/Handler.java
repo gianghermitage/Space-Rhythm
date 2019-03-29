@@ -8,16 +8,18 @@ import java.util.ArrayList;
 
 public class Handler {
     public final ArrayList<GameObject> object = new ArrayList<>();
+    public long startTime;
     private boolean up = false, down = false, left = false, right = false;
-    private boolean shooting = false;
+    private boolean evade = false;
 
-    public boolean isShooting() {
-        return shooting;
+    public boolean isEvade() {
+        return evade;
     }
 
-    public void setShooting(boolean shooting) {
-        this.shooting = shooting;
+    public void setEvade(boolean evade) {
+        this.evade = evade;
     }
+
 
     public boolean isUp() {
         return up;

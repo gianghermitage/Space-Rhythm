@@ -22,10 +22,10 @@ public class Camera {
         y += ((object.getY() - y) - 720 / 2) * 0.05f;
 
         //center map (optional)
-        if (x <= 0) x = 0;
-        if (x >= 770) x = 770;
-        if (y <= 0) y = 0;
-        if (y >= 1350) y = 1350;
+//        if (x <= 0) x = 0;
+//        if (x >= 770) x = 770;
+//        if (y <= 0) y = 0;
+//        if (y >= 1350) y = 1350;
 
     }
 

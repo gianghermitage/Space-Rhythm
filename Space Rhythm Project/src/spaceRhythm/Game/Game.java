@@ -28,7 +28,7 @@ public class Game extends Canvas implements Runnable {
         handler = new Handler();
         camera = new Camera(0, 0);
         this.addKeyListener(new KeyInput(handler));
-        this.addMouseListener(new MouseInput(handler,camera));
+        this.addMouseListener(new MouseInput(handler, camera));
         BufferedImageLoader loader = new BufferedImageLoader();
         map = loader.loadImage("/map.png");
         loadLevel(map);
@@ -105,7 +105,7 @@ public class Game extends Canvas implements Runnable {
         Graphics g = bs.getDrawGraphics();
         Graphics2D g2d = (Graphics2D) g;
         g.setColor(Color.DARK_GRAY);
-        g.fillRect(0, 0, 1280, 720);
+        g.fillRect(0, 0, 1920, 1080);
         g2d.translate(-camera.getX(), -camera.getY());
         ////////////////Draw thing here lmao///////////////
         handler.render(g);

@@ -16,6 +16,12 @@ Version 0.3
 Version 0.4
 	25/3/2019
   	-Implement mouse-aim shooting mechanic
+Version 0.5
+	29/3/2019
+	-Implement evade mechanic
+	-Implement change bullet mechanic
+	-Add resizable window
+	
 
 
 
