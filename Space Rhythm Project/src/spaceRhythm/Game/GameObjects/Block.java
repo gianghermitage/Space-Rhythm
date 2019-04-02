@@ -1,10 +1,12 @@
 package spaceRhythm.Game.GameObjects;
 
+import spaceRhythm.SpriteSheet.SpriteSheet;
+
 import java.awt.*;
 
 public class Block extends GameObject {
-    public Block(int x, int y, ObjectID ID) {
-        super(x, y, ID);
+    public Block(int x, int y, ObjectID ID, SpriteSheet ss) {
+        super(x, y, ID, ss);
     }
 
     @Override

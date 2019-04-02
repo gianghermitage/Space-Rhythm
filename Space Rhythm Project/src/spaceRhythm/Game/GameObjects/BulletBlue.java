@@ -1,6 +1,7 @@
 package spaceRhythm.Game.GameObjects;
 
 import spaceRhythm.Game.Handler;
+import spaceRhythm.SpriteSheet.SpriteSheet;
 
 import java.awt.*;
 
@@ -8,8 +9,8 @@ import java.awt.*;
 public class BulletBlue extends GameObject {
     private Handler handler;
 
-    public BulletBlue(int x, int y, ObjectID ID, Handler handler, int mx, int my) {
-        super(x, y, ID);
+    public BulletBlue(int x, int y, ObjectID ID, Handler handler, int mx, int my, SpriteSheet ss) {
+        super(x, y, ID, ss);
         this.handler = handler;
         calculateVelocity(x, y, mx, my);
 

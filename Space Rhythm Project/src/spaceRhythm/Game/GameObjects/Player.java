@@ -1,15 +1,25 @@
 package spaceRhythm.Game.GameObjects;
 
+import spaceRhythm.Animation.Animation;
 import spaceRhythm.Game.Handler;
+import spaceRhythm.SpriteSheet.SpriteSheet;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class Player extends GameObject {
+    private Animation idle_anim;
     private Handler handler;
+    private BufferedImage[] idle_image = new BufferedImage[4];
 
-    public Player(int x, int y, ObjectID ID, Handler handler) {
-        super(x, y, ID);
+    public Player(int x, int y, ObjectID ID, Handler handler, SpriteSheet ss) {
+        super(x, y, ID, ss);
         this.handler = handler;
+        idle_image[0] = ss.grabImage(1, 1, 32, 32);
+        idle_image[1] = ss.grabImage(2, 1, 32, 32);
+        idle_image[2] = ss.grabImage(3, 1, 32, 32);
+        idle_image[3] = ss.grabImage(4, 1, 32, 32);
+        idle_anim = new Animation(7, idle_image);
     }
 
     @Override
@@ -46,10 +56,12 @@ public class Player extends GameObject {
         if (!handler.isLeft() && !handler.isRight()) velX = 0;
 
         collision();
-//        System.out.println("VelX: " + velX);
-        //System.out.println("VelY: " + velY);
+//       System.out.println("VelX: " + velX);
+//       System.out.println("VelY: " + velY);
         x = x + velX;
         y = y + velY;
+        idle_anim.runAnimation();
+
 
     }
 
@@ -78,11 +90,17 @@ public class Player extends GameObject {
     @Override
     public void render(Graphics g) {
         if (handler.isEvade()) {
-            Color myColour = new Color(255, 255, 255, 20); //transparent
-            g.setColor(myColour);
-        } else g.setColor(Color.white);
+//            g.setColor(Color.black);
+//            g.fillRect(x, y, 32, 44);
+            g.drawImage(idle_image[0],x,y,null);
+        } else {
+//            g.setColor(Color.white);
+//            g.fillRect(x, y, 32, 44);
+            if(velX == 0 && velY == 0) g.drawImage(idle_image[0],x,y,null);
+            else idle_anim.drawAnimation(g,x,y,0);
+        }
 
-        g.fillRect(x, y, 32, 44);
+        //g.fillRect(x, y, 32, 44);
 
 
     }

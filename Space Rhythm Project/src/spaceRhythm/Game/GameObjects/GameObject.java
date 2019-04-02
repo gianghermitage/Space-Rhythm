@@ -1,5 +1,7 @@
 package spaceRhythm.Game.GameObjects;
 
+import spaceRhythm.SpriteSheet.SpriteSheet;
+
 import java.awt.*;
 
 public abstract class GameObject {
@@ -8,11 +10,13 @@ public abstract class GameObject {
     protected ObjectID ID;
     protected int velX = 0;
     protected int velY = 0;
+    protected SpriteSheet ss;
 
-    public GameObject(int x, int y, ObjectID ID) {
+    public GameObject(int x, int y, ObjectID ID, SpriteSheet ss) {
         this.ID = ID;
         this.x = x;
         this.y = y;
+        this.ss = ss;
     }
 
     public abstract void tick();

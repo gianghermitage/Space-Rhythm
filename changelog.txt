@@ -21,6 +21,11 @@ Version 0.5
 	-Implement evade mechanic
 	-Implement change bullet mechanic
 	-Add resizable window
+Version 0.6
+	2/4/2019
+	-Implement main menu UI
+	-Implement Animation to animate sprite
+	-Add sprite for player
 	
 
 

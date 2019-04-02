@@ -11,7 +11,7 @@ public class Window {
         JFrame frame = new JFrame(title);
 
         frame.setPreferredSize(new Dimension(width, height));
-        frame.setMaximumSize(new Dimension(width, height));
+        frame.setMaximumSize(new Dimension(1920, 1080));
         frame.setMinimumSize(new Dimension(width, height));
 
         frame.add(game);
@@ -20,4 +20,6 @@ public class Window {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
+
+
 }

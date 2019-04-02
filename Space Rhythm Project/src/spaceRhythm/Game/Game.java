@@ -6,6 +6,10 @@ import spaceRhythm.Game.GameObjects.Player;
 import spaceRhythm.ImageLoader.BufferedImageLoader;
 import spaceRhythm.Input.KeyInput;
 import spaceRhythm.Input.MouseInput;
+import spaceRhythm.SpriteSheet.SpriteSheet;
+import spaceRhythm.UI.GameMenu;
+import spaceRhythm.UI.GameState;
+import spaceRhythm.UI.StateID;
 import spaceRhythm.Window.Window;
 
 import java.awt.*;
@@ -17,20 +21,32 @@ public class Game extends Canvas implements Runnable {
     private static final long serialVersionUID = 1L;
     private boolean isRunning = false;
     private Thread thread;
+    private GameState gameState;
+    private GameMenu gameMenu;
     private Handler handler;
+    private SpriteSheet ss;
+    private BufferedImage bg = null;
     private BufferedImage map = null;
+    private BufferedImage sprite_sheet = null;
+
     private Camera camera;
 
 
     public Game() {
         new Window(1280, 720, "GameTest", this);
         start();
+        gameMenu = new GameMenu();
+        gameState = new GameState();
+        gameState.setID(StateID.MENU);
         handler = new Handler();
         camera = new Camera(0, 0);
-        this.addKeyListener(new KeyInput(handler));
-        this.addMouseListener(new MouseInput(handler, camera));
+        this.addKeyListener(new KeyInput(handler,gameState));
         BufferedImageLoader loader = new BufferedImageLoader();
         map = loader.loadImage("/map.png");
+        sprite_sheet = loader.loadImage("/sprite_sheet.png");
+        //bg = loader.loadImage("/image.png");
+        ss = new SpriteSheet(sprite_sheet);
+        this.addMouseListener(new MouseInput(handler, camera, ss,gameState));
         loadLevel(map);
     }
 
@@ -69,10 +85,10 @@ public class Game extends Canvas implements Runnable {
             while (delta >= 1) {
                 tick();
                 delta--;
+                render();
+                frames++;
 
             }
-            render();
-            frames++;
             //fps counter
             if (timer > 1000000000) {
                 timer = 0;
@@ -85,10 +101,12 @@ public class Game extends Canvas implements Runnable {
 
     //update everything
     private void tick() {
-        handler.tick();
-        for (int i = 0; i < handler.object.size(); i++) {
-            if (handler.object.get(i).getID() == ObjectID.Player) {
-                camera.tick(handler.object.get(i));
+        if (gameState.getID() == StateID.GAME) {
+            handler.tick();
+            for (int i = 0; i < handler.object.size(); i++) {
+                if (handler.object.get(i).getID() == ObjectID.Player) {
+                    camera.tick(handler.object.get(i));
+                }
             }
         }
 
@@ -106,9 +124,16 @@ public class Game extends Canvas implements Runnable {
         Graphics2D g2d = (Graphics2D) g;
         g.setColor(Color.DARK_GRAY);
         g.fillRect(0, 0, 1920, 1080);
-        g2d.translate(-camera.getX(), -camera.getY());
+
         ////////////////Draw thing here lmao///////////////
-        handler.render(g);
+        if (gameState.getID() == StateID.GAME) {
+            g2d.translate(-camera.getX(), -camera.getY());
+            handler.render(g);
+        } else if (gameState.getID() == StateID.MENU) {
+            g.fillRect(0, 0, 1920, 1080);
+            g.drawImage(bg, 0, 0, null);
+            gameMenu.render(g);
+        }
         //////////////////////////////////////////////////
         bs.show();
         g.dispose();
@@ -124,8 +149,8 @@ public class Game extends Canvas implements Runnable {
                 int red = (pixel >> 16) & 0xff;
                 int green = (pixel >> 8) & 0xff;
                 int blue = (pixel) & 0xff;
-                if (red == 255) handler.addObject(new Block(iX * 32, iY * 32, ObjectID.Block));
-                if (blue == 255) handler.addObject(new Player(iX * 32, iY * 32, ObjectID.Player, handler));
+                if (red == 255) handler.addObject(new Block(iX * 32, iY * 32, ObjectID.Block, ss));
+                if (blue == 255) handler.addObject(new Player(iX * 32, iY * 32, ObjectID.Player, handler, ss));
             }
         }
     }
