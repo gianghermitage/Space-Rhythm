@@ -26,6 +26,9 @@ Version 0.6
 	-Implement main menu UI
 	-Implement Animation to animate sprite
 	-Add sprite for player
+Version 0.61
+	8/4/2019
+	-Rework main menu
 	
 
 
