@@ -37,7 +37,7 @@ public class Game extends Canvas implements Runnable {
         start();
         gameMenu = new GameMenu();
         gameState = new GameState();
-        gameState.setID(StateID.MENU);
+        gameState.setID(StateID.GAME);
         handler = new Handler();
         camera = new Camera(0, 0);
         this.addKeyListener(new KeyInput(handler,gameState));

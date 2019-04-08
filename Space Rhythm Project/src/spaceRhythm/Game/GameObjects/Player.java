@@ -15,10 +15,10 @@ public class Player extends GameObject {
     public Player(int x, int y, ObjectID ID, Handler handler, SpriteSheet ss) {
         super(x, y, ID, ss);
         this.handler = handler;
-        idle_image[0] = ss.grabImage(1, 1, 32, 32);
-        idle_image[1] = ss.grabImage(2, 1, 32, 32);
-        idle_image[2] = ss.grabImage(3, 1, 32, 32);
-        idle_image[3] = ss.grabImage(4, 1, 32, 32);
+        idle_image[0] = ss.grabImage(1, 1, 32, 44);
+        idle_image[1] = ss.grabImage(2, 1, 32, 44);
+        idle_image[2] = ss.grabImage(3, 1, 32, 44);
+        idle_image[3] = ss.grabImage(4, 1, 32, 44);
         idle_anim = new Animation(7, idle_image);
     }
 
