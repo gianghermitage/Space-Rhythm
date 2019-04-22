@@ -29,7 +29,10 @@ Version 0.6
 Version 0.61
 	8/4/2019
 	-Rework main menu
-	
+Version 0.7
+	22/4/2019
+	-Implement Boss and bullet patter
+	-Working on Audio
 
 
 
