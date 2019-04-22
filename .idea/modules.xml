@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Space Rhythm Project.iml" filepath="$PROJECT_DIR$/Space Rhythm Project.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Space-Rhythm.iml" filepath="$PROJECT_DIR$/.idea/Space-Rhythm.iml" />
     </modules>
   </component>
 </project>
