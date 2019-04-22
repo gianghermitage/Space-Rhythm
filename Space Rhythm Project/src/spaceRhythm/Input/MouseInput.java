@@ -9,6 +9,7 @@ import spaceRhythm.Game.Handler;
 import spaceRhythm.SpriteSheet.SpriteSheet;
 import spaceRhythm.UI.GameState;
 import spaceRhythm.UI.StateID;
+import static java.lang.System.out;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -39,9 +40,9 @@ public class MouseInput extends MouseAdapter {
                     GameObject tempObject = handler.object.get(i);
                     if (tempObject.getID() == ObjectID.Player) {
                         if (rmbCount % 2 == 0)
-                            handler.addObject(new BulletBlue(tempObject.getX() + 16, tempObject.getY() + 24, ObjectID.Bullet, handler, mx, my, ss));
+                            handler.addObject(new BulletBlue((int)(tempObject.getX() + 16), (int)(tempObject.getY() + 24), ObjectID.BulletBlue, handler, mx, my, ss));
                         else if (rmbCount % 2 != 0)
-                            handler.addObject(new BulletRed(tempObject.getX() + 16, tempObject.getY() + 24, ObjectID.Bullet, handler, mx, my, ss));
+                            handler.addObject(new BulletRed((int)(tempObject.getX() + 16), (int)(tempObject.getY() + 24), ObjectID.BulletRed, handler, mx, my, ss));
                     }
                 }
             }

@@ -1,24 +1,26 @@
 package spaceRhythm.Game.GameObjects;
 
 import spaceRhythm.Animation.Animation;
+import spaceRhythm.Game.Game;
 import spaceRhythm.Game.Handler;
 import spaceRhythm.SpriteSheet.SpriteSheet;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Player extends GameObject {
     private Animation idle_anim;
     private Handler handler;
+    private Game game;
     private BufferedImage[] idle_image = new BufferedImage[4];
-
-    public Player(int x, int y, ObjectID ID, Handler handler, SpriteSheet ss) {
+    int hp = 100;
+    public Player(float x, float y, ObjectID ID, Handler handler, SpriteSheet ss, Game game) {
         super(x, y, ID, ss);
         this.handler = handler;
-        idle_image[0] = ss.grabImage(1, 1, 32, 44);
-        idle_image[1] = ss.grabImage(2, 1, 32, 44);
-        idle_image[2] = ss.grabImage(3, 1, 32, 44);
-        idle_image[3] = ss.grabImage(4, 1, 32, 44);
+        this.game = game;
+        idle_image[0] = ss.grabImage(1, 1, 32, 32);
+        idle_image[1] = ss.grabImage(2, 1, 32, 32);
+        idle_image[2] = ss.grabImage(3, 1, 32, 32);
+        idle_image[3] = ss.grabImage(4, 1, 32, 32);
         idle_anim = new Animation(7, idle_image);
     }
 
@@ -62,12 +64,13 @@ public class Player extends GameObject {
         y = y + velY;
         idle_anim.runAnimation();
 
+        if (game.hp <= 0) handler.removeObject(this);
 
     }
 
-    public boolean checkCollision(int x, int y, Rectangle myRect, Rectangle otherRect) {
-        myRect.x = x;
-        myRect.y = y;
+    public boolean checkCollision(float x, float y, Rectangle myRect, Rectangle otherRect) {
+        myRect.x = (int)x;
+        myRect.y = (int)y;
         return myRect.intersects(otherRect);
     }
 
@@ -83,6 +86,11 @@ public class Player extends GameObject {
 
                 }
             }
+            if (tempObject.getID() == ObjectID.Boss) {
+                if (getBounds().intersects(tempObject.getBounds())) {
+                    game.hp--;
+                }
+            }
         }
 
     }
@@ -90,22 +98,19 @@ public class Player extends GameObject {
     @Override
     public void render(Graphics g) {
         if (handler.isEvade()) {
-//            g.setColor(Color.black);
-//            g.fillRect(x, y, 32, 44);
-            g.drawImage(idle_image[0],x,y,null);
+            g.setColor(Color.black);
+            g.fillRect((int)x, (int)y, 32, 44);
+//            g.drawImage(idle_image[0],x,y,null);
         } else {
-//            g.setColor(Color.white);
-//            g.fillRect(x, y, 32, 44);
-            if(velX == 0 && velY == 0) g.drawImage(idle_image[0],x,y,null);
-            else idle_anim.drawAnimation(g,x,y,0);
+            g.setColor(Color.white);
+            g.fillRect((int)x, (int)y, 32, 44);
+//            if(velX == 0 && velY == 0) g.drawImage(idle_image[0],x,y,null);
+//            else idle_anim.drawAnimation(g,x,y,0);
         }
-
         //g.fillRect(x, y, 32, 44);
-
-
     }
 
     public Rectangle getBounds() {
-        return new Rectangle(x, y, 32, 44);
+        return new Rectangle((int)x,(int) y, 32, 44);
     }
 }

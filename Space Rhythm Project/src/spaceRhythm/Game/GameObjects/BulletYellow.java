@@ -6,25 +6,23 @@ import spaceRhythm.SpriteSheet.SpriteSheet;
 import java.awt.*;
 
 
-public class BulletRed extends GameObject {
+public class BulletYellow extends GameObject {
     private Handler handler;
 
-    public BulletRed(int x, int y, ObjectID ID, Handler handler, int mx, int my, SpriteSheet ss) {
+    public BulletYellow(int x, int y, ObjectID ID, Handler handler,
+                        int mx, int my, SpriteSheet ss) {
         super(x, y, ID, ss);
         this.handler = handler;
         calculateVelocity(x, y, mx, my);
-
     }
 
-
-    public void calculateVelocity(int fromX, int fromY, int toX, int toY) {
+    public void calculateVelocity(int fromX, int fromY,
+                                  int toX, int toY) {
         double distance = Math.sqrt(Math.pow((toX - fromX), 2) + Math.pow((toY - fromY), 2));
-        double speed = 10;
+        double speed = 5;
         velY = (int) ((toY - fromY) * speed / distance);
         velX = (int) ((toX - fromX) * speed / distance);
-
     }
-
 
     @Override
     public void tick() {
@@ -42,13 +40,13 @@ public class BulletRed extends GameObject {
     }
 
     public void render(Graphics g) {
-        g.setColor(Color.red);
+        g.setColor(Color.yellow);
         g.fillOval((int)x, (int)y, 12, 12);
     }
 
 
     public Rectangle getBounds() {
-        return new Rectangle((int)x, (int)y, 8, 8);
+        return new Rectangle((int)x,(int) y, 8, 8);
     }
 
 

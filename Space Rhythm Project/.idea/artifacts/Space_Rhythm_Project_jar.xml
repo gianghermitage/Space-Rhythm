@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Space Rhythm Project:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Space_Rhythm_Project_jar</output-path>
+    <root id="archive" name="Space Rhythm Project.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="Space Rhythm Project" />
+    </root>
+  </artifact>
+</component>

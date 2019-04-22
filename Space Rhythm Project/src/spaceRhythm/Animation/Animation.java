@@ -14,9 +14,7 @@ public class Animation {
     public Animation(int speed, BufferedImage... imgs) {
         frames = imgs.length;
         img = new BufferedImage[imgs.length];
-        for(int i = 0; i < imgs.length;i++){
-            img[i] = imgs[i];
-        }
+        System.arraycopy(imgs, 0, img, 0, imgs.length);
         this.speed = speed;
     }
 

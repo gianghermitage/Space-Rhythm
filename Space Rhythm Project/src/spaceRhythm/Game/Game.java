@@ -1,8 +1,6 @@
 package spaceRhythm.Game;
 
-import spaceRhythm.Game.GameObjects.Block;
-import spaceRhythm.Game.GameObjects.ObjectID;
-import spaceRhythm.Game.GameObjects.Player;
+import spaceRhythm.Game.GameObjects.*;
 import spaceRhythm.ImageLoader.BufferedImageLoader;
 import spaceRhythm.Input.KeyInput;
 import spaceRhythm.Input.MouseInput;
@@ -28,16 +26,17 @@ public class Game extends Canvas implements Runnable {
     private BufferedImage bg = null;
     private BufferedImage map = null;
     private BufferedImage sprite_sheet = null;
-
+    private BulletPattern bulletPattern;
     private Camera camera;
 
+    public int hp = 100;
 
     public Game() {
         new Window(1280, 720, "GameTest", this);
         start();
         gameMenu = new GameMenu();
         gameState = new GameState();
-        gameState.setID(StateID.GAME);
+        gameState.setID(StateID.MENU);
         handler = new Handler();
         camera = new Camera(0, 0);
         this.addKeyListener(new KeyInput(handler,gameState));
@@ -46,8 +45,10 @@ public class Game extends Canvas implements Runnable {
         sprite_sheet = loader.loadImage("/sprite_sheet.png");
         //bg = loader.loadImage("/image.png");
         ss = new SpriteSheet(sprite_sheet);
+        bulletPattern = new BulletPattern(handler,ss);
         this.addMouseListener(new MouseInput(handler, camera, ss,gameState));
         loadLevel(map);
+
     }
 
     private synchronized void start() {
@@ -125,15 +126,25 @@ public class Game extends Canvas implements Runnable {
         g.setColor(Color.DARK_GRAY);
         g.fillRect(0, 0, 1920, 1080);
 
-        ////////////////Draw thing here lmao///////////////
+        ////////////////Draw things here///////////////
         if (gameState.getID() == StateID.GAME) {
             g2d.translate(-camera.getX(), -camera.getY());
             handler.render(g);
+            g2d.translate(camera.getX(), camera.getY());
+
+            g.setColor(Color.gray);
+            g.fillRect(5,5,200,32);
+            g.setColor(Color.green);
+            g.fillRect(5,5,hp*2,32);
+            g.setColor(Color.black);
+            g.drawRect(5,5,200,32);
+
         } else if (gameState.getID() == StateID.MENU) {
             g.fillRect(0, 0, 1920, 1080);
             g.drawImage(bg, 0, 0, null);
             gameMenu.render(g);
         }
+
         //////////////////////////////////////////////////
         bs.show();
         g.dispose();
@@ -150,7 +161,8 @@ public class Game extends Canvas implements Runnable {
                 int green = (pixel >> 8) & 0xff;
                 int blue = (pixel) & 0xff;
                 if (red == 255) handler.addObject(new Block(iX * 32, iY * 32, ObjectID.Block, ss));
-                if (blue == 255) handler.addObject(new Player(iX * 32, iY * 32, ObjectID.Player, handler, ss));
+                if (blue == 255) handler.addObject(new Player(iX * 32, iY * 32, ObjectID.Player, handler, ss, this));
+                if (green == 255) handler.addObject(new Boss(iX * 32, iY * 32, ObjectID.Boss, handler,ss));
             }
         }
     }

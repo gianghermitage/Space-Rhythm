@@ -43,12 +43,12 @@ public class BulletBlue extends GameObject {
 
     public void render(Graphics g) {
         g.setColor(Color.blue);
-        g.fillOval(x, y, 8, 8);
+        g.fillOval((int)x,(int) y, 12, 12);
     }
 
 
     public Rectangle getBounds() {
-        return new Rectangle(x, y, 8, 8);
+        return new Rectangle((int)x,(int) y, 8, 8);
     }
 
 
