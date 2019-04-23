@@ -37,6 +37,8 @@ Version 0.8
 	23/4/2019
 	-New restart system
 	-Minor bugs fix (collision)
+	-Add pause menu
+	-Add flower bullet pattern
 
 
 

@@ -9,6 +9,7 @@ public class BulletPattern {
     private GameObject boss;
     private SpriteSheet ss;
     public static int spiralDegree = 0;
+    public static int reversespiralDegree = 0;
     public static int crossState = 0;
     public static int crossCount = 0;
     public BulletPattern (Handler handler, SpriteSheet ss) {
@@ -36,18 +37,48 @@ public class BulletPattern {
 
     public void Spiral() {
         setBoss();
-        for (int i = 0; i < 6; i++) {
-            int dirX = (int) (boss.getX()+ 20 + (5000 * Math.cos((spiralDegree + i*15) * Math.PI/180)));
-            int dirY = (int) (boss.getY()+ 32 + (5000 * Math.sin((spiralDegree + i*15) * Math.PI/180)));
+        for (int i = 0; i < 2; i++) {
+            int dirX = (int) (boss.getX()+ 20 + (5000 * Math.cos((spiralDegree + i*90) * Math.PI/180)));
+            int dirY = (int) (boss.getY()+ 32 + (5000 * Math.sin((spiralDegree + i*90) * Math.PI/180)));
             handler.addObject(new BulletYellow( (int)(boss.getX()+20),
                     (int)(boss.getY()+32),ObjectID.BulletYellow,handler,dirX,dirY,ss));
         }
-        for (int i = 0; i < 6; i++) {
-            int dirX = (int) (boss.getX()+ 20 + (5000 * Math.cos((spiralDegree + 180 + i*15) * Math.PI/180)));
-            int dirY = (int) (boss.getY()+ 32 + (5000 * Math.sin((spiralDegree + 180 + i*15) * Math.PI/180)));
+        for (int i = 0; i < 2; i++) {
+            int dirX = (int) (boss.getX()+ 20 + (5000 * Math.cos((spiralDegree + 180 + i*90) * Math.PI/180)));
+            int dirY = (int) (boss.getY()+ 32 + (5000 * Math.sin((spiralDegree + 180 + i*90) * Math.PI/180)));
             handler.addObject(new BulletYellow( (int)(boss.getX()+20),
                     (int)(boss.getY()+32),ObjectID.BulletYellow,handler,dirX,dirY,ss));
         }
+        spiralDegree += 15;
+    }
+
+    public void Flower() {
+        setBoss();
+        for (int i = 0; i < 2; i++) {
+            int dirX = (int) (boss.getX()+ 20 + (5000 * Math.cos((spiralDegree + i*90) * Math.PI/180)));
+            int dirY = (int) (boss.getY()+ 32 + (5000 * Math.sin((spiralDegree + i*90) * Math.PI/180)));
+            handler.addObject(new BulletYellow( (int)(boss.getX()+20),
+                    (int)(boss.getY()+32),ObjectID.BulletYellow,handler,dirX,dirY,ss));
+        }
+        for (int i = 0; i < 2; i++) {
+            int dirX = (int) (boss.getX()+ 20 + (5000 * Math.cos((spiralDegree + 180 + i*90) * Math.PI/180)));
+            int dirY = (int) (boss.getY()+ 32 + (5000 * Math.sin((spiralDegree + 180 + i*90) * Math.PI/180)));
+            handler.addObject(new BulletYellow( (int)(boss.getX()+20),
+                    (int)(boss.getY()+32),ObjectID.BulletYellow,handler,dirX,dirY,ss));
+        }
+        for (int i = 0; i < 2; i++) {
+            int dirX = (int) (boss.getX()+ 20 + (5000 * Math.cos((reversespiralDegree + i*90) * Math.PI/180)));
+            int dirY = (int) (boss.getY()+ 32 + (5000 * Math.sin((reversespiralDegree  + i*90) * Math.PI/180)));
+            handler.addObject(new BulletYellow( (int)(boss.getX()+20),
+                    (int)(boss.getY()+32),ObjectID.BulletYellow,handler,dirX,dirY,ss));
+        }
+        for (int i = 0; i < 2; i++) {
+            int dirX = (int) (boss.getX()+ 20 + (5000 * Math.cos((reversespiralDegree + 180 + i*90) * Math.PI/180)));
+            int dirY = (int) (boss.getY()+ 32 + (5000 * Math.sin((reversespiralDegree + 180 + i*90) * Math.PI/180)));
+            handler.addObject(new BulletYellow( (int)(boss.getX()+20),
+                    (int)(boss.getY()+32),ObjectID.BulletYellow,handler,dirX,dirY,ss));
+        }
+        reversespiralDegree -= 15;
         spiralDegree += 15;
     }
 

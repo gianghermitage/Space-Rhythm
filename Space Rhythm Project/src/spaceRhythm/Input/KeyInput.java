@@ -32,7 +32,6 @@ public class KeyInput extends KeyAdapter {
             int key = e.getKeyCode();
             if (key == KeyEvent.VK_F5) {
                 game.reload();
-
             }
             for (int i = 0; i < handler.object.size(); i++) {
                 GameObject tempObject = handler.object.get(i);
@@ -41,6 +40,13 @@ public class KeyInput extends KeyAdapter {
                     if (key == KeyEvent.VK_S) handler.setDown(true);
                     if (key == KeyEvent.VK_A) handler.setLeft(true);
                     if (key == KeyEvent.VK_D) handler.setRight(true);
+                    if (key == KeyEvent.VK_P) {
+                        gameState.setID(StateID.PAUSE);
+                        handler.setUp(false);
+                        handler.setRight(false);
+                        handler.setLeft(false);
+                        handler.setDown(false);
+                    }
                     if (key == KeyEvent.VK_SPACE) {
                         evadeDelay();
                         new Timer().schedule(new TimerTask() {

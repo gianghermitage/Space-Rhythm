@@ -5,8 +5,9 @@ import spaceRhythm.ImageLoader.BufferedImageLoader;
 import spaceRhythm.Input.KeyInput;
 import spaceRhythm.Input.MouseInput;
 import spaceRhythm.SpriteSheet.SpriteSheet;
-import spaceRhythm.UI.GameMenu;
+import spaceRhythm.UI.GameoverMenu;
 import spaceRhythm.UI.GameState;
+import spaceRhythm.UI.PauseMenu;
 import spaceRhythm.UI.StateID;
 import spaceRhythm.Window.Window;
 
@@ -20,7 +21,8 @@ public class Game extends Canvas implements Runnable {
     private boolean isRunning = false;
     private Thread thread;
     private GameState gameState;
-    private GameMenu gameMenu;
+    private GameoverMenu gameoverMenu;
+    private PauseMenu pauseMenu;
     private Handler handler;
     private SpriteSheet ss;
     private BufferedImage bg = null;
@@ -34,7 +36,8 @@ public class Game extends Canvas implements Runnable {
     public Game() {
         new Window(1280, 720, "GameTest", this);
         start();
-        gameMenu = new GameMenu();
+        gameoverMenu = new GameoverMenu();
+        pauseMenu = new PauseMenu();
         gameState = new GameState();
         gameState.setID(StateID.GAME);
         handler = new Handler();
@@ -59,7 +62,7 @@ public class Game extends Canvas implements Runnable {
         thread.start();
     }
     public void reload(){
-        gameMenu = new GameMenu();
+        gameoverMenu = new GameoverMenu();
         gameState = new GameState();
         gameState.setID(StateID.GAME);
         handler = new Handler();
@@ -157,10 +160,16 @@ public class Game extends Canvas implements Runnable {
             g.setColor(Color.black);
             g.drawRect(5,5,200,32);
 
-        } else if (gameState.getID() == StateID.MENU) {
+
+        } else if (gameState.getID() == StateID.GAMEOVER) {
             g.fillRect(0, 0, 1920, 1080);
             g.drawImage(bg, 0, 0, null);
-            gameMenu.render(g);
+            gameoverMenu.render(g);
+
+        } else if (gameState.getID() == StateID.PAUSE) {
+            g.fillRect(0, 0, 1920, 1080);
+            g.drawImage(bg, 0, 0, null);
+            pauseMenu.render(g);
         }
 
         //////////////////////////////////////////////////

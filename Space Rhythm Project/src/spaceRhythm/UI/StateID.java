@@ -1,6 +1,8 @@
 package spaceRhythm.UI;
 
 public enum StateID {
-    MENU,
-    GAME
+    PAUSE,
+    GAME,
+    GAMEOVER,
+    VICTORY
 }

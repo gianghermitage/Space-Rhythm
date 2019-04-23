@@ -74,7 +74,7 @@ public class Player extends GameObject {
 
         if (game.hp <= 0) {
             handler.removeObject(this);
-            gameState.setID(StateID.MENU);
+            gameState.setID(StateID.GAMEOVER);
         }
 
     }
