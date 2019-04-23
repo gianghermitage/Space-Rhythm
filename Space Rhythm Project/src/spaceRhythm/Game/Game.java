@@ -29,25 +29,26 @@ public class Game extends Canvas implements Runnable {
     private BulletPattern bulletPattern;
     private Camera camera;
 
-    public int hp = 100;
+    public static int hp;
 
     public Game() {
         new Window(1280, 720, "GameTest", this);
         start();
         gameMenu = new GameMenu();
         gameState = new GameState();
-        gameState.setID(StateID.MENU);
+        gameState.setID(StateID.GAME);
         handler = new Handler();
-        camera = new Camera(0, 0);
-        this.addKeyListener(new KeyInput(handler,gameState));
+        camera = new Camera(400,850);
+        this.addKeyListener(new KeyInput(handler,gameState,this));
         BufferedImageLoader loader = new BufferedImageLoader();
         map = loader.loadImage("/map.png");
         sprite_sheet = loader.loadImage("/sprite_sheet.png");
         //bg = loader.loadImage("/image.png");
         ss = new SpriteSheet(sprite_sheet);
         bulletPattern = new BulletPattern(handler,ss);
-        this.addMouseListener(new MouseInput(handler, camera, ss,gameState));
+        this.addMouseListener(new MouseInput(handler, camera, ss,gameState,this));
         loadLevel(map);
+        hp = 100;
 
     }
 
@@ -56,6 +57,23 @@ public class Game extends Canvas implements Runnable {
         isRunning = true;
         thread = new Thread(this);
         thread.start();
+    }
+    public void reload(){
+        gameMenu = new GameMenu();
+        gameState = new GameState();
+        gameState.setID(StateID.GAME);
+        handler = new Handler();
+        camera = new Camera(400,850);
+        this.addKeyListener(new KeyInput(handler,gameState,this));
+        BufferedImageLoader loader = new BufferedImageLoader();
+        map = loader.loadImage("/map.png");
+        sprite_sheet = loader.loadImage("/sprite_sheet.png");
+        //bg = loader.loadImage("/image.png");
+        ss = new SpriteSheet(sprite_sheet);
+        bulletPattern = new BulletPattern(handler,ss);
+        this.addMouseListener(new MouseInput(handler, camera, ss,gameState,this));
+        loadLevel(map);
+        hp = 100;
     }
 
     private synchronized void stop() {
@@ -161,7 +179,7 @@ public class Game extends Canvas implements Runnable {
                 int green = (pixel >> 8) & 0xff;
                 int blue = (pixel) & 0xff;
                 if (red == 255) handler.addObject(new Block(iX * 32, iY * 32, ObjectID.Block, ss));
-                if (blue == 255) handler.addObject(new Player(iX * 32, iY * 32, ObjectID.Player, handler, ss, this));
+                if (blue == 255) handler.addObject(new Player(iX * 32, iY * 32, ObjectID.Player, handler, ss, this,gameState));
                 if (green == 255) handler.addObject(new Boss(iX * 32, iY * 32, ObjectID.Boss, handler,ss));
             }
         }

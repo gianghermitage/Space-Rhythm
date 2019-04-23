@@ -1,6 +1,7 @@
 package spaceRhythm.Input;
 
 import spaceRhythm.Game.Camera;
+import spaceRhythm.Game.Game;
 import spaceRhythm.Game.GameObjects.BulletBlue;
 import spaceRhythm.Game.GameObjects.BulletRed;
 import spaceRhythm.Game.GameObjects.GameObject;
@@ -21,12 +22,14 @@ public class MouseInput extends MouseAdapter {
     private GameState gameState;
     private int rmbCount = 0;
     private SpriteSheet ss;
+    private Game game;
 
-    public MouseInput(Handler handler, Camera camera, SpriteSheet ss,GameState gameState) {
+    public MouseInput(Handler handler, Camera camera, SpriteSheet ss,GameState gameState,Game game) {
         this.handler = handler;
         this.camera = camera;
         this.ss = ss;
         this.gameState = gameState;
+        this.game = game;
     }
 
     public void mousePressed(MouseEvent e) {
@@ -60,7 +63,7 @@ public class MouseInput extends MouseAdapter {
             if (mx >= 150 && mx <= 250) {
                 if (my >= 520 && my <= 570) {
                     //press play
-                    gameState.setID(StateID.GAME);
+                    game.reload();
                 }
             }
             if (mx >= 200 && mx <= 300) {

@@ -3,6 +3,7 @@ package spaceRhythm.Game.GameObjects;
 import spaceRhythm.Animation.Animation;
 import spaceRhythm.Game.Handler;
 import spaceRhythm.SpriteSheet.SpriteSheet;
+import spaceRhythm.Game.Game;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -33,12 +34,12 @@ public class Boss extends GameObject {
 
         BulletPattern bulletPattern = new BulletPattern(handler, ss);
 
-//        float distX = x - player.getX() - 16;
-//        float distY = y - player.getY() - 22;
-//        float distance = (float) Math.sqrt( Math.pow(x - player.getX(),2) +Math.pow(y - player.getY(),2));
-//
-//        velX = (float) ((-1.0/distance) * distX);
-//        velY = (float) ((-1.0/distance) * distY);
+        float distX = x - player.getX() - 16;
+        float distY = y - player.getY() - 22;
+        float distance = (float) Math.sqrt( Math.pow(x - player.getX(),2) +Math.pow(y - player.getY(),2));
+
+        velX = (float) ((-1.0/distance) * distX);
+        velY = (float) ((-1.0/distance) * distY);
 
         timer--;
 //        timer2--;
@@ -73,6 +74,17 @@ public class Boss extends GameObject {
                 }
                 if (checkCollision(x, (y + velY), getBounds(), tempObject.getBounds())) {
                     y += -velY;
+
+                }
+            }
+            if (tempObject.getID() == ObjectID.Player) {
+                if (checkCollision((x + velX), y, getBounds(), tempObject.getBounds())) {
+                    x += -velX;
+                    //Game.hp--;
+                }
+                if (checkCollision(x, (y + velY), getBounds(), tempObject.getBounds())) {
+                    y += -velY;
+                    //Game.hp--;
 
                 }
             }

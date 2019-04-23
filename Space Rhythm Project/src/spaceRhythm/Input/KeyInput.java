@@ -1,5 +1,6 @@
 package spaceRhythm.Input;
 
+import spaceRhythm.Game.Game;
 import spaceRhythm.Game.GameObjects.GameObject;
 import spaceRhythm.Game.GameObjects.ObjectID;
 import spaceRhythm.Game.Handler;
@@ -14,18 +15,25 @@ import java.util.TimerTask;
 
 public class KeyInput extends KeyAdapter {
     private Handler handler;
+    public static boolean restart = false;
     private GameState gameState;
     private int evadeTime = 1;
     private boolean canEvade = true;
+    private Game game;
 
-    public KeyInput(Handler handler,GameState gameState) {
+    public KeyInput(Handler handler,GameState gameState,Game game) {
         this.handler = handler;
         this.gameState = gameState;
+        this.game = game;
     }
 
     public void keyPressed(KeyEvent e) {
         if (gameState.getID() == StateID.GAME) {
             int key = e.getKeyCode();
+            if (key == KeyEvent.VK_F5) {
+                game.reload();
+
+            }
             for (int i = 0; i < handler.object.size(); i++) {
                 GameObject tempObject = handler.object.get(i);
                 if (tempObject.getID() == ObjectID.Player) {
@@ -34,7 +42,13 @@ public class KeyInput extends KeyAdapter {
                     if (key == KeyEvent.VK_A) handler.setLeft(true);
                     if (key == KeyEvent.VK_D) handler.setRight(true);
                     if (key == KeyEvent.VK_SPACE) {
-                        //handler.setEvade(true);
+                        evadeDelay();
+                        new Timer().schedule(new TimerTask() {
+                                                 public void run() {
+                                                     handler.setEvade(false);
+                                                 }
+                                             }, 150
+                        );
                     }
                 }
             }
@@ -72,13 +86,7 @@ public class KeyInput extends KeyAdapter {
                     if (key == KeyEvent.VK_A) handler.setLeft(false);
                     if (key == KeyEvent.VK_D) handler.setRight(false);
                     if (key == KeyEvent.VK_SPACE) {
-                        evadeDelay();
-                        new Timer().schedule(new TimerTask() {
-                                                 public void run() {
-                                                     handler.setEvade(false);
-                                                 }
-                                             }, 150
-                        );
+
                     }
                 }
             }

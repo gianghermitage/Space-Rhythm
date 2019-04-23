@@ -25,7 +25,7 @@ public class BulletPattern {
 
     public void Circle() {
         setBoss();
-        for (int i = 0; i <= 360; i+=1) {
+        for (int i = 0; i <= 360; i+=10) {
             int dirX = (int) (boss.getX()+ 20 + (5000 * Math.cos(i * Math.PI/180)));
             int dirY = (int) (boss.getY()+ 32 + (5000 * Math.sin(i * Math.PI/180)));
             handler.addObject(new BulletYellow( (int)(boss.getX()+20),

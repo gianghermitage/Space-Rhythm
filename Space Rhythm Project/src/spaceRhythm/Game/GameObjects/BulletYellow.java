@@ -36,6 +36,8 @@ public class BulletYellow extends GameObject {
                     //System.out.println("Hit");
                 }
             }
+
+
         }
     }
 

@@ -4,19 +4,27 @@ import spaceRhythm.Animation.Animation;
 import spaceRhythm.Game.Game;
 import spaceRhythm.Game.Handler;
 import spaceRhythm.SpriteSheet.SpriteSheet;
+import spaceRhythm.UI.GameState;
+import spaceRhythm.UI.StateID;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Player extends GameObject {
     private Animation idle_anim;
     private Handler handler;
     private Game game;
+    private GameState gameState;
+    private boolean isHit = true;
     private BufferedImage[] idle_image = new BufferedImage[4];
     int hp = 100;
-    public Player(float x, float y, ObjectID ID, Handler handler, SpriteSheet ss, Game game) {
+    public Player(float x, float y, ObjectID ID, Handler handler, SpriteSheet ss, Game game, GameState gameState) {
         super(x, y, ID, ss);
         this.handler = handler;
         this.game = game;
+        this.gameState = gameState;
         idle_image[0] = ss.grabImage(1, 1, 32, 32);
         idle_image[1] = ss.grabImage(2, 1, 32, 32);
         idle_image[2] = ss.grabImage(3, 1, 32, 32);
@@ -58,13 +66,16 @@ public class Player extends GameObject {
         if (!handler.isLeft() && !handler.isRight()) velX = 0;
 
         collision();
-//       System.out.println("VelX: " + velX);
-//       System.out.println("VelY: " + velY);
+     System.out.println("VelX: " + velX);
+     System.out.println("VelY: " + velY);
         x = x + velX;
         y = y + velY;
         idle_anim.runAnimation();
 
-        if (game.hp <= 0) handler.removeObject(this);
+        if (game.hp <= 0) {
+            handler.removeObject(this);
+            gameState.setID(StateID.MENU);
+        }
 
     }
 
@@ -78,17 +89,54 @@ public class Player extends GameObject {
         for (int i = 0; i < handler.object.size(); i++) {
             GameObject tempObject = handler.object.get(i);
             if (tempObject.getID() == ObjectID.Block) {
-                if (checkCollision((x + velX), y, getBounds(), tempObject.getBounds())) {
-                    x += -velX;
-                }
+                    if (checkCollision((x + velX), y, getBounds(), tempObject.getBounds())) {
+                        x += -velX;
+                    }
+
                 if (checkCollision(x, (y + velY), getBounds(), tempObject.getBounds())) {
                     y += -velY;
 
                 }
             }
             if (tempObject.getID() == ObjectID.Boss) {
+                if (checkCollision((x + velX), y, getBounds(), tempObject.getBounds())) {
+                    velX = -10 * velX;
+                    if(isHit){
+                        //game.hp = game.hp - 10;
+                        isHit = false;
+                    }
+                    new Timer().schedule(new TimerTask() {
+                                             public void run() {
+                                                 isHit = true;
+                                             }
+                                         }, 1000
+                    );
+                }
+                if (checkCollision(x, (y + velY), getBounds(), tempObject.getBounds())) {
+                    velY = -10 * velY;
+                    if(isHit){
+                        //game.hp = game.hp - 10;
+                        isHit = false;
+                        new Timer().schedule(new TimerTask() {
+                                                 public void run() {
+                                                     isHit = true;
+                                                 }
+                                             }, 1000
+                        );
+                    }
+
+                }
+            }
+            if (tempObject.getID() == ObjectID.BulletYellow) {
                 if (getBounds().intersects(tempObject.getBounds())) {
-                    game.hp--;
+                    handler.removeObject(tempObject);
+                    if(!handler.isEvade()){
+                       game.hp--;
+                    }
+
+
+
+
                 }
             }
         }
