@@ -6,5 +6,7 @@ public enum ObjectID {
     BulletRed(),
     BulletYellow(),
     BulletBlue(),
+    BossMinionRed(),
+    BossMinionBlue(),
     Boss()
 }

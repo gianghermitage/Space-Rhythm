@@ -13,7 +13,7 @@ public class Boss extends GameObject {
     private Handler handler;
     private BufferedImage[] idle_image = new BufferedImage[4];
     int hp = 100;
-    int timer = 10;
+    int timer = 50;
     int timer2 = 5;
     private GameObject player;
 
@@ -45,8 +45,9 @@ public class Boss extends GameObject {
 //        timer2--;
 
         if (timer <= 0) {
-            bulletPattern.Spiral();
-            timer = 10;
+            bulletPattern.SpawnRed();
+            bulletPattern.SpawnBlue();
+            timer = 50;
         }
 
 //        if (timer2 <= 0) {

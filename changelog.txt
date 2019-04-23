@@ -39,6 +39,9 @@ Version 0.8
 	-Minor bugs fix (collision)
 	-Add pause menu
 	-Add flower bullet pattern
-
+Version 0.9
+	23/4/2019
+	-Optimized bullet pattern
+	-Boss can now spawn red n blue minions
 
 

@@ -48,7 +48,7 @@ public class BulletRed extends GameObject {
 
 
     public Rectangle getBounds() {
-        return new Rectangle((int)x, (int)y, 8, 8);
+        return new Rectangle((int)x, (int)y, 12, 12);
     }
 
 

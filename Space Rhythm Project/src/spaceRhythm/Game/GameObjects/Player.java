@@ -66,8 +66,8 @@ public class Player extends GameObject {
         if (!handler.isLeft() && !handler.isRight()) velX = 0;
 
         collision();
-     System.out.println("VelX: " + velX);
-     System.out.println("VelY: " + velY);
+//     System.out.println("VelX: " + velX);
+//     System.out.println("VelY: " + velY);
         x = x + velX;
         y = y + velY;
         idle_anim.runAnimation();
