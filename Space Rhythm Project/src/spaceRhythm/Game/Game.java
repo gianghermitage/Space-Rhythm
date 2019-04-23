@@ -11,6 +11,7 @@ import spaceRhythm.UI.PauseMenu;
 import spaceRhythm.UI.StateID;
 import spaceRhythm.Window.Window;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -149,6 +150,10 @@ public class Game extends Canvas implements Runnable {
 
         ////////////////Draw things here///////////////
         if (gameState.getID() == StateID.GAME) {
+            BufferedImageLoader loader = new BufferedImageLoader();
+            BufferedImage cursor = loader.loadImage("/cursor.png");
+            Cursor c = Toolkit.getDefaultToolkit().createCustomCursor(cursor, new Point(1,1), "cursor1");
+            setCursor(c);
             g2d.translate(-camera.getX(), -camera.getY());
             handler.render(g);
             g2d.translate(camera.getX(), camera.getY());
@@ -162,11 +167,13 @@ public class Game extends Canvas implements Runnable {
 
 
         } else if (gameState.getID() == StateID.GAMEOVER) {
+            setCursor(Cursor.getDefaultCursor());
             g.fillRect(0, 0, 1920, 1080);
             g.drawImage(bg, 0, 0, null);
             gameoverMenu.render(g);
 
         } else if (gameState.getID() == StateID.PAUSE) {
+            setCursor(Cursor.getDefaultCursor());
             g.fillRect(0, 0, 1920, 1080);
             g.drawImage(bg, 0, 0, null);
             pauseMenu.render(g);
