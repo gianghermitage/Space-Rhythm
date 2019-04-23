@@ -32,11 +32,12 @@ public class BulletBlue extends GameObject {
         y += velY;
         for (int i = 0; i < handler.object.size(); i++) {
             GameObject tempObject = handler.object.get(i);
-            if (tempObject.getID() == ObjectID.Block) {
+            if (tempObject.getID() == ObjectID.Block ) {
                 if (getBounds().intersects(tempObject.getBounds())) {
                     handler.removeObject(this);
                     //System.out.println("Hit");
                 }
+
             }
         }
     }

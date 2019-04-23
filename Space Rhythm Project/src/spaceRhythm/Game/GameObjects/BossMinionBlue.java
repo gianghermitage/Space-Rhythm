@@ -55,12 +55,18 @@ public class BossMinionBlue extends GameObject{
                     tempObject.getID() == ObjectID.BulletBlue) {
                 if (getBounds().intersects(tempObject.getBounds())) {
                     handler.removeObject(this);
+                    handler.removeObject(tempObject);
                 }
             }
             if (tempObject.getID() == ObjectID.Player) {
                 if (getBounds().intersects(tempObject.getBounds())) {
                     handler.removeObject(this);
                     Game.hp--;
+                }
+            }
+            if (tempObject.getID() == ObjectID.BulletRed) {
+                if (getBounds().intersects(tempObject.getBounds())) {
+                    handler.removeObject(tempObject);
                 }
             }
         }
