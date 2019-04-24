@@ -108,14 +108,14 @@ public class BulletPattern {
 
     public void SpawnRed() {
         setBoss();
-        for ( int i = 270; i < 360; i+= 30) {
+        for ( int i = 270; i < 360; i+= 60) {
             addMinionRed(dirX(i,radiusSmall),dirY(i,radiusSmall));
         }
     }
 
     public void SpawnBlue() {
         setBoss();
-        for ( int i = 180; i < 270; i+= 30) {
+        for ( int i = 180; i < 270; i+= 60) {
             addMinionBlue(dirX(i,radiusSmall),dirY(i,radiusSmall));
         }
     }

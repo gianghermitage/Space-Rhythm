@@ -63,7 +63,7 @@ public class MouseInput extends MouseAdapter {
             if (mx >= 150 && mx <= 250) {
                 if (my >= 520 && my <= 570) {
                     //press play
-                    game.reload();
+                    game.initGame();
                 }
             }
             if (mx >= 200 && mx <= 300) {

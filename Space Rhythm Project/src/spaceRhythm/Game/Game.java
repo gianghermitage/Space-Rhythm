@@ -37,6 +37,16 @@ public class Game extends Canvas implements Runnable {
     public Game() {
         new Window(1280, 720, "GameTest", this);
         start();
+        initGame();
+    }
+
+    private synchronized void start() {
+        if (isRunning) return;
+        isRunning = true;
+        thread = new Thread(this);
+        thread.start();
+    }
+    public void initGame(){
         gameoverMenu = new GameoverMenu();
         pauseMenu = new PauseMenu();
         gameState = new GameState();
@@ -47,31 +57,9 @@ public class Game extends Canvas implements Runnable {
         BufferedImageLoader loader = new BufferedImageLoader();
         map = loader.loadImage("/map.png");
         sprite_sheet = loader.loadImage("/sprite_sheet.png");
-        //bg = loader.loadImage("/image.png");
-        ss = new SpriteSheet(sprite_sheet);
-        bulletPattern = new BulletPattern(handler,ss);
-        this.addMouseListener(new MouseInput(handler, camera, ss,gameState,this));
-        loadLevel(map);
-        hp = 100;
-
-    }
-
-    private synchronized void start() {
-        if (isRunning) return;
-        isRunning = true;
-        thread = new Thread(this);
-        thread.start();
-    }
-    public void reload(){
-        gameoverMenu = new GameoverMenu();
-        gameState = new GameState();
-        gameState.setID(StateID.GAME);
-        handler = new Handler();
-        camera = new Camera(400,850);
-        this.addKeyListener(new KeyInput(handler,gameState,this));
-        BufferedImageLoader loader = new BufferedImageLoader();
-        map = loader.loadImage("/map.png");
-        sprite_sheet = loader.loadImage("/sprite_sheet.png");
+        BufferedImage cursor = loader.loadImage("/cursor.png");
+        Cursor c = Toolkit.getDefaultToolkit().createCustomCursor(cursor, new Point(1,1), "cursor1");
+        setCursor(c);
         //bg = loader.loadImage("/image.png");
         ss = new SpriteSheet(sprite_sheet);
         bulletPattern = new BulletPattern(handler,ss);
@@ -150,10 +138,8 @@ public class Game extends Canvas implements Runnable {
 
         ////////////////Draw things here///////////////
         if (gameState.getID() == StateID.GAME) {
-            BufferedImageLoader loader = new BufferedImageLoader();
-            BufferedImage cursor = loader.loadImage("/cursor.png");
-            Cursor c = Toolkit.getDefaultToolkit().createCustomCursor(cursor, new Point(1,1), "cursor1");
-            setCursor(c);
+
+
             g2d.translate(-camera.getX(), -camera.getY());
             handler.render(g);
             g2d.translate(camera.getX(), camera.getY());

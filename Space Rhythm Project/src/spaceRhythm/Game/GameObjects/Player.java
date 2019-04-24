@@ -34,7 +34,7 @@ public class Player extends GameObject {
 
     @Override
     public void tick() {
-
+        collision();
         if (handler.isUp()) {
             velY = -5;
             if (handler.isEvade()) {
@@ -65,7 +65,7 @@ public class Player extends GameObject {
         if (handler.isLeft() && handler.isRight()) velX = 0;
         if (!handler.isLeft() && !handler.isRight()) velX = 0;
 
-        collision();
+
 //     System.out.println("VelX: " + velX);
 //     System.out.println("VelY: " + velY);
         x = x + velX;
@@ -100,7 +100,7 @@ public class Player extends GameObject {
             }
             if (tempObject.getID() == ObjectID.Boss) {
                 if (checkCollision((x + velX), y, getBounds(), tempObject.getBounds())) {
-                    velX = -10 * velX;
+                    x += -10 * velX;
                     if(isHit){
                         //game.hp = game.hp - 10;
                         isHit = false;
@@ -113,7 +113,7 @@ public class Player extends GameObject {
                     );
                 }
                 if (checkCollision(x, (y + velY), getBounds(), tempObject.getBounds())) {
-                    velY = -10 * velY;
+                    y +=   -10 * velY;
                     if(isHit){
                         //game.hp = game.hp - 10;
                         isHit = false;

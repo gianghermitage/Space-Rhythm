@@ -44,5 +44,9 @@ Version 0.9
 	-Optimized bullet pattern
 	-Boss can now spawn red n blue minions
 	-Added cursor
+Version 0.91
+	24/4/2019
+	-Optimize cursor code
+	-add health cheat for debug (F1)
 
 

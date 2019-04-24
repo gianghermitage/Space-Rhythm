@@ -31,7 +31,7 @@ public class KeyInput extends KeyAdapter {
         if (gameState.getID() == StateID.GAME) {
             int key = e.getKeyCode();
             if (key == KeyEvent.VK_F5) {
-                game.reload();
+                game.initGame();
             }
             for (int i = 0; i < handler.object.size(); i++) {
                 GameObject tempObject = handler.object.get(i);
@@ -55,6 +55,9 @@ public class KeyInput extends KeyAdapter {
                                                  }
                                              }, 150
                         );
+                    }
+                    if (key == KeyEvent.VK_F1) {
+                        Game.hp = 1000;         //cheat code
                     }
                 }
             }

@@ -51,11 +51,9 @@ public class BossMinionBlue extends GameObject{
         //collision
         for (int i = 0; i < handler.object.size(); i++) {
             GameObject tempObject = handler.object.get(i);
-            if (tempObject.getID() == ObjectID.Block ||
-                    tempObject.getID() == ObjectID.BulletBlue) {
+            if (tempObject.getID() == ObjectID.Block) {
                 if (getBounds().intersects(tempObject.getBounds())) {
                     handler.removeObject(this);
-                    handler.removeObject(tempObject);
                 }
             }
             if (tempObject.getID() == ObjectID.Player) {
@@ -67,6 +65,12 @@ public class BossMinionBlue extends GameObject{
             if (tempObject.getID() == ObjectID.BulletRed) {
                 if (getBounds().intersects(tempObject.getBounds())) {
                     handler.removeObject(tempObject);
+                }
+            }
+            if (tempObject.getID() == ObjectID.BulletBlue) {
+                if (getBounds().intersects(tempObject.getBounds())) {
+                    handler.removeObject(tempObject);
+                    handler.removeObject(this);
                 }
             }
         }
