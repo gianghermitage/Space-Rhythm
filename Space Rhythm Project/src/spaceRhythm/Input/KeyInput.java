@@ -3,6 +3,7 @@ package spaceRhythm.Input;
 import spaceRhythm.Game.Game;
 import spaceRhythm.Game.GameObjects.GameObject;
 import spaceRhythm.Game.GameObjects.ObjectID;
+import spaceRhythm.Game.GameObjects.Player;
 import spaceRhythm.Game.Handler;
 import spaceRhythm.UI.GameState;
 import spaceRhythm.UI.StateID;
@@ -33,6 +34,7 @@ public class KeyInput extends KeyAdapter {
             if (key == KeyEvent.VK_F5) {
                 game.initGame();
             }
+
             for (int i = 0; i < handler.object.size(); i++) {
                 GameObject tempObject = handler.object.get(i);
                 if (tempObject.getID() == ObjectID.Player) {
@@ -53,7 +55,7 @@ public class KeyInput extends KeyAdapter {
                                                  public void run() {
                                                      handler.setEvade(false);
                                                  }
-                                             }, 150
+                                             }, 250
                         );
                     }
                     if (key == KeyEvent.VK_F1) {

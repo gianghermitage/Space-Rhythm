@@ -17,10 +17,11 @@ public class Player extends GameObject {
     private Handler handler;
     private Game game;
     private GameState gameState;
-    private boolean isHit = true;
+    public static boolean isHit = true;
     private BufferedImage[] idle_image = new BufferedImage[4];
     int hp = 100;
-    public Player(float x, float y, ObjectID ID, Handler handler, SpriteSheet ss, Game game, GameState gameState) {
+    int pushBack = 5;
+    public Player(int x, int y, ObjectID ID, Handler handler, SpriteSheet ss, Game game, GameState gameState) {
         super(x, y, ID, ss);
         this.handler = handler;
         this.game = game;
@@ -34,7 +35,7 @@ public class Player extends GameObject {
 
     @Override
     public void tick() {
-        collision();
+
         if (handler.isUp()) {
             velY = -5;
             if (handler.isEvade()) {
@@ -66,12 +67,11 @@ public class Player extends GameObject {
         if (!handler.isLeft() && !handler.isRight()) velX = 0;
 
 
-//     System.out.println("VelX: " + velX);
-//     System.out.println("VelY: " + velY);
+
         x = x + velX;
         y = y + velY;
         idle_anim.runAnimation();
-
+        collision();
         if (game.hp <= 0) {
             handler.removeObject(this);
             gameState.setID(StateID.GAMEOVER);
@@ -87,20 +87,20 @@ public class Player extends GameObject {
 
     public void collision() {
         for (int i = 0; i < handler.object.size(); i++) {
+
             GameObject tempObject = handler.object.get(i);
-            if (tempObject.getID() == ObjectID.Block) {
-                    if (checkCollision((x + velX), y, getBounds(), tempObject.getBounds())) {
-                        x += -velX;
-                    }
-
-                if (checkCollision(x, (y + velY), getBounds(), tempObject.getBounds())) {
-                    y += -velY;
-
-                }
-            }
             if (tempObject.getID() == ObjectID.Boss) {
                 if (checkCollision((x + velX), y, getBounds(), tempObject.getBounds())) {
-                    x += -10 * velX;
+
+                    if(x  -pushBack * velX > 519 && x -pushBack * velX < 1499) x += -pushBack * velX;
+                    else if(x  -pushBack * velX < 519){
+                        float distance = 519 - x;
+                        x += distance;
+                    }
+                    else if(x  -pushBack * velX > 1499){
+                        float distance = 1499 - x;
+                        x += distance;
+                    }
                     if(isHit){
                         //game.hp = game.hp - 10;
                         isHit = false;
@@ -112,8 +112,16 @@ public class Player extends GameObject {
                                          }, 1000
                     );
                 }
-                if (checkCollision(x, (y + velY), getBounds(), tempObject.getBounds())) {
-                    y +=   -10 * velY;
+                if (checkCollision((x + velX), y, getBounds(), tempObject.getBounds())) {
+                    if(y  -pushBack * velY > 521 && y -pushBack * velY < 1486) y += -pushBack * velY;
+                    else if(y  -pushBack * velY < 521){
+                        float distance = 521 - y;
+                        y += distance;
+                    }
+                    else if(y  -pushBack * velY > 1486){
+                        float distance = 1486 - y;
+                        y += distance;
+                    }
                     if(isHit){
                         //game.hp = game.hp - 10;
                         isHit = false;
@@ -133,10 +141,26 @@ public class Player extends GameObject {
                     if(!handler.isEvade()){
                        game.hp--;
                     }
+                }
+            }
+            if (tempObject.getID() == ObjectID.Block) {
+                if (checkCollision((x + velX), y, getBounds(), tempObject.getBounds())) {
+                    x += -velX;
+                }
 
+                if (checkCollision(x, (y + velY), getBounds(), tempObject.getBounds())) {
+                    y += -velY;
 
-
-
+                }
+            }
+            if (tempObject.getID() == ObjectID.Pickup) {
+                if (getBounds().intersects(tempObject.getBounds())) {
+                    handler.removeObject(tempObject);
+                    int recHP = 10;
+                    if(Game.hp + recHP <=100) Game.hp = Game.hp + recHP;
+                    else if(Game.hp + recHP > 100){
+                        Game.hp = 100;
+                    }
                 }
             }
         }

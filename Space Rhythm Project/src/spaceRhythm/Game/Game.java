@@ -26,18 +26,49 @@ public class Game extends Canvas implements Runnable {
     private PauseMenu pauseMenu;
     private Handler handler;
     private SpriteSheet ss;
+    private SpriteSheet mSprite;
+    private SpriteSheet eSprite;
     private BufferedImage bg = null;
     private BufferedImage map = null;
     private BufferedImage sprite_sheet = null;
-    private BulletPattern bulletPattern;
+    private BufferedImage map_sprite = null;
+    private BufferedImage enemy_sprite = null;
+    private BufferedImage minion_sprite = null;
+    private BufferedImage floor = null;
     private Camera camera;
 
     public static int hp;
 
+    public void initGame(){
+
+    }
+
     public Game() {
         new Window(1280, 720, "GameTest", this);
         start();
-        initGame();
+        handler = new Handler();
+        camera = new Camera(400,850);
+        gameState = new GameState();
+        gameState.setID(StateID.GAME);
+        this.addKeyListener(new KeyInput(handler,gameState,this));
+        BufferedImageLoader loader = new BufferedImageLoader();
+        map = loader.loadImage("/map.png");
+        sprite_sheet = loader.loadImage("/sprite_sheet.png");
+        map_sprite = loader.loadImage("/map_sprite.png");
+        enemy_sprite = loader.loadImage("/enemy_sprite.png");
+        bg = loader.loadImage("/image.png");
+        mSprite = new SpriteSheet(map_sprite);
+        eSprite = new SpriteSheet(enemy_sprite);
+        ss = new SpriteSheet(sprite_sheet);
+        floor = mSprite.grabImage(1,1,32,32);
+        BufferedImage cursor = loader.loadImage("/cursor.png");
+        Cursor c = Toolkit.getDefaultToolkit().createCustomCursor(cursor, new Point(1,1), "cursor1");
+        setCursor(c);
+        this.addMouseListener(new MouseInput(handler, camera, ss,gameState,this));
+        loadLevel(map);
+        hp = 100;
+        gameoverMenu = new GameoverMenu();
+        pauseMenu = new PauseMenu();
     }
 
     private synchronized void start() {
@@ -46,27 +77,7 @@ public class Game extends Canvas implements Runnable {
         thread = new Thread(this);
         thread.start();
     }
-    public void initGame(){
-        gameoverMenu = new GameoverMenu();
-        pauseMenu = new PauseMenu();
-        gameState = new GameState();
-        gameState.setID(StateID.GAME);
-        handler = new Handler();
-        camera = new Camera(400,850);
-        this.addKeyListener(new KeyInput(handler,gameState,this));
-        BufferedImageLoader loader = new BufferedImageLoader();
-        map = loader.loadImage("/map.png");
-        sprite_sheet = loader.loadImage("/sprite_sheet.png");
-        BufferedImage cursor = loader.loadImage("/cursor.png");
-        Cursor c = Toolkit.getDefaultToolkit().createCustomCursor(cursor, new Point(1,1), "cursor1");
-        setCursor(c);
-        //bg = loader.loadImage("/image.png");
-        ss = new SpriteSheet(sprite_sheet);
-        bulletPattern = new BulletPattern(handler,ss);
-        this.addMouseListener(new MouseInput(handler, camera, ss,gameState,this));
-        loadLevel(map);
-        hp = 100;
-    }
+
 
     private synchronized void stop() {
         if (!isRunning) return;
@@ -103,7 +114,7 @@ public class Game extends Canvas implements Runnable {
             //fps counter
             if (timer > 1000000000) {
                 timer = 0;
-                //System.out.println(frames);
+                System.out.println(frames);
                 frames = 0;
             }
         }
@@ -133,12 +144,15 @@ public class Game extends Canvas implements Runnable {
 
         Graphics g = bs.getDrawGraphics();
         Graphics2D g2d = (Graphics2D) g;
-        g.setColor(Color.DARK_GRAY);
-        g.fillRect(0, 0, 1920, 1080);
-
+        g.fillRect(0,0,1920,1080);
+        //g.setColor(Color.black);
         ////////////////Draw things here///////////////
         if (gameState.getID() == StateID.GAME) {
-
+            for(int xx = 0; xx < 30 * 72;xx += 32){
+                for(int yy = 0;yy < 30 * 72;yy += 32){
+                    g.drawImage(floor,xx,yy,null);
+                }
+            }
 
             g2d.translate(-camera.getX(), -camera.getY());
             handler.render(g);
@@ -180,9 +194,9 @@ public class Game extends Canvas implements Runnable {
                 int red = (pixel >> 16) & 0xff;
                 int green = (pixel >> 8) & 0xff;
                 int blue = (pixel) & 0xff;
-                if (red == 255) handler.addObject(new Block(iX * 32, iY * 32, ObjectID.Block, ss));
+                if (red == 255) handler.addObject(new Block(iX * 32, iY * 32, ObjectID.Block, mSprite));
                 if (blue == 255) handler.addObject(new Player(iX * 32, iY * 32, ObjectID.Player, handler, ss, this,gameState));
-                if (green == 255) handler.addObject(new Boss(iX * 32, iY * 32, ObjectID.Boss, handler,ss));
+                if (green == 255) handler.addObject(new Boss(iX * 32, iY * 32, ObjectID.Boss, handler,eSprite));
             }
         }
     }

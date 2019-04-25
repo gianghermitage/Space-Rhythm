@@ -1,24 +1,43 @@
 package spaceRhythm.Game.GameObjects;
 
+import spaceRhythm.Animation.Animation;
 import spaceRhythm.Game.Game;
 import spaceRhythm.Game.Handler;
 import spaceRhythm.SpriteSheet.SpriteSheet;
+import spaceRhythm.Game.GameObjects.ObjectID;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.Random;
 
 public class BossMinionBlue extends GameObject{
 
     private GameObject player;
+
     private Handler handler;
     private int timer = 30;
+    private BufferedImage[] sprite = new BufferedImage[3];
+    private Animation sprite_anim;
+
 
     public BossMinionBlue(int x, int y, ObjectID ID, Handler handler,
                          int mx, int my, SpriteSheet ss) {
         super(x, y, ID, ss);
         this.handler = handler;
         calculateVelocity(x, y, mx, my);
-    }
+        sprite[0] = ss.grabImage(7,1,32,32);
+        sprite[1] = ss.grabImage(8,1,32,32);
+        sprite[2] = ss.grabImage(9,1,32,32);
 
+        sprite_anim = new Animation(7,sprite);
+    }
+    public void spawmPickup(){
+        Random rand = new Random();
+        int spawnChance = rand.nextInt(101);
+        if(spawnChance <= 10) {
+            handler.addObject(new Pickup((int) this.getX(), (int) this.getY(), ObjectID.Pickup, handler, ss));
+        }
+    }
 
     public void calculateVelocity(int fromX, int fromY,
                                   int toX, int toY) {
@@ -71,15 +90,16 @@ public class BossMinionBlue extends GameObject{
                 if (getBounds().intersects(tempObject.getBounds())) {
                     handler.removeObject(tempObject);
                     handler.removeObject(this);
+                    spawmPickup();
                 }
             }
         }
+        sprite_anim.runAnimation();
     }
 
     @Override
     public void render(Graphics g) {
-        g.setColor(Color.blue);
-        g.fillRect((int)x, (int)y, 32, 32);
+        sprite_anim.drawAnimation(g,x,y,0);
     }
 
     @Override

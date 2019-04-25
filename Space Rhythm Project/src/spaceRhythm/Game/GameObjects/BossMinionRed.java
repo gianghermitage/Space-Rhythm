@@ -1,22 +1,32 @@
 package spaceRhythm.Game.GameObjects;
 
+import spaceRhythm.Animation.Animation;
 import spaceRhythm.Game.Game;
 import spaceRhythm.Game.Handler;
 import spaceRhythm.SpriteSheet.SpriteSheet;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.Random;
 
 public class BossMinionRed extends GameObject{
 
     private GameObject player;
     private Handler handler;
     private int timer = 30;
+    private BufferedImage[] sprite = new BufferedImage[3];
+    private Animation sprite_anim;
 
     public BossMinionRed(int x, int y, ObjectID ID, Handler handler,
                          int mx, int my, SpriteSheet ss) {
         super(x, y, ID, ss);
         this.handler = handler;
         calculateVelocity(x, y, mx, my);
+        sprite[0] = ss.grabImage(10,1,32,32);
+        sprite[1] = ss.grabImage(11,1,32,32);
+        sprite[2] = ss.grabImage(12,1,32,32);
+
+        sprite_anim = new Animation(7,sprite);
     }
 
 
@@ -27,7 +37,13 @@ public class BossMinionRed extends GameObject{
         velY = (int) ((toY - fromY) * speed / distance);
         velX = (int) ((toX - fromX) * speed / distance);
     }
-
+    public void spawmPickup(){
+        Random rand = new Random();
+        int spawnChance = rand.nextInt(101);
+        if(spawnChance <= 10) {
+            handler.addObject(new Pickup((int) this.getX(), (int) this.getY(), ObjectID.Pickup, handler, ss));
+        }
+    }
     @Override
     public void tick() {
         timer--;
@@ -71,15 +87,17 @@ public class BossMinionRed extends GameObject{
                 if (getBounds().intersects(tempObject.getBounds())) {
                     handler.removeObject(tempObject);
                     handler.removeObject(this);
+                    spawmPickup();
                 }
             }
         }
+        sprite_anim.runAnimation();
+
     }
 
     @Override
     public void render(Graphics g) {
-        g.setColor(Color.red);
-        g.fillRect((int)x, (int)y, 32, 32);
+        sprite_anim.drawAnimation(g,x,y,0);
     }
 
     @Override

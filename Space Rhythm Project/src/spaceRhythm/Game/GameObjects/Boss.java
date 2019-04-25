@@ -9,17 +9,23 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Boss extends GameObject {
-
+    private Animation sprite_anim;
     private Handler handler;
-    private BufferedImage[] idle_image = new BufferedImage[4];
+    private BufferedImage[] sprite = new BufferedImage[3];
     int hp = 100;
-    int timer = 5;
+    int timer =100;
     int timer2 = 5;
     private GameObject player;
+
 
     public Boss (int x, int y, ObjectID ID, Handler handler, SpriteSheet ss) {
         super(x, y, ID, ss);
         this.handler = handler;
+        sprite[0] = ss.grabImage(1,1,32,48);
+        sprite[1] = ss.grabImage(2,1,32,48);
+        sprite[2] = ss.grabImage(3,1,32,48);
+
+        sprite_anim = new Animation(7,sprite);
     }
 
     @Override
@@ -45,10 +51,10 @@ public class Boss extends GameObject {
 //        timer2--;
 
         if (timer <= 0) {
-//            bulletPattern.SpawnRed();
-//            bulletPattern.SpawnBlue();
-            bulletPattern.Spiral();
-            timer = 5;
+            bulletPattern.SpawnRed();
+            bulletPattern.SpawnBlue();
+            //bulletPattern.Spiral();
+            timer = 100;
         }
 
 //        if (timer2 <= 0) {
@@ -57,6 +63,7 @@ public class Boss extends GameObject {
 //        }
 
         collision();
+        sprite_anim.runAnimation();
 
         if (hp <= 0) handler.removeObject(this);
     }
@@ -81,11 +88,11 @@ public class Boss extends GameObject {
             }
             if (tempObject.getID() == ObjectID.Player) {
                 if (checkCollision((x + velX), y, getBounds(), tempObject.getBounds())) {
-                    x += -velX;
+                    velX = 0;
                     //Game.hp--;
                 }
                 if (checkCollision(x, (y + velY), getBounds(), tempObject.getBounds())) {
-                    y += -velY;
+                    velY = 0;
                     //Game.hp--;
 
                 }
@@ -101,12 +108,13 @@ public class Boss extends GameObject {
 
     @Override
     public void render(Graphics g) {
-        g.setColor(Color.yellow);
-        g.fillRect((int)x, (int)y, 40,64 );
+        //g.setColor(Color.yellow);
+        //g.fillRect((int)x, (int)y, 40,64 );
+        sprite_anim.drawAnimation(g,x,y,0);
     }
 
     @Override
     public Rectangle getBounds() {
-        return new Rectangle((int)x, (int)y, 40, 64);
+        return new Rectangle((int)x, (int)y, 32, 48);
     }
 }

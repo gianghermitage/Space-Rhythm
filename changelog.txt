@@ -48,5 +48,9 @@ Version 0.91
 	24/4/2019
 	-Optimize cursor code
 	-add health cheat for debug (F1)
+Version 0.10
+	25/4/2019
+	-Add sprite for Boss, Minion, Wall, Floor, Health Pickup
+	-Add health pickup (drop when kill minion with drop rate = 10%)
 
 
