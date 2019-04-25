@@ -40,12 +40,6 @@ public class Game extends Canvas implements Runnable {
     public static int hp;
 
     public void initGame(){
-
-    }
-
-    public Game() {
-        new Window(1280, 720, "GameTest", this);
-        start();
         handler = new Handler();
         camera = new Camera(400,850);
         gameState = new GameState();
@@ -69,6 +63,13 @@ public class Game extends Canvas implements Runnable {
         hp = 100;
         gameoverMenu = new GameoverMenu();
         pauseMenu = new PauseMenu();
+    }
+
+    public Game() {
+        new Window(1280, 720, "GameTest", this);
+        start();
+        initGame();
+
     }
 
     private synchronized void start() {

@@ -26,10 +26,10 @@ public class Player extends GameObject {
         this.handler = handler;
         this.game = game;
         this.gameState = gameState;
-        idle_image[0] = ss.grabImage(1, 1, 32, 32);
-        idle_image[1] = ss.grabImage(2, 1, 32, 32);
-        idle_image[2] = ss.grabImage(3, 1, 32, 32);
-        idle_image[3] = ss.grabImage(4, 1, 32, 32);
+        idle_image[0] = ss.grabImage(1, 1, 32, 54);
+        idle_image[1] = ss.grabImage(2, 1, 32, 54);
+        idle_image[2] = ss.grabImage(3, 1, 32, 54);
+        idle_image[3] = ss.grabImage(4, 1, 32, 54);
         idle_anim = new Animation(7, idle_image);
     }
 
@@ -170,19 +170,16 @@ public class Player extends GameObject {
     @Override
     public void render(Graphics g) {
         if (handler.isEvade()) {
-            g.setColor(Color.black);
-            g.fillRect((int)x, (int)y, 32, 44);
-//            g.drawImage(idle_image[0],x,y,null);
+            g.drawImage(idle_image[0],(int)x,(int)y,null);
         } else {
-            g.setColor(Color.white);
-            g.fillRect((int)x, (int)y, 32, 44);
-//            if(velX == 0 && velY == 0) g.drawImage(idle_image[0],x,y,null);
-//            else idle_anim.drawAnimation(g,x,y,0);
+
+            if(velX == 0 && velY == 0) g.drawImage(idle_image[0],(int)x,(int)y,null);
+            else idle_anim.drawAnimation(g,x,y,0);
         }
         //g.fillRect(x, y, 32, 44);
     }
 
     public Rectangle getBounds() {
-        return new Rectangle((int)x,(int) y, 32, 44);
+        return new Rectangle((int)x,(int) y, 32, 54);
     }
 }
