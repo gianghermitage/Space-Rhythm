@@ -3,7 +3,6 @@ package spaceRhythm.Input;
 import spaceRhythm.Game.Game;
 import spaceRhythm.Game.GameObjects.GameObject;
 import spaceRhythm.Game.GameObjects.ObjectID;
-import spaceRhythm.Game.GameObjects.Player;
 import spaceRhythm.Game.Handler;
 import spaceRhythm.UI.GameState;
 import spaceRhythm.UI.StateID;
@@ -15,14 +14,14 @@ import java.util.TimerTask;
 
 
 public class KeyInput extends KeyAdapter {
-    private Handler handler;
     public static boolean restart = false;
+    private Handler handler;
     private GameState gameState;
     private int evadeTime = 1;
     private boolean canEvade = true;
     private Game game;
 
-    public KeyInput(Handler handler,GameState gameState,Game game) {
+    public KeyInput(Handler handler, GameState gameState, Game game) {
         this.handler = handler;
         this.gameState = gameState;
         this.game = game;
@@ -49,15 +48,7 @@ public class KeyInput extends KeyAdapter {
                         handler.setLeft(false);
                         handler.setDown(false);
                     }
-                    if (key == KeyEvent.VK_SPACE) {
-                        evadeDelay();
-                        new Timer().schedule(new TimerTask() {
-                                                 public void run() {
-                                                     handler.setEvade(false);
-                                                 }
-                                             }, 250
-                        );
-                    }
+
                     if (key == KeyEvent.VK_F1) {
                         Game.hp = 1000;         //cheat code
                     }
@@ -78,7 +69,7 @@ public class KeyInput extends KeyAdapter {
                                              canEvade = true;
                                              evadeTime = 1;
                                          }
-                                     }, 1000
+                                     }, 500
                 );
 
             }
@@ -97,7 +88,13 @@ public class KeyInput extends KeyAdapter {
                     if (key == KeyEvent.VK_A) handler.setLeft(false);
                     if (key == KeyEvent.VK_D) handler.setRight(false);
                     if (key == KeyEvent.VK_SPACE) {
-
+                        evadeDelay();
+                        new Timer().schedule(new TimerTask() {
+                                                 public void run() {
+                                                     handler.setEvade(false);
+                                                 }
+                                             }, 200
+                        );
                     }
                 }
             }

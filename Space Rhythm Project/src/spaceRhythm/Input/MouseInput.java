@@ -10,7 +10,6 @@ import spaceRhythm.Game.Handler;
 import spaceRhythm.SpriteSheet.SpriteSheet;
 import spaceRhythm.UI.GameState;
 import spaceRhythm.UI.StateID;
-import static java.lang.System.out;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -24,7 +23,7 @@ public class MouseInput extends MouseAdapter {
     private SpriteSheet ss;
     private Game game;
 
-    public MouseInput(Handler handler, Camera camera, SpriteSheet ss,GameState gameState,Game game) {
+    public MouseInput(Handler handler, Camera camera, SpriteSheet ss, GameState gameState, Game game) {
         this.handler = handler;
         this.camera = camera;
         this.ss = ss;
@@ -43,9 +42,9 @@ public class MouseInput extends MouseAdapter {
                     GameObject tempObject = handler.object.get(i);
                     if (tempObject.getID() == ObjectID.Player) {
                         if (rmbCount % 2 == 0)
-                            handler.addObject(new BulletBlue((int)(tempObject.getX() + 16), (int)(tempObject.getY() + 24), ObjectID.BulletBlue, handler, mx, my, ss));
+                            handler.addObject(new BulletBlue((int) (tempObject.getX() + 16), (int) (tempObject.getY() + 24), ObjectID.BulletBlue, handler, mx, my, ss));
                         else if (rmbCount % 2 != 0)
-                            handler.addObject(new BulletRed((int)(tempObject.getX() + 16), (int)(tempObject.getY() + 24), ObjectID.BulletRed, handler, mx, my, ss));
+                            handler.addObject(new BulletRed((int) (tempObject.getX() + 16), (int) (tempObject.getY() + 24), ObjectID.BulletRed, handler, mx, my, ss));
                     }
                 }
             }
@@ -74,7 +73,7 @@ public class MouseInput extends MouseAdapter {
             }
 
         }
-        if (gameState.getID() == StateID.PAUSE ){
+        if (gameState.getID() == StateID.PAUSE) {
 
             /*
             public  Rectangle playButton = new Rectangle(150,520,100,50);

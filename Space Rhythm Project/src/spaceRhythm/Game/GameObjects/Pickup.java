@@ -1,7 +1,6 @@
 package spaceRhythm.Game.GameObjects;
 
 import spaceRhythm.Animation.Animation;
-import spaceRhythm.Game.Game;
 import spaceRhythm.Game.Handler;
 import spaceRhythm.SpriteSheet.SpriteSheet;
 
@@ -12,15 +11,16 @@ public class Pickup extends GameObject {
     private Handler handler;
     private Animation sprite_anim;
     private BufferedImage[] sprite = new BufferedImage[4];
+
     public Pickup(int x, int y, ObjectID ID, Handler handler, SpriteSheet ss) {
 
         super(x, y, ID, ss);
         this.handler = handler;
-        sprite[0] = ss.grabImage(13,1,32,48);
-        sprite[1] = ss.grabImage(14,1,32,48);
-        sprite[2] = ss.grabImage(15,1,32,48);
-        sprite[3] = ss.grabImage(16,1,32,48);
-        sprite_anim = new Animation(7,sprite);
+        sprite[0] = ss.grabImage(4, 4, 32, 48);
+        sprite[1] = ss.grabImage(5, 4, 32, 48);
+        sprite[2] = ss.grabImage(6, 4, 32, 48);
+        sprite[3] = ss.grabImage(7, 4, 32, 48);
+        sprite_anim = new Animation(5, sprite);
 
     }
 
@@ -32,14 +32,15 @@ public class Pickup extends GameObject {
 
     @Override
     public void render(Graphics g) {
+//        g.setColor(Color.green);
+////        g.fillRect((int)x,(int)y,16,16);
 
-
-        sprite_anim.drawAnimation(g,x,y,0);
+        sprite_anim.drawAnimation(g, x, y, 0);
     }
 
     @Override
     public Rectangle getBounds() {
-        return new Rectangle((int)x, (int)y, 16, 16);
+        return new Rectangle((int) x, (int) y, 16, 16);
 
     }
 

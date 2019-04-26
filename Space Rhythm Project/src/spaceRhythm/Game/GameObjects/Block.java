@@ -9,11 +9,12 @@ import java.awt.image.BufferedImage;
 public class Block extends GameObject {
     private Animation sprite_anim;
     private BufferedImage sprite;
+
     public Block(int x, int y, ObjectID ID, SpriteSheet ss) {
 
         super(x, y, ID, ss);
-        sprite = ss.grabImage(2,1,32,32);
-        sprite_anim = new Animation(7,sprite);
+        sprite = ss.grabImage(5, 5, 32, 32);
+        sprite_anim = new Animation(7, sprite);
 
     }
 
@@ -25,14 +26,14 @@ public class Block extends GameObject {
     @Override
     public void render(Graphics g) {
 
-        //g.fillRect(0,0,32,32);
-        //g.setColor(Color.white);
-        sprite_anim.drawAnimation(g,x,y,0);
+//        g.setColor(Color.MAGENTA);
+//        g.fillRect((int)x, (int)y, 32, 32);
+        sprite_anim.drawAnimation(g, x, y, 0);
     }
 
     @Override
     public Rectangle getBounds() {
-        return new Rectangle((int)x, (int)y, 32, 32);
+        return new Rectangle((int) x, (int) y, 32, 32);
 
     }
 

@@ -4,13 +4,12 @@ import spaceRhythm.Animation.Animation;
 import spaceRhythm.Game.Game;
 import spaceRhythm.Game.Handler;
 import spaceRhythm.SpriteSheet.SpriteSheet;
-import spaceRhythm.Game.GameObjects.ObjectID;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
-public class BossMinionBlue extends GameObject{
+public class BossMinionBlue extends GameObject {
 
     private GameObject player;
 
@@ -21,20 +20,21 @@ public class BossMinionBlue extends GameObject{
 
 
     public BossMinionBlue(int x, int y, ObjectID ID, Handler handler,
-                         int mx, int my, SpriteSheet ss) {
+                          int mx, int my, SpriteSheet ss) {
         super(x, y, ID, ss);
         this.handler = handler;
         calculateVelocity(x, y, mx, my);
-        sprite[0] = ss.grabImage(7,1,32,32);
-        sprite[1] = ss.grabImage(8,1,32,32);
-        sprite[2] = ss.grabImage(9,1,32,32);
+        sprite[0] = ss.grabImage(1, 4, 32, 32);
+        sprite[1] = ss.grabImage(2, 4, 32, 32);
+        sprite[2] = ss.grabImage(3, 4, 32, 32);
 
-        sprite_anim = new Animation(7,sprite);
+        sprite_anim = new Animation(5, sprite);
     }
-    public void spawmPickup(){
+
+    public void spawmPickup() {
         Random rand = new Random();
         int spawnChance = rand.nextInt(101);
-        if(spawnChance <= 10) {
+        if (spawnChance <= 10) {
             handler.addObject(new Pickup((int) this.getX(), (int) this.getY(), ObjectID.Pickup, handler, ss));
         }
     }
@@ -61,10 +61,10 @@ public class BossMinionBlue extends GameObject{
 
             float distX = x - player.getX() - 16;
             float distY = y - player.getY() - 22;
-            float distance = (float) Math.sqrt( Math.pow(x - player.getX(),2) +Math.pow(y - player.getY(),2));
+            float distance = (float) Math.sqrt(Math.pow(x - player.getX(), 2) + Math.pow(y - player.getY(), 2));
 
-            velX = (float) ((-1.0/distance) * distX * 3);
-            velY = (float) ((-1.0/distance) * distY * 3);
+            velX = (float) ((-1.0 / distance) * distX * 3);
+            velY = (float) ((-1.0 / distance) * distY * 3);
         }
 
         //collision
@@ -93,17 +93,24 @@ public class BossMinionBlue extends GameObject{
                     spawmPickup();
                 }
             }
+            if (tempObject.getID() == ObjectID.Pickup) {
+                if (getBounds().intersects(tempObject.getBounds())) {
+                    handler.removeObject(tempObject);
+                }
+            }
         }
         sprite_anim.runAnimation();
     }
 
     @Override
     public void render(Graphics g) {
-        sprite_anim.drawAnimation(g,x,y,0);
+//        g.setColor(Color.blue);
+//        g.fillRect((int)x, (int)y, 32, 32);
+        sprite_anim.drawAnimation(g, x, y, 0);
     }
 
     @Override
     public Rectangle getBounds() {
-        return new Rectangle((int)x,(int) y, 32, 32);
+        return new Rectangle((int) x, (int) y, 32, 32);
     }
 }

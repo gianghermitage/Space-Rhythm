@@ -32,7 +32,7 @@ public class BulletBlue extends GameObject {
         y += velY;
         for (int i = 0; i < handler.object.size(); i++) {
             GameObject tempObject = handler.object.get(i);
-            if (tempObject.getID() == ObjectID.Block ) {
+            if (tempObject.getID() == ObjectID.Block) {
                 if (getBounds().intersects(tempObject.getBounds())) {
                     handler.removeObject(this);
                     //System.out.println("Hit");
@@ -44,12 +44,12 @@ public class BulletBlue extends GameObject {
 
     public void render(Graphics g) {
         g.setColor(Color.blue);
-        g.fillOval((int)x, (int)y, 12, 12);
+        g.fillOval((int) x, (int) y, 12, 12);
     }
 
 
     public Rectangle getBounds() {
-        return new Rectangle((int)x,(int) y, 12, 12);
+        return new Rectangle((int) x, (int) y, 12, 12);
     }
 
 

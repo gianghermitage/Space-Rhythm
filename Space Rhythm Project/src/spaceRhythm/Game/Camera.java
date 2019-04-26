@@ -10,7 +10,9 @@ public class Camera {
         this.x = x;
         this.y = y;
     }
-    public Camera(){}
+
+    public Camera() {
+    }
 
     public void tick(GameObject object) {
 

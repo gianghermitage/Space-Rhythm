@@ -1,16 +1,14 @@
 package spaceRhythm.Main;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import spaceRhythm.Game.Game;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
 
@@ -32,9 +30,10 @@ public class Controller implements Initializable {
     // this method will be called.
     public void playGame(ActionEvent event) {
         new Game();
-        ((Node)event.getSource()).getScene().getWindow().hide();
+        ((Node) event.getSource()).getScene().getWindow().hide();
 
     }
+
     public void quitGame(ActionEvent event) {
         System.exit(1);
 

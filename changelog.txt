@@ -16,11 +16,13 @@ Version 0.3
 Version 0.4
 	25/3/2019
   	-Implement mouse-aim shooting mechanic
+
 Version 0.5
 	29/3/2019
 	-Implement evade mechanic
 	-Implement change bullet mechanic
 	-Add resizable window
+
 Version 0.6
 	2/4/2019
 	-Implement main menu UI
@@ -29,6 +31,7 @@ Version 0.6
 Version 0.61
 	8/4/2019
 	-Rework main menu
+
 Version 0.7
 	22/4/2019
 	-Implement Boss and bullet patter
@@ -39,18 +42,27 @@ Version 0.8
 	-Minor bugs fix (collision)
 	-Add pause menu
 	-Add flower bullet pattern
+
 Version 0.9
 	23/4/2019
 	-Optimized bullet pattern
 	-Boss can now spawn red n blue minions
 	-Added cursor
+
 Version 0.91
 	24/4/2019
 	-Optimize cursor code
 	-add health cheat for debug (F1)
+
 Version 0.10
 	25/4/2019
 	-Add sprite for Boss, Minion, Wall, Floor, Health Pickup
 	-Add health pickup (drop when kill minion with drop rate = 10%)
+
+Version 0.11
+	26/4/2019
+	-Sprite system rework
+	-Player and boss got new sprite for some unique situation (low health, evade)
+
 
 

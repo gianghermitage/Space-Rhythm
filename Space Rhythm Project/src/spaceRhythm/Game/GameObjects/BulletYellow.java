@@ -41,11 +41,11 @@ public class BulletYellow extends GameObject {
 
     public void render(Graphics g) {
         g.setColor(Color.yellow);
-        g.fillOval((int)x, (int)y, 12, 12);
+        g.fillOval((int) x, (int) y, 12, 12);
     }
 
     public Rectangle getBounds() {
-        return new Rectangle((int)x,(int) y, 12, 12);
+        return new Rectangle((int) x, (int) y, 12, 12);
     }
 
 }
