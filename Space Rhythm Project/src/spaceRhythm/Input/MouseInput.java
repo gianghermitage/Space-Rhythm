@@ -19,9 +19,10 @@ public class MouseInput extends MouseAdapter {
     private Handler handler;
     private Camera camera;
     private GameState gameState;
-    private int rmbCount = 0;
+    public static int rmbCount = 0;
     private SpriteSheet ss;
     private Game game;
+    public static boolean blueForm = true;
 
     public MouseInput(Handler handler, Camera camera, SpriteSheet ss, GameState gameState, Game game) {
         this.handler = handler;
@@ -41,10 +42,14 @@ public class MouseInput extends MouseAdapter {
                 for (int i = 0; i < handler.object.size(); i++) {
                     GameObject tempObject = handler.object.get(i);
                     if (tempObject.getID() == ObjectID.Player) {
-                        if (rmbCount % 2 == 0)
+                        if (rmbCount % 2 == 0){
                             handler.addObject(new BulletBlue((int) (tempObject.getX() + 16), (int) (tempObject.getY() + 24), ObjectID.BulletBlue, handler, mx, my, ss));
-                        else if (rmbCount % 2 != 0)
+
+                        }
+                        else if (rmbCount % 2 != 0){
                             handler.addObject(new BulletRed((int) (tempObject.getX() + 16), (int) (tempObject.getY() + 24), ObjectID.BulletRed, handler, mx, my, ss));
+                        }
+
                     }
                 }
             }

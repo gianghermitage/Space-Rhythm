@@ -13,7 +13,7 @@ public class Block extends GameObject {
     public Block(int x, int y, ObjectID ID, SpriteSheet ss) {
 
         super(x, y, ID, ss);
-        sprite = ss.grabImage(5, 5, 32, 32);
+        sprite = ss.grabImage(5, 6, 32, 32);
         sprite_anim = new Animation(7, sprite);
 
     }

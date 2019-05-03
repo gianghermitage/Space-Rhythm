@@ -56,7 +56,7 @@ public class Game extends Canvas implements Runnable {
         sprite_sheet = loader.loadImage("/sprite_sheet.png");
         bg = loader.loadImage("/image.png");
         ss = new SpriteSheet(sprite_sheet);
-        floor = ss.grabImage(4, 5, 32, 32);
+        floor = ss.grabImage(4, 6, 32, 32);
         BufferedImage cursor = loader.loadImage("/cursor.png");
         Cursor c = Toolkit.getDefaultToolkit().createCustomCursor(cursor, new Point(1, 1), "cursor1");
         setCursor(c);

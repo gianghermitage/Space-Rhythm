@@ -48,33 +48,12 @@ public class KeyInput extends KeyAdapter {
                         handler.setLeft(false);
                         handler.setDown(false);
                     }
-
                     if (key == KeyEvent.VK_F1) {
                         Game.hp = 1000;         //cheat code
                     }
                 }
             }
         }
-    }
-
-    public void evadeDelay() {
-        if (canEvade) {
-            handler.setEvade(true);
-            //canEvade =false;
-            evadeTime--;
-            if (evadeTime == 0) {
-                canEvade = false;
-                new Timer().schedule(new TimerTask() {
-                                         public void run() {
-                                             canEvade = true;
-                                             evadeTime = 1;
-                                         }
-                                     }, 500
-                );
-
-            }
-        }
-
     }
 
     public void keyReleased(KeyEvent e) {
@@ -88,14 +67,26 @@ public class KeyInput extends KeyAdapter {
                     if (key == KeyEvent.VK_A) handler.setLeft(false);
                     if (key == KeyEvent.VK_D) handler.setRight(false);
                     if (key == KeyEvent.VK_SPACE) {
-                        evadeDelay();
-                        new Timer().schedule(new TimerTask() {
-                                                 public void run() {
-                                                     handler.setEvade(false);
-                                                 }
-                                             }, 200
-                        );
+                        if (canEvade) {
+                            canEvade = false;
+                            handler.setEvade(true);
+                            new Timer().schedule(new TimerTask() {
+                                                     public void run() {
+                                                         canEvade = true;
+
+                                                     }
+                                                 }, 400
+                            );
+                            new Timer().schedule(new TimerTask() {
+                                                     public void run() {
+                                                         handler.setEvade(false);
+                                                     }
+                                                 }, 200
+                            );
+                        }
+
                     }
+
                 }
             }
         }
