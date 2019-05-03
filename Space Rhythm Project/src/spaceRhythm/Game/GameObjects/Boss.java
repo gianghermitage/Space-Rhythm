@@ -8,12 +8,14 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Boss extends GameObject {
-    int hp = 4;
+    int hp = 100;
     int timer = 100;
     int timer2 = 5;
+    private Animation init_anim;
     private Animation normal_anim;
     private Animation aggro_anim;
     private Handler handler;
+    private BufferedImage[] init_sprite = new BufferedImage[3];
     private BufferedImage[] normal_sprite = new BufferedImage[3];
     private BufferedImage[] aggro_sprite = new BufferedImage[3];
     private GameObject player;
@@ -22,6 +24,13 @@ public class Boss extends GameObject {
     public Boss(int x, int y, ObjectID ID, Handler handler, SpriteSheet ss) {
         super(x, y, ID, ss);
         this.handler = handler;
+
+        init_sprite[0] = ss.grabImage(7, 1, 64, 95);
+        init_sprite[1] = ss.grabImage(8, 1, 64, 95);
+        init_sprite[2] = ss.grabImage(9, 1, 64, 95);
+
+        init_anim = new Animation(10, init_sprite);
+
         normal_sprite[0] = ss.grabImage(1, 1, 64, 95);
         normal_sprite[1] = ss.grabImage(2, 1, 64, 95);
         normal_sprite[2] = ss.grabImage(3, 1, 64, 95);
@@ -70,6 +79,7 @@ public class Boss extends GameObject {
 //        }
 
         collision();
+        init_anim.runAnimation();
         normal_anim.runAnimation();
         aggro_anim.runAnimation();
 
@@ -128,8 +138,8 @@ public class Boss extends GameObject {
     public void render(Graphics g) {
 //        g.setColor(Color.yellow);
 //        g.fillRect((int)x, (int)y, 40,64 );
-
-        if (hp > 2) normal_anim.drawAnimation(g, x, y, 0);
+        if(hp > 75) init_anim.drawAnimation(g,x,y,0);
+        else if (hp > 50) normal_anim.drawAnimation(g, x, y, 0);
         else aggro_anim.drawAnimation(g, x, y, 0);
     }
 
