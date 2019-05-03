@@ -102,6 +102,18 @@ public class BulletPattern {
         if (spiralDegree == 360) spiralDegree = 0;
     }
 
+    public void reverseSpiral() {
+        setBoss();
+        for (int i = 0; i < 6; i++) {
+            addBullet(dirX(spiralDegree + i * 15, radius),
+                    dirY(spiralDegree + i * 15, radius));
+            addBullet(dirX(spiralDegree + 180 + i * 15, radius),
+                    dirY(spiralDegree + 180 + i * 15, radius));
+        }
+        reversespiralDegree -= 15;
+        if (spiralDegree == -360) spiralDegree = 0;
+    }
+
     public void Flower() {
         setBoss();
         for (int i = 0; i < 2; i++) {
@@ -154,6 +166,16 @@ public class BulletPattern {
     public void Trace() {
         setBoss();
         setPlayer();
+        addBullet((int)player.getX(), (int)player.getY());
+    }
+
+    public void superTrace() {
+        setBoss();
+        setPlayer();
+        addBullet(dirX(getAngle() + 20, getDistance()),
+                dirY(getAngle() + 20, getDistance()));
+        addBullet(dirX(getAngle() - 20, getDistance()),
+                dirY(getAngle() - 20, getDistance()));
         addBullet((int)player.getX(), (int)player.getY());
     }
 

@@ -29,7 +29,7 @@ Version 0.6
 	-Implement Animation to animate sprite
 	-Add sprite for player
 
-Version 0.61
+Version 0.6.1
 	8/4/2019
 	-Rework main menu
 
@@ -73,5 +73,9 @@ Version 0.12
 	-Player now have special sprite and immune period when being hit 
 	-Player now has dedicated form (red/blue)
 	-Add victory screen
+
+Version 0.12.1
+	2/5/2019
+	-remove restart mechanic (lot of problems related)
 
 

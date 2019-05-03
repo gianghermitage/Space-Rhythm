@@ -19,6 +19,5 @@ public class GameoverMenu {
         g.setFont(fnt1);
         g.drawString("Quit", quitButton.x + 5, quitButton.y + 35);
         g2d.draw(quitButton);
-
     }
 }

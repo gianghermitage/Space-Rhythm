@@ -43,7 +43,6 @@ public class Game extends Canvas implements Runnable {
         new Window(1280, 720, "GameTest", this);
         start();
         initGame();
-
     }
 
     public void initGame() {
@@ -69,6 +68,7 @@ public class Game extends Canvas implements Runnable {
         pauseMenu = new PauseMenu();
         gameWonMenu = new GameWonMenu();
     }
+
 
     private synchronized void start() {
         if (isRunning) return;

@@ -19,7 +19,7 @@ public class MouseInput extends MouseAdapter {
     private Handler handler;
     private Camera camera;
     private GameState gameState;
-    public static int rmbState = 1;
+    public static boolean rmb = true;
     private SpriteSheet ss;
     private Game game;
     public static boolean blueForm = true;
@@ -37,25 +37,24 @@ public class MouseInput extends MouseAdapter {
             super.mousePressed(e);
             int mx = (int) (e.getX() + camera.getX());
             int my = (int) (e.getY() + camera.getY());
-            if (e.getButton() == MouseEvent.BUTTON3) {
-                rmbState *= -1;
-            }
             if (e.getButton() == MouseEvent.BUTTON1) {
+                System.out.println(mx + " " + my);
                 for (int i = 0; i < handler.object.size(); i++) {
                     GameObject tempObject = handler.object.get(i);
                     if (tempObject.getID() == ObjectID.Player) {
-                        if (rmbState == 1){
-                            handler.addObject(new BulletBlue((int) (tempObject.getX() + 16),
-                                    (int) (tempObject.getY() + 24), ObjectID.BulletBlue, handler, mx, my, ss));
+                        if (rmb){
+                            handler.addObject(new BulletBlue((int) (tempObject.getX() + 16), (int) (tempObject.getY() + 24), ObjectID.BulletBlue, handler, mx, my, ss));
 
                         }
-                        else if (rmbState == -1){
-                            handler.addObject(new BulletRed((int) (tempObject.getX() + 16),
-                                    (int) (tempObject.getY() + 24), ObjectID.BulletRed, handler, mx, my, ss));
+                        else{
+                            handler.addObject(new BulletRed((int) (tempObject.getX() + 16), (int) (tempObject.getY() + 24), ObjectID.BulletRed, handler, mx, my, ss));
                         }
 
                     }
                 }
+            }
+            if (e.getButton() == MouseEvent.BUTTON3) {
+                rmb = !rmb;
             }
         }
 

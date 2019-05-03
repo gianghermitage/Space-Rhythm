@@ -16,6 +16,7 @@ public class Boss extends GameObject {
     int phase = 1;
     int timer = 1800;
     double bossSpeed = 1.5;
+    public static int blinkstate = 0;
 
     private Animation init_anim;
     private Animation normal_anim;
@@ -34,7 +35,7 @@ public class Boss extends GameObject {
         super(x, y, ID, ss);
         this.handler = handler;
         this.gameState = gameState;
-
+        bulletPattern = new BulletPattern(handler, ss);
         init_sprite[0] = ss.grabImage(7, 1, 64, 95);
         init_sprite[1] = ss.grabImage(8, 1, 64, 95);
         init_sprite[2] = ss.grabImage(9, 1, 64, 95);
@@ -57,6 +58,13 @@ public class Boss extends GameObject {
         this.bulletPattern = new BulletPattern(handler, ss);
     }
 
+    public int dirX(int degree, int radius) {
+        return (int) (1024 + (radius * Math.cos(degree * Math.PI / 180)));
+    }
+
+    public int dirY(int degree, int radius) {
+        return (int) (1020 + (radius * Math.sin(degree * Math.PI / 180)));
+    }
 
     @Override
     public void tick() {
@@ -66,44 +74,119 @@ public class Boss extends GameObject {
                 player = handler.object.get(i);
         }
 
-        //phase 1:
-        if (hp > 700){
-            bossSpeed = 1.5;
+        //phase 1: Trace, Shotgun, Random, hp > 750
+//        if (hp > 750){
+//            bossSpeed = 1.5;
+//            if (timer > 1200) {
+//                //follow
+//                x += velX;
+//                y += velY;
+//                float distX = x - player.getX() - 16;
+//                float distY = y - player.getY() - 22;
+//                float distance = (float) Math.sqrt(Math.pow(x - player.getX(), 2) +
+//                        Math.pow(y - player.getY(), 2));
+//                velX = (float) ((-bossSpeed / distance) * distX);
+//                velY = (float) ((-bossSpeed / distance) * distY);
+//
+//                //Trace
+//                if (timer % 5 == 0) {
+//                    bulletPattern.Trace();
+//                }
+//            }
+//            if (timer > 600 && timer <= 1200) {
+//                //follow
+//                x += velX;
+//                y += velY;
+//                float distX = x - player.getX() - 16;
+//                float distY = y - player.getY() - 22;
+//                float distance = (float) Math.sqrt(Math.pow(x - player.getX(), 2) +
+//                        Math.pow(y - player.getY(), 2));
+//                velX = (float) ((-bossSpeed / distance) * distX);
+//                velY = (float) ((-bossSpeed / distance) * distY);
+//                //Shotgun
+//                if (timer % 5 == 0) {
+//                    bulletPattern.Shotgun();
+//                }
+//            }
+//
+//            if (timer < 600 && timer >= 0) {
+//                //move to center
+//                bossSpeed = 2;
+//                x += velX;
+//                y += velY;
+//                float distX = x - 1024;
+//                float distY = y - 1020;
+//                float distance = (float) Math.sqrt(Math.pow(x - player.getX(), 2) +
+//                        Math.pow(y - player.getY(), 2));
+//                velX = (float) ((-bossSpeed / distance) * distX);
+//                velY = (float) ((-bossSpeed / distance) * distY);
+//                //Random
+//                if (timer % 2 == 0) {
+//                    bulletPattern.Random();
+//                }
+//            }
+//        }
+
+        //phase 2: Super Trace, Spawn, Cross hp > 500
+//        if (hp > 500) {
+//            bossSpeed = 2;
+//            if (timer > 1200) {
+//                //follow
+//                x += velX;
+//                y += velY;
+//                float distX = x - player.getX() - 16;
+//                float distY = y - player.getY() - 22;
+//                float distance = (float) Math.sqrt(Math.pow(x - player.getX(), 2) +
+//                        Math.pow(y - player.getY(), 2));
+//                velX = (float) ((-bossSpeed / distance) * distX);
+//                velY = (float) ((-bossSpeed / distance) * distY);
+//
+//                //Super Trace
+//                if (timer % 5 == 0) {
+//                    bulletPattern.superTrace();
+//                }
+//            }
+//            if (timer > 600 && timer <= 1200) {
+//                //follow
+//                x += velX;
+//                y += velY;
+//                float distX = x - player.getX() - 16;
+//                float distY = y - player.getY() - 22;
+//                float distance = (float) Math.sqrt(Math.pow(x - player.getX(), 2) +
+//                        Math.pow(y - player.getY(), 2));
+//                velX = (float) ((-bossSpeed / distance) * distX);
+//                velY = (float) ((-bossSpeed / distance) * distY);
+//
+//                //Cross
+//                if (timer % 5 == 0) {
+//                    bulletPattern.Cross();
+//                }
+//            }
+//            if (timer < 600 && timer >= 0) {
+//                //move to center
+//                x += velX;
+//                y += velY;
+//                float distX = x - 1024;
+//                float distY = y - 1020;
+//                float distance = (float) Math.sqrt(Math.pow(x - player.getX(), 2) +
+//                        Math.pow(y - player.getY(), 2));
+//                velX = (float) ((-bossSpeed / distance) * distX);
+//                velY = (float) ((-bossSpeed / distance) * distY);
+//                //Cross Spawn
+//                if (timer % 10 == 0) {
+//                    bulletPattern.Cross();
+//                }
+//                if (timer % 150 == 0) {
+//                    bulletPattern.SpawnBlue();
+//                    bulletPattern.SpawnRed();
+//                }
+//            }
+//        }
+
+        //phase 3: hp > 250
+        if (hp > 750) {
+            bossSpeed = 3;
             if (timer > 1200) {
-                //follow
-                x += velX;
-                y += velY;
-                float distX = x - player.getX() - 16;
-                float distY = y - player.getY() - 22;
-                float distance = (float) Math.sqrt(Math.pow(x - player.getX(), 2) +
-                        Math.pow(y - player.getY(), 2));
-                velX = (float) ((-bossSpeed / distance) * distX);
-                velY = (float) ((-bossSpeed / distance) * distY);
-
-                //Trace
-                if (timer % 5 == 0) {
-                    bulletPattern.Trace();
-                }
-            }
-            if (timer > 600 && timer <= 1200) {
-                //follow
-                x += velX;
-                y += velY;
-                float distX = x - player.getX() - 16;
-                float distY = y - player.getY() - 22;
-                float distance = (float) Math.sqrt(Math.pow(x - player.getX(), 2) +
-                        Math.pow(y - player.getY(), 2));
-                velX = (float) ((-bossSpeed / distance) * distX);
-                velY = (float) ((-bossSpeed / distance) * distY);
-                //Shotgun
-                if (timer % 5 == 0) {
-                    bulletPattern.Shotgun();
-                }
-            }
-
-            if (timer < 600 && timer >= 0) {
-                //move to center
-                bossSpeed = 2;
                 x += velX;
                 y += velY;
                 float distX = x - 1024;
@@ -112,15 +195,145 @@ public class Boss extends GameObject {
                         Math.pow(y - player.getY(), 2));
                 velX = (float) ((-bossSpeed / distance) * distX);
                 velY = (float) ((-bossSpeed / distance) * distY);
-                //Random
-                if (timer % 2 == 0) {
-                    bulletPattern.Random();
+
+                //Spiral & reverse Spiral
+                if (timer > 1500 && timer % 5 == 0) {
+                    bulletPattern.Spiral();
+                }
+                if (timer <= 1500 && timer % 5 == 0) {
+                    bulletPattern.reverseSpiral();
+                }
+            }
+            if (timer > 600 && timer <= 1200) {
+                //Flower & circle
+                if (timer % 5 == 0) {
+                    bulletPattern.Flower();
+                }
+                if (timer % 20 == 0) {
+                    bulletPattern.Circle();
+                }
+            }
+            if (timer < 600 && timer >= 0) {
+                if (timer > 300) {
+                    if (timer % 20 == 0) {
+                        if (blinkstate == 0) {
+                            x = dirX(45, 400);
+                            y = dirY(45,400);
+                        }
+                        if (blinkstate == 1) {
+                            x = dirX(135, 400);
+                            y = dirY(135,400);
+                        }
+                        if (blinkstate == 2) {
+                            x = dirX(225, 400);
+                            y = dirY(225,400);
+                        }
+                        if (blinkstate == 3) {
+                            x = dirX(315, 400);
+                            y = dirY(315,400);
+                        }
+                        blinkstate++;
+                        if (blinkstate > 3) blinkstate = 0;
+                        bulletPattern.Circle();
+                    }
+                }
+                if (timer <= 300) {
+                    //follow
+                    x += velX;
+                    y += velY;
+                    float distX = x - player.getX() - 16;
+                    float distY = y - player.getY() - 22;
+                    float distance = (float) Math.sqrt(Math.pow(x - player.getX(), 2) +
+                            Math.pow(y - player.getY(), 2));
+                    velX = (float) ((-bossSpeed / distance) * distX);
+                    velY = (float) ((-bossSpeed / distance) * distY);
+
+                    //shotgun circle
+                    if (timer % 2 == 0) {
+                        bulletPattern.Shotgun();
+                    }
+                    if (timer % 50 == 0) {
+                        bulletPattern.Circle();
+                    }
                 }
             }
         }
 
-        //phase 2:
-        //phase 3:
+        //phase 4: hp > 0 && hp < 250
+        if (hp > 0 && hp < 250) {
+            bossSpeed = 3;
+            if (timer > 1200) {
+                x += velX;
+                y += velY;
+                float distX = x - 1024;
+                float distY = y - 1020;
+                float distance = (float) Math.sqrt(Math.pow(x - player.getX(), 2) +
+                        Math.pow(y - player.getY(), 2));
+                velX = (float) ((-bossSpeed / distance) * distX);
+                velY = (float) ((-bossSpeed / distance) * distY);
+
+                //Spiral & reverse Spiral
+                if (timer > 1500 && timer % 5 == 0) {
+                    bulletPattern.Spiral();
+                }
+                if (timer <= 1500 && timer % 5 == 0) {
+                    bulletPattern.reverseSpiral();
+                }
+            }
+            if (timer > 600 && timer <= 1200) {
+                //Flower & circle
+                if (timer % 5 == 0) {
+                    bulletPattern.Flower();
+                }
+                if (timer % 20 == 0) {
+                    bulletPattern.Circle();
+                }
+            }
+            if (timer < 600 && timer >= 0) {
+                if (timer > 300) {
+                    if (timer % 20 == 0) {
+                        if (blinkstate == 0) {
+                            x = dirX(45, 400);
+                            y = dirY(45,400);
+                        }
+                        if (blinkstate == 1) {
+                            x = dirX(135, 400);
+                            y = dirY(135,400);
+                        }
+                        if (blinkstate == 2) {
+                            x = dirX(225, 400);
+                            y = dirY(225,400);
+                        }
+                        if (blinkstate == 3) {
+                            x = dirX(315, 400);
+                            y = dirY(315,400);
+                        }
+                        blinkstate++;
+                        if (blinkstate > 3) blinkstate = 0;
+                        bulletPattern.Circle();
+                    }
+                }
+                if (timer <= 300) {
+                    //follow
+                    x += velX;
+                    y += velY;
+                    float distX = x - player.getX() - 16;
+                    float distY = y - player.getY() - 22;
+                    float distance = (float) Math.sqrt(Math.pow(x - player.getX(), 2) +
+                            Math.pow(y - player.getY(), 2));
+                    velX = (float) ((-bossSpeed / distance) * distX);
+                    velY = (float) ((-bossSpeed / distance) * distY);
+
+                    //shotgun circle
+                    if (timer % 2 == 0) {
+                        bulletPattern.Shotgun();
+                    }
+                    if (timer % 50 == 0) {
+                        bulletPattern.Circle();
+                    }
+                }
+            }
+        }
 
         //reset timer
         timer--;
