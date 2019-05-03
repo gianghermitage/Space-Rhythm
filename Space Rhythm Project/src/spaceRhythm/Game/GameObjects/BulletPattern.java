@@ -110,7 +110,7 @@ public class BulletPattern {
             addBullet(dirX(spiralDegree + 180 + i * 15, radius),
                     dirY(spiralDegree + 180 + i * 15, radius));
         }
-        reversespiralDegree -= 15;
+        spiralDegree -= 15;
         if (spiralDegree == -360) spiralDegree = 0;
     }
 

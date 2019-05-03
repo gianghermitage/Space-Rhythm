@@ -38,7 +38,6 @@ public class MouseInput extends MouseAdapter {
             int mx = (int) (e.getX() + camera.getX());
             int my = (int) (e.getY() + camera.getY());
             if (e.getButton() == MouseEvent.BUTTON1) {
-                System.out.println(mx + " " + my);
                 for (int i = 0; i < handler.object.size(); i++) {
                     GameObject tempObject = handler.object.get(i);
                     if (tempObject.getID() == ObjectID.Player) {

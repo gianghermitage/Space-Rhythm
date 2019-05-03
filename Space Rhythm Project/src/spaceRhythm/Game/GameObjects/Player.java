@@ -200,7 +200,7 @@ public class Player extends GameObject {
                     handler.removeObject(tempObject);
                     if (!handler.isEvade()) {
                         if (isHit) {
-                            game.hp = game.hp - 5;
+                            game.hp = game.hp - 10;
                             isHit = false;
                             new Timer().schedule(new TimerTask() {
                                                      public void run() {
@@ -218,7 +218,7 @@ public class Player extends GameObject {
                     handler.removeObject(tempObject);
                     if (!handler.isEvade()) {
                         if (isHit) {
-                            game.hp = game.hp - 5;
+                            game.hp = game.hp - 10;
                             isHit = false;
                             new Timer().schedule(new TimerTask() {
                                                      public void run() {
@@ -235,7 +235,7 @@ public class Player extends GameObject {
                     handler.removeObject(tempObject);
                     if (!handler.isEvade()) {
                         if (isHit) {
-                            game.hp = game.hp - 1;
+                            game.hp = game.hp - 2;
                             isHit = false;
                             new Timer().schedule(new TimerTask() {
                                                      public void run() {

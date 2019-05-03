@@ -82,4 +82,11 @@ Version 0.13
 	4/5/2019
 	-Add tutorial
 
-
+Version 1.0
+	4/5/2019
+	-Added boss' behaviors
+	-Minor bugs fixed
+	-Performance optimization
+	-Added some bullet patterns
+	-Closed beta
+	

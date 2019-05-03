@@ -24,7 +24,6 @@ public class Game extends Canvas implements Runnable {
     private boolean isRunning = false;
     private Sound music = new Sound("spain");
     private Thread thread;
-    private Thread thread2;
     private GameState gameState;
     private GameoverMenu gameoverMenu;
     private GameWonMenu gameWonMenu;
@@ -75,8 +74,6 @@ public class Game extends Canvas implements Runnable {
         isRunning = true;
         thread = new Thread(this);
         thread.start();
-        thread2 = new Thread(music);
-        thread2.start();
     }
 
 
