@@ -40,7 +40,7 @@ public class BulletYellow extends GameObject {
     }
 
     public void render(Graphics g) {
-        g.setColor(Color.yellow);
+        g.setColor(Color.white);
         g.fillOval((int) x, (int) y, 12, 12);
     }
 

@@ -9,10 +9,7 @@ import spaceRhythm.ImageLoader.BufferedImageLoader;
 import spaceRhythm.Input.KeyInput;
 import spaceRhythm.Input.MouseInput;
 import spaceRhythm.SpriteSheet.SpriteSheet;
-import spaceRhythm.UI.GameState;
-import spaceRhythm.UI.GameoverMenu;
-import spaceRhythm.UI.PauseMenu;
-import spaceRhythm.UI.StateID;
+import spaceRhythm.UI.*;
 import spaceRhythm.Window.Window;
 import sun.nio.ch.ThreadPool;
 
@@ -24,12 +21,14 @@ import java.awt.image.BufferedImage;
 public class Game extends Canvas implements Runnable {
     private static final long serialVersionUID = 1L;
     public static int hp;
+    public static boolean gameOver = false;
     private boolean isRunning = false;
     private Sound music = new Sound("spain");
     private Thread thread;
     private Thread thread2;
     private GameState gameState;
     private GameoverMenu gameoverMenu;
+    private GameWonMenu gameWonMenu;
     private PauseMenu pauseMenu;
     private Handler handler;
     private SpriteSheet ss;
@@ -49,6 +48,7 @@ public class Game extends Canvas implements Runnable {
     }
 
     public void initGame() {
+        gameOver = false;
         hp = 100;
         handler = new Handler();
         camera = new Camera(400, 850);
@@ -60,7 +60,7 @@ public class Game extends Canvas implements Runnable {
         sprite_sheet = loader.loadImage("/sprite_sheet.png");
         bg = loader.loadImage("/image.png");
         ss = new SpriteSheet(sprite_sheet);
-        floor = ss.grabImage(4, 5, 32, 32);
+        floor = ss.grabImage(4, 6, 32, 32);
         BufferedImage cursor = loader.loadImage("/cursor.png");
         Cursor c = Toolkit.getDefaultToolkit().createCustomCursor(cursor, new Point(1, 1), "cursor1");
         setCursor(c);
@@ -68,6 +68,7 @@ public class Game extends Canvas implements Runnable {
         loadLevel(map);
         gameoverMenu = new GameoverMenu();
         pauseMenu = new PauseMenu();
+        gameWonMenu = new GameWonMenu();
     }
 
     private synchronized void start() {
@@ -173,6 +174,12 @@ public class Game extends Canvas implements Runnable {
             g.drawImage(bg, 0, 0, null);
             gameoverMenu.render(g);
 
+        } else if (gameState.getID() == StateID.VICTORY) {
+            setCursor(Cursor.getDefaultCursor());
+            g.fillRect(0, 0, 1920, 1080);
+            g.drawImage(bg, 0, 0, null);
+            gameWonMenu.render(g);
+
         } else if (gameState.getID() == StateID.PAUSE) {
             setCursor(Cursor.getDefaultCursor());
             g.fillRect(0, 0, 1920, 1080);
@@ -198,7 +205,7 @@ public class Game extends Canvas implements Runnable {
                 if (red == 255) handler.addObject(new Block(iX * 32, iY * 32, ObjectID.Block, ss));
                 if (blue == 255)
                     handler.addObject(new Player(iX * 32, iY * 32, ObjectID.Player, handler, ss, this, gameState));
-                if (green == 255) handler.addObject(new Boss(iX * 32, iY * 32, ObjectID.Boss, handler, ss));
+                if (green == 255) handler.addObject(new Boss(iX * 32, iY * 32, ObjectID.Boss, handler, ss,gameState));
             }
         }
     }

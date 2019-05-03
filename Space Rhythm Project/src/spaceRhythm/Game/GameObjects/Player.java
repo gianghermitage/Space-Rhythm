@@ -3,6 +3,7 @@ package spaceRhythm.Game.GameObjects;
 import spaceRhythm.Animation.Animation;
 import spaceRhythm.Game.Game;
 import spaceRhythm.Game.Handler;
+import spaceRhythm.Input.MouseInput;
 import spaceRhythm.SpriteSheet.SpriteSheet;
 import spaceRhythm.UI.GameState;
 import spaceRhythm.UI.StateID;
@@ -15,30 +16,70 @@ import java.util.TimerTask;
 public class Player extends GameObject {
     public static boolean isHit = true;
     int pushBack = 5;
-    private Animation run_anim;
-    private Animation evade_anim;
+    int immuneTime = 1000;
+    private Animation run_anim_blue;
+    private Animation evade_anim_blue;
+    private Animation hit_anim_blue;
+    private Animation run_anim_red;
+    private Animation evade_anim_red;
+    private Animation hit_anim_red;
     private Handler handler;
     private Game game;
     private GameState gameState;
-    private BufferedImage[] run_sprite = new BufferedImage[4];
-    private BufferedImage[] evade_sprite = new BufferedImage[4];
+    private BufferedImage[] run_sprite_red = new BufferedImage[4];
+    private BufferedImage[] run_sprite_blue = new BufferedImage[4];
+
+    private BufferedImage[] evade_sprite_red = new BufferedImage[4];
+    private BufferedImage[] evade_sprite_blue = new BufferedImage[4];
+
+    private BufferedImage[] hit_sprite_red = new BufferedImage[4];
+    private BufferedImage[] hit_sprite_blue = new BufferedImage[4];
+
+
+    private BufferedImage[] dead_sprite = new BufferedImage[1];
 
     public Player(int x, int y, ObjectID ID, Handler handler, SpriteSheet ss, Game game, GameState gameState) {
         super(x, y, ID, ss);
         this.handler = handler;
         this.game = game;
         this.gameState = gameState;
-        run_sprite[0] = ss.grabImage(1, 3, 60, 64);
-        run_sprite[1] = ss.grabImage(2, 3, 60, 64);
-        run_sprite[2] = ss.grabImage(3, 3, 60, 64);
-        run_sprite[3] = ss.grabImage(4, 3, 60, 64);
-        run_anim = new Animation(7, run_sprite);
+        run_sprite_red[0] = ss.grabImage(1, 3, 60, 64);
+        run_sprite_red[1] = ss.grabImage(2, 3, 60, 64);
+        run_sprite_red[2] = ss.grabImage(3, 3, 60, 64);
+        run_sprite_red[3] = ss.grabImage(4, 3, 60, 64);
+        run_anim_red = new Animation(7, run_sprite_red);
 
-        evade_sprite[0] = ss.grabImage(5, 3, 60, 64);
-        evade_sprite[1] = ss.grabImage(6, 3, 60, 64);
-        evade_sprite[2] = ss.grabImage(7, 3, 60, 64);
-        evade_sprite[3] = ss.grabImage(8, 3, 60, 64);
-        evade_anim = new Animation(7, evade_sprite);
+        evade_sprite_red[0] = ss.grabImage(5, 3, 60, 64);
+        evade_sprite_red[1] = ss.grabImage(6, 3, 60, 64);
+        evade_sprite_red[2] = ss.grabImage(7, 3, 60, 64);
+        evade_sprite_red[3] = ss.grabImage(8, 3, 60, 64);
+        evade_anim_red = new Animation(7, evade_sprite_red);
+
+        hit_sprite_red[0] = ss.grabImage(1, 3, 60, 64);
+        hit_sprite_red[1] = ss.grabImage(6, 3, 60, 64);
+        hit_sprite_red[2] = ss.grabImage(3, 3, 60, 64);
+        hit_sprite_red[3] = ss.grabImage(8, 3, 60, 64);
+        hit_anim_red = new Animation(7, hit_sprite_red);
+
+        run_sprite_blue[0] = ss.grabImage(1, 4, 60, 64);
+        run_sprite_blue[1] = ss.grabImage(2, 4, 60, 64);
+        run_sprite_blue[2] = ss.grabImage(3, 4, 60, 64);
+        run_sprite_blue[3] = ss.grabImage(4, 4, 60, 64);
+        run_anim_blue = new Animation(7, run_sprite_blue);
+
+        evade_sprite_blue[0] = ss.grabImage(5, 4, 60, 64);
+        evade_sprite_blue[1] = ss.grabImage(6, 4, 60, 64);
+        evade_sprite_blue[2] = ss.grabImage(7, 4, 60, 64);
+        evade_sprite_blue[3] = ss.grabImage(8, 4, 60, 64);
+        evade_anim_blue = new Animation(7, evade_sprite_blue);
+
+        hit_sprite_blue[0] = ss.grabImage(1, 4, 60, 64);
+        hit_sprite_blue[1] = ss.grabImage(6, 4, 60, 64);
+        hit_sprite_blue[2] = ss.grabImage(3, 4, 60, 64);
+        hit_sprite_blue[3] = ss.grabImage(8, 4, 60, 64);
+        hit_anim_blue = new Animation(5, hit_sprite_blue);
+
+        dead_sprite[0] = ss.grabImage(9,3,16,16);
 
     }
 
@@ -78,12 +119,23 @@ public class Player extends GameObject {
 
         x = x + velX;
         y = y + velY;
-        run_anim.runAnimation();
-        evade_anim.runAnimation();
+        run_anim_red.runAnimation();
+        evade_anim_red.runAnimation();
+        hit_anim_red.runAnimation();
+
+        run_anim_blue.runAnimation();
+        evade_anim_blue.runAnimation();
+        hit_anim_blue.runAnimation();
+
         collision();
         if (game.hp <= 0) {
-            handler.removeObject(this);
-            gameState.setID(StateID.GAMEOVER);
+            Game.gameOver = true;
+            new Timer().schedule(new TimerTask() {
+                                     public void run() {
+                                         gameState.setID(StateID.GAMEOVER);
+                                     }
+                                 }, 3000
+            );
         }
 
     }
@@ -95,11 +147,12 @@ public class Player extends GameObject {
     }
 
     public void collision() {
+        
         for (int i = 0; i < handler.object.size(); i++) {
 
             GameObject tempObject = handler.object.get(i);
             if (tempObject.getID() == ObjectID.Boss) {
-                if (checkCollision((x + velX), y, getBounds(), tempObject.getBounds())) {
+                if (checkCollision((x + velX), y, getBounds(), tempObject.getBounds()) ) {
 
                     if (x - pushBack * velX > 519 && x - pushBack * velX < 1499) x += -pushBack * velX;
                     else if (x - pushBack * velX < 519) {
@@ -110,15 +163,15 @@ public class Player extends GameObject {
                         x += distance;
                     }
                     if (isHit) {
-                        //game.hp = game.hp - 10;
                         isHit = false;
+                        game.hp = game.hp - 10;
+                        new Timer().schedule(new TimerTask() {
+                                                 public void run() {
+                                                     isHit = true;
+                                                 }
+                                             }, immuneTime
+                        );
                     }
-                    new Timer().schedule(new TimerTask() {
-                                             public void run() {
-                                                 isHit = true;
-                                             }
-                                         }, 1000
-                    );
                 }
                 if (checkCollision((x + velX), y, getBounds(), tempObject.getBounds())) {
                     if (y - pushBack * velY > 521 && y - pushBack * velY < 1486) y += -pushBack * velY;
@@ -130,23 +183,66 @@ public class Player extends GameObject {
                         y += distance;
                     }
                     if (isHit) {
-                        //game.hp = game.hp - 10;
                         isHit = false;
+                        game.hp = game.hp - 10;
                         new Timer().schedule(new TimerTask() {
                                                  public void run() {
                                                      isHit = true;
                                                  }
-                                             }, 1000
+                                             }, immuneTime
                         );
                     }
+                }
+            }
+            if (tempObject.getID() == ObjectID.BossMinionBlue) {
+                if (getBounds().intersects(tempObject.getBounds())) {
+                    handler.removeObject(tempObject);
+                    if (!handler.isEvade()) {
+                        if (isHit) {
+                            game.hp = game.hp - 10;
+                            isHit = false;
+                            new Timer().schedule(new TimerTask() {
+                                                     public void run() {
+                                                         isHit = true;
+                                                     }
+                                                 }, immuneTime
+                            );
+                        }
+                    }
+                }
+            }
 
+            if (tempObject.getID() == ObjectID.BossMinionRed) {
+                if (getBounds().intersects(tempObject.getBounds())) {
+                    handler.removeObject(tempObject);
+                    if (!handler.isEvade()) {
+                        if (isHit) {
+                            game.hp = game.hp - 10;
+                            isHit = false;
+                            new Timer().schedule(new TimerTask() {
+                                                     public void run() {
+                                                         isHit = true;
+                                                     }
+                                                 }, immuneTime
+                            );
+                        }
+                    }
                 }
             }
             if (tempObject.getID() == ObjectID.BulletYellow) {
                 if (getBounds().intersects(tempObject.getBounds())) {
                     handler.removeObject(tempObject);
                     if (!handler.isEvade()) {
-                        game.hp--;
+                        if (isHit) {
+                            game.hp = game.hp - 10;
+                            isHit = false;
+                            new Timer().schedule(new TimerTask() {
+                                                     public void run() {
+                                                         isHit = true;
+                                                     }
+                                                 }, immuneTime
+                            );
+                        }
                     }
                 }
             }
@@ -178,12 +274,26 @@ public class Player extends GameObject {
     public void render(Graphics g) {
 //        g.setColor(Color.WHITE);
 //        g.fillRect((int)x, (int)y, 38, 54);
-        if (handler.isEvade()) {
-            evade_anim.drawAnimation(g, x, y, 0);
-        } else {
-
-            if (velX == 0 && velY == 0) g.drawImage(run_sprite[1], (int) x, (int) y, null);
-            else run_anim.drawAnimation(g, x, y, 0);
+        if(MouseInput.rmbCount % 2 == 0) {
+            if(Game.gameOver){
+                g.drawImage(dead_sprite[0], (int) x, (int) y, null);
+            }
+            else if (handler.isEvade()) {
+                evade_anim_blue.drawAnimation(g, x, y, 0);
+            } else {
+                if(!isHit) hit_anim_blue.drawAnimation(g,x,y,0);
+                else if (velX == 0 && velY == 0) g.drawImage(run_sprite_blue[1], (int) x, (int) y, null);
+                else run_anim_blue.drawAnimation(g, x, y, 0);
+            }
+        }
+        if(MouseInput.rmbCount % 2 != 0) {
+            if (handler.isEvade()) {
+                evade_anim_red.drawAnimation(g, x, y, 0);
+            } else {
+                if(!isHit) hit_anim_red.drawAnimation(g,x,y,0);
+                else if (velX == 0 && velY == 0) g.drawImage(run_sprite_red[1], (int) x, (int) y, null);
+                else run_anim_red.drawAnimation(g, x, y, 0);
+            }
         }
 
 

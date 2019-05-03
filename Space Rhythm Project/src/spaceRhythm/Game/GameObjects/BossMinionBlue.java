@@ -24,9 +24,9 @@ public class BossMinionBlue extends GameObject {
         super(x, y, ID, ss);
         this.handler = handler;
         calculateVelocity(x, y, mx, my);
-        sprite[0] = ss.grabImage(1, 4, 32, 32);
-        sprite[1] = ss.grabImage(2, 4, 32, 32);
-        sprite[2] = ss.grabImage(3, 4, 32, 32);
+        sprite[0] = ss.grabImage(1, 5, 32, 32);
+        sprite[1] = ss.grabImage(2, 5, 32, 32);
+        sprite[2] = ss.grabImage(3, 5, 32, 32);
 
         sprite_anim = new Animation(5, sprite);
     }
@@ -73,12 +73,6 @@ public class BossMinionBlue extends GameObject {
             if (tempObject.getID() == ObjectID.Block) {
                 if (getBounds().intersects(tempObject.getBounds())) {
                     handler.removeObject(this);
-                }
-            }
-            if (tempObject.getID() == ObjectID.Player) {
-                if (getBounds().intersects(tempObject.getBounds())) {
-                    handler.removeObject(this);
-                    Game.hp--;
                 }
             }
             if (tempObject.getID() == ObjectID.BulletRed) {

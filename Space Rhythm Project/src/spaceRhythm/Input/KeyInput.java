@@ -36,7 +36,7 @@ public class KeyInput extends KeyAdapter {
 
             for (int i = 0; i < handler.object.size(); i++) {
                 GameObject tempObject = handler.object.get(i);
-                if (tempObject.getID() == ObjectID.Player) {
+                if (tempObject.getID() == ObjectID.Player && !Game.gameOver) {
                     if (key == KeyEvent.VK_W) handler.setUp(true);
                     if (key == KeyEvent.VK_S) handler.setDown(true);
                     if (key == KeyEvent.VK_A) handler.setLeft(true);
@@ -48,7 +48,6 @@ public class KeyInput extends KeyAdapter {
                         handler.setLeft(false);
                         handler.setDown(false);
                     }
-
                     if (key == KeyEvent.VK_F1) {
                         Game.hp = 1000;         //cheat code
                     }
@@ -57,45 +56,37 @@ public class KeyInput extends KeyAdapter {
         }
     }
 
-    public void evadeDelay() {
-        if (canEvade) {
-            handler.setEvade(true);
-            //canEvade =false;
-            evadeTime--;
-            if (evadeTime == 0) {
-                canEvade = false;
-                new Timer().schedule(new TimerTask() {
-                                         public void run() {
-                                             canEvade = true;
-                                             evadeTime = 1;
-                                         }
-                                     }, 500
-                );
-
-            }
-        }
-
-    }
-
     public void keyReleased(KeyEvent e) {
         if (gameState.getID() == StateID.GAME) {
             int key = e.getKeyCode();
             for (int i = 0; i < handler.object.size(); i++) {
                 GameObject tempObject = handler.object.get(i);
-                if (tempObject.getID() == ObjectID.Player) {
+                if (tempObject.getID() == ObjectID.Player ) {
                     if (key == KeyEvent.VK_W) handler.setUp(false);
                     if (key == KeyEvent.VK_S) handler.setDown(false);
                     if (key == KeyEvent.VK_A) handler.setLeft(false);
                     if (key == KeyEvent.VK_D) handler.setRight(false);
                     if (key == KeyEvent.VK_SPACE) {
-                        evadeDelay();
-                        new Timer().schedule(new TimerTask() {
-                                                 public void run() {
-                                                     handler.setEvade(false);
-                                                 }
-                                             }, 200
-                        );
+                        if (canEvade) {
+                            canEvade = false;
+                            handler.setEvade(true);
+                            new Timer().schedule(new TimerTask() {
+                                                     public void run() {
+                                                         canEvade = true;
+
+                                                     }
+                                                 }, 400
+                            );
+                            new Timer().schedule(new TimerTask() {
+                                                     public void run() {
+                                                         handler.setEvade(false);
+                                                     }
+                                                 }, 200
+                            );
+                        }
+
                     }
+
                 }
             }
         }
