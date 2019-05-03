@@ -40,7 +40,6 @@ public class Game extends Canvas implements Runnable {
         new Window(1280, 720, "GameTest", this);
         start();
         initGame();
-
     }
 
     public void initGame() {
@@ -66,6 +65,7 @@ public class Game extends Canvas implements Runnable {
         pauseMenu = new PauseMenu();
         gameWonMenu = new GameWonMenu();
     }
+
 
     private synchronized void start() {
         if (isRunning) return;
@@ -110,7 +110,7 @@ public class Game extends Canvas implements Runnable {
             //fps counter
             if (timer > 1000000000) {
                 timer = 0;
-                System.out.println(frames);
+                //System.out.println(frames);
                 frames = 0;
             }
         }

@@ -23,6 +23,7 @@ public class Boss extends GameObject {
     private BufferedImage[] normal_sprite = new BufferedImage[3];
     private BufferedImage[] aggro_sprite = new BufferedImage[3];
     private BufferedImage[] dead_sprite = new BufferedImage[1];
+    private BulletPattern bulletPattern;
 
     private GameObject player;
     private GameState gameState;
@@ -32,7 +33,7 @@ public class Boss extends GameObject {
         super(x, y, ID, ss);
         this.handler = handler;
         this.gameState = gameState;
-
+        bulletPattern = new BulletPattern(handler, ss);
         init_sprite[0] = ss.grabImage(7, 1, 64, 95);
         init_sprite[1] = ss.grabImage(8, 1, 64, 95);
         init_sprite[2] = ss.grabImage(9, 1, 64, 95);
@@ -65,7 +66,6 @@ public class Boss extends GameObject {
                 player = handler.object.get(i);
         }
 
-        BulletPattern bulletPattern = new BulletPattern(handler, ss);
 
         float distX = x - player.getX() - 16;
         float distY = y - player.getY() - 22;

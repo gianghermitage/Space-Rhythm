@@ -136,6 +136,7 @@ public class Player extends GameObject {
                                      }
                                  }, 3000
             );
+
         }
 
     }
@@ -147,7 +148,7 @@ public class Player extends GameObject {
     }
 
     public void collision() {
-        
+
         for (int i = 0; i < handler.object.size(); i++) {
 
             GameObject tempObject = handler.object.get(i);
@@ -274,7 +275,7 @@ public class Player extends GameObject {
     public void render(Graphics g) {
 //        g.setColor(Color.WHITE);
 //        g.fillRect((int)x, (int)y, 38, 54);
-        if(MouseInput.rmbCount % 2 == 0) {
+        if(MouseInput.rmb) {
             if(Game.gameOver){
                 g.drawImage(dead_sprite[0], (int) x, (int) y, null);
             }
@@ -286,7 +287,7 @@ public class Player extends GameObject {
                 else run_anim_blue.drawAnimation(g, x, y, 0);
             }
         }
-        if(MouseInput.rmbCount % 2 != 0) {
+        if(!MouseInput.rmb) {
             if (handler.isEvade()) {
                 evade_anim_red.drawAnimation(g, x, y, 0);
             } else {
