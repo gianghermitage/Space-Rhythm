@@ -147,59 +147,44 @@ public class Player extends GameObject {
     }
 
     public void collision() {
-        for (int i = 0; i < handler.object.size(); i++) {
+        if(!Game.gameOver) {
+            for (int i = 0; i < handler.object.size(); i++) {
 
-            GameObject tempObject = handler.object.get(i);
-            if (tempObject.getID() == ObjectID.Boss) {
-                if (checkCollision((x + velX), y, getBounds(), tempObject.getBounds()) ) {
+                GameObject tempObject = handler.object.get(i);
+                if (tempObject.getID() == ObjectID.Boss) {
+                    if (checkCollision((x + velX), y, getBounds(), tempObject.getBounds())) {
 
-                    if (x - pushBack * velX > 519 && x - pushBack * velX < 1499) x += -pushBack * velX;
-                    else if (x - pushBack * velX < 519) {
-                        float distance = 519 - x;
-                        x += distance;
-                    } else if (x - pushBack * velX > 1499) {
-                        float distance = 1499 - x;
-                        x += distance;
-                    }
-                    if (isHit) {
-                        isHit = false;
-                        game.hp = game.hp - 10;
-                        new Timer().schedule(new TimerTask() {
-                                                 public void run() {
-                                                     isHit = true;
-                                                 }
-                                             }, immuneTime
-                        );
-                    }
-                }
-                if (checkCollision((x + velX), y, getBounds(), tempObject.getBounds())) {
-                    if (y - pushBack * velY > 521 && y - pushBack * velY < 1486) y += -pushBack * velY;
-                    else if (y - pushBack * velY < 521) {
-                        float distance = 521 - y;
-                        y += distance;
-                    } else if (y - pushBack * velY > 1486) {
-                        float distance = 1486 - y;
-                        y += distance;
-                    }
-                    if (isHit) {
-                        isHit = false;
-                        game.hp = game.hp - 10;
-                        new Timer().schedule(new TimerTask() {
-                                                 public void run() {
-                                                     isHit = true;
-                                                 }
-                                             }, immuneTime
-                        );
-                    }
-                }
-            }
-            if (tempObject.getID() == ObjectID.BossMinionBlue) {
-                if (getBounds().intersects(tempObject.getBounds())) {
-                    handler.removeObject(tempObject);
-                    if (!handler.isEvade()) {
+                        if (x - pushBack * velX > 519 && x - pushBack * velX < 1499) x += -pushBack * velX;
+                        else if (x - pushBack * velX < 519) {
+                            float distance = 519 - x;
+                            x += distance;
+                        } else if (x - pushBack * velX > 1499) {
+                            float distance = 1499 - x;
+                            x += distance;
+                        }
                         if (isHit) {
-                            game.hp = game.hp - 10;
                             isHit = false;
+                            game.hp = game.hp - 10;
+                            new Timer().schedule(new TimerTask() {
+                                                     public void run() {
+                                                         isHit = true;
+                                                     }
+                                                 }, immuneTime
+                            );
+                        }
+                    }
+                    if (checkCollision((x + velX), y, getBounds(), tempObject.getBounds())) {
+                        if (y - pushBack * velY > 521 && y - pushBack * velY < 1486) y += -pushBack * velY;
+                        else if (y - pushBack * velY < 521) {
+                            float distance = 521 - y;
+                            y += distance;
+                        } else if (y - pushBack * velY > 1486) {
+                            float distance = 1486 - y;
+                            y += distance;
+                        }
+                        if (isHit) {
+                            isHit = false;
+                            game.hp = game.hp - 10;
                             new Timer().schedule(new TimerTask() {
                                                      public void run() {
                                                          isHit = true;
@@ -209,59 +194,76 @@ public class Player extends GameObject {
                         }
                     }
                 }
-            }
-
-            if (tempObject.getID() == ObjectID.BossMinionRed) {
-                if (getBounds().intersects(tempObject.getBounds())) {
-                    handler.removeObject(tempObject);
-                    if (!handler.isEvade()) {
-                        if (isHit) {
-                            game.hp = game.hp - 10;
-                            isHit = false;
-                            new Timer().schedule(new TimerTask() {
-                                                     public void run() {
-                                                         isHit = true;
-                                                     }
-                                                 }, immuneTime
-                            );
+                if (tempObject.getID() == ObjectID.BossMinionBlue) {
+                    if (getBounds().intersects(tempObject.getBounds())) {
+                        handler.removeObject(tempObject);
+                        if (!handler.isEvade()) {
+                            if (isHit) {
+                                game.hp = game.hp - 10;
+                                isHit = false;
+                                new Timer().schedule(new TimerTask() {
+                                                         public void run() {
+                                                             isHit = true;
+                                                         }
+                                                     }, immuneTime
+                                );
+                            }
                         }
                     }
                 }
-            }
-            if (tempObject.getID() == ObjectID.BulletYellow) {
-                if (getBounds().intersects(tempObject.getBounds())) {
-                    handler.removeObject(tempObject);
-                    if (!handler.isEvade()) {
-                        if (isHit) {
-                            game.hp = game.hp - 10;
-                            isHit = false;
-                            new Timer().schedule(new TimerTask() {
-                                                     public void run() {
-                                                         isHit = true;
-                                                     }
-                                                 }, immuneTime
-                            );
+
+                if (tempObject.getID() == ObjectID.BossMinionRed) {
+                    if (getBounds().intersects(tempObject.getBounds())) {
+                        handler.removeObject(tempObject);
+                        if (!handler.isEvade()) {
+                            if (isHit) {
+                                game.hp = game.hp - 10;
+                                isHit = false;
+                                new Timer().schedule(new TimerTask() {
+                                                         public void run() {
+                                                             isHit = true;
+                                                         }
+                                                     }, immuneTime
+                                );
+                            }
                         }
                     }
                 }
-            }
-            if (tempObject.getID() == ObjectID.Block) {
-                if (checkCollision((x + velX), y, getBounds(), tempObject.getBounds())) {
-                    x += -velX;
+                if (tempObject.getID() == ObjectID.BulletYellow) {
+                    if (getBounds().intersects(tempObject.getBounds())) {
+                        handler.removeObject(tempObject);
+                        if (!handler.isEvade()) {
+                            if (isHit) {
+                                game.hp = game.hp - 10;
+                                isHit = false;
+                                new Timer().schedule(new TimerTask() {
+                                                         public void run() {
+                                                             isHit = true;
+                                                         }
+                                                     }, immuneTime
+                                );
+                            }
+                        }
+                    }
                 }
+                if (tempObject.getID() == ObjectID.Block) {
+                    if (checkCollision((x + velX), y, getBounds(), tempObject.getBounds())) {
+                        x += -velX;
+                    }
 
-                if (checkCollision(x, (y + velY), getBounds(), tempObject.getBounds())) {
-                    y += -velY;
+                    if (checkCollision(x, (y + velY), getBounds(), tempObject.getBounds())) {
+                        y += -velY;
 
+                    }
                 }
-            }
-            if (tempObject.getID() == ObjectID.Pickup) {
-                if (getBounds().intersects(tempObject.getBounds())) {
-                    handler.removeObject(tempObject);
-                    int recHP = 10;
-                    if (Game.hp + recHP <= 100) Game.hp = Game.hp + recHP;
-                    else if (Game.hp + recHP > 100) {
-                        Game.hp = 100;
+                if (tempObject.getID() == ObjectID.Pickup) {
+                    if (getBounds().intersects(tempObject.getBounds())) {
+                        handler.removeObject(tempObject);
+                        int recHP = 10;
+                        if (Game.hp + recHP <= 100) Game.hp = Game.hp + recHP;
+                        else if (Game.hp + recHP > 100) {
+                            Game.hp = 100;
+                        }
                     }
                 }
             }

@@ -33,7 +33,7 @@ public class MouseInput extends MouseAdapter {
     }
 
     public void mousePressed(MouseEvent e) {
-        if (gameState.getID() == StateID.GAME) {
+        if (gameState.getID() == StateID.GAME && !Game.gameOver) {
             super.mousePressed(e);
             int mx = (int) (e.getX() + camera.getX());
             int my = (int) (e.getY() + camera.getY());
