@@ -59,7 +59,7 @@ public class Player extends GameObject {
         hit_sprite_red[1] = ss.grabImage(6, 3, 60, 64);
         hit_sprite_red[2] = ss.grabImage(3, 3, 60, 64);
         hit_sprite_red[3] = ss.grabImage(8, 3, 60, 64);
-        hit_anim_red = new Animation(5, hit_sprite_red);
+        hit_anim_red = new Animation(7, hit_sprite_red);
 
         run_sprite_blue[0] = ss.grabImage(1, 4, 60, 64);
         run_sprite_blue[1] = ss.grabImage(2, 4, 60, 64);

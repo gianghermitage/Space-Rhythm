@@ -46,6 +46,7 @@ public class Game extends Canvas implements Runnable {
     }
 
     public void initGame() {
+        gameOver = false;
         hp = 100;
         handler = new Handler();
         camera = new Camera(400, 850);
