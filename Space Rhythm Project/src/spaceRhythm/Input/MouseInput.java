@@ -78,6 +78,30 @@ public class MouseInput extends MouseAdapter {
             }
 
         }
+        if (gameState.getID() == StateID.VICTORY) {
+
+            /*
+            public  Rectangle playButton = new Rectangle(150,520,100,50);
+            public  Rectangle quitButton = new Rectangle(200,570,100,50);
+            *
+            * */
+            int mx = e.getX();
+            int my = e.getY();
+            if (mx >= 150 && mx <= 250) {
+                if (my >= 520 && my <= 570) {
+                    //press play
+                    game.initGame();
+                }
+            }
+            if (mx >= 200 && mx <= 300) {
+                if (my >= 570 && my <= 620) {
+                    //press quit
+                    System.exit(1);
+                }
+            }
+
+        }
+
         if (gameState.getID() == StateID.PAUSE) {
 
             /*

@@ -8,10 +8,7 @@ import spaceRhythm.ImageLoader.BufferedImageLoader;
 import spaceRhythm.Input.KeyInput;
 import spaceRhythm.Input.MouseInput;
 import spaceRhythm.SpriteSheet.SpriteSheet;
-import spaceRhythm.UI.GameState;
-import spaceRhythm.UI.GameoverMenu;
-import spaceRhythm.UI.PauseMenu;
-import spaceRhythm.UI.StateID;
+import spaceRhythm.UI.*;
 import spaceRhythm.Window.Window;
 
 import java.awt.*;
@@ -27,6 +24,7 @@ public class Game extends Canvas implements Runnable {
     private Thread thread;
     private GameState gameState;
     private GameoverMenu gameoverMenu;
+    private GameWonMenu gameWonMenu;
     private PauseMenu pauseMenu;
     private Handler handler;
     private SpriteSheet ss;
@@ -66,6 +64,7 @@ public class Game extends Canvas implements Runnable {
         loadLevel(map);
         gameoverMenu = new GameoverMenu();
         pauseMenu = new PauseMenu();
+        gameWonMenu = new GameWonMenu();
     }
 
     private synchronized void start() {
@@ -168,6 +167,12 @@ public class Game extends Canvas implements Runnable {
             g.fillRect(0, 0, 1920, 1080);
             g.drawImage(bg, 0, 0, null);
             gameoverMenu.render(g);
+
+        } else if (gameState.getID() == StateID.VICTORY) {
+            setCursor(Cursor.getDefaultCursor());
+            g.fillRect(0, 0, 1920, 1080);
+            g.drawImage(bg, 0, 0, null);
+            gameWonMenu.render(g);
 
         } else if (gameState.getID() == StateID.PAUSE) {
             setCursor(Cursor.getDefaultCursor());

@@ -72,5 +72,6 @@ Version 0.12
 	-Evade mechanic rework, add i-frame when evade
 	-Player now have special sprite and immune period when being hit 
 	-Player now has dedicated form (red/blue)
+	-Add victory screen
 
 

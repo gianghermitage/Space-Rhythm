@@ -98,7 +98,7 @@ public class Boss extends GameObject {
 
             new Timer().schedule(new TimerTask() {
                                      public void run() {
-                                         gameState.setID(StateID.GAMEOVER);
+                                         gameState.setID(StateID.VICTORY);
                                      }
                                  }, 3000
             );
