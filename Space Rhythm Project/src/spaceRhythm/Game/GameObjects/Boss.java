@@ -3,9 +3,13 @@ package spaceRhythm.Game.GameObjects;
 import spaceRhythm.Animation.Animation;
 import spaceRhythm.Game.Handler;
 import spaceRhythm.SpriteSheet.SpriteSheet;
+import spaceRhythm.UI.GameState;
+import spaceRhythm.UI.StateID;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Boss extends GameObject {
     int hp = 100;
@@ -18,12 +22,16 @@ public class Boss extends GameObject {
     private BufferedImage[] init_sprite = new BufferedImage[3];
     private BufferedImage[] normal_sprite = new BufferedImage[3];
     private BufferedImage[] aggro_sprite = new BufferedImage[3];
+    private BufferedImage[] dead_sprite = new BufferedImage[1];
+
     private GameObject player;
+    private GameState gameState;
 
 
-    public Boss(int x, int y, ObjectID ID, Handler handler, SpriteSheet ss) {
+    public Boss(int x, int y, ObjectID ID, Handler handler, SpriteSheet ss,GameState gameState) {
         super(x, y, ID, ss);
         this.handler = handler;
+        this.gameState = gameState;
 
         init_sprite[0] = ss.grabImage(7, 1, 64, 95);
         init_sprite[1] = ss.grabImage(8, 1, 64, 95);
@@ -42,6 +50,9 @@ public class Boss extends GameObject {
         aggro_sprite[2] = ss.grabImage(6, 1, 64, 95);
 
         aggro_anim = new Animation(10, aggro_sprite);
+
+        dead_sprite[0] = ss.grabImage(9,3,16,16);
+
     }
 
     @Override
@@ -83,7 +94,17 @@ public class Boss extends GameObject {
         normal_anim.runAnimation();
         aggro_anim.runAnimation();
 
-        if (hp <= 0) handler.removeObject(this);
+        if (hp <= 0) {
+
+            new Timer().schedule(new TimerTask() {
+                                     public void run() {
+                                         gameState.setID(StateID.GAMEOVER);
+                                     }
+                                 }, 3000
+            );
+            handler.removeObject(this);
+
+        }
     }
 
     public boolean checkCollision(float x, float y, Rectangle myRect, Rectangle otherRect) {

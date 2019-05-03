@@ -35,6 +35,9 @@ public class Player extends GameObject {
     private BufferedImage[] hit_sprite_red = new BufferedImage[4];
     private BufferedImage[] hit_sprite_blue = new BufferedImage[4];
 
+
+    private BufferedImage[] dead_sprite = new BufferedImage[1];
+
     public Player(int x, int y, ObjectID ID, Handler handler, SpriteSheet ss, Game game, GameState gameState) {
         super(x, y, ID, ss);
         this.handler = handler;
@@ -75,6 +78,8 @@ public class Player extends GameObject {
         hit_sprite_blue[2] = ss.grabImage(3, 4, 60, 64);
         hit_sprite_blue[3] = ss.grabImage(8, 4, 60, 64);
         hit_anim_blue = new Animation(5, hit_sprite_blue);
+
+        dead_sprite[0] = ss.grabImage(9,3,16,16);
 
     }
 
@@ -124,8 +129,13 @@ public class Player extends GameObject {
 
         collision();
         if (game.hp <= 0) {
-            handler.removeObject(this);
-            gameState.setID(StateID.GAMEOVER);
+            Game.gameOver = true;
+            new Timer().schedule(new TimerTask() {
+                                     public void run() {
+                                         gameState.setID(StateID.GAMEOVER);
+                                     }
+                                 }, 3000
+            );
         }
 
     }
@@ -264,7 +274,10 @@ public class Player extends GameObject {
 //        g.setColor(Color.WHITE);
 //        g.fillRect((int)x, (int)y, 38, 54);
         if(MouseInput.rmbCount % 2 == 0) {
-            if (handler.isEvade()) {
+            if(Game.gameOver){
+                g.drawImage(dead_sprite[0], (int) x, (int) y, null);
+            }
+            else if (handler.isEvade()) {
                 evade_anim_blue.drawAnimation(g, x, y, 0);
             } else {
                 if(!isHit) hit_anim_blue.drawAnimation(g,x,y,0);

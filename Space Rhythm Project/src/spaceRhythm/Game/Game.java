@@ -22,6 +22,7 @@ import java.awt.image.BufferedImage;
 public class Game extends Canvas implements Runnable {
     private static final long serialVersionUID = 1L;
     public static int hp;
+    public static boolean gameOver = false;
     private boolean isRunning = false;
     private Thread thread;
     private GameState gameState;
@@ -192,7 +193,7 @@ public class Game extends Canvas implements Runnable {
                 if (red == 255) handler.addObject(new Block(iX * 32, iY * 32, ObjectID.Block, ss));
                 if (blue == 255)
                     handler.addObject(new Player(iX * 32, iY * 32, ObjectID.Player, handler, ss, this, gameState));
-                if (green == 255) handler.addObject(new Boss(iX * 32, iY * 32, ObjectID.Boss, handler, ss));
+                if (green == 255) handler.addObject(new Boss(iX * 32, iY * 32, ObjectID.Boss, handler, ss,gameState));
             }
         }
     }
