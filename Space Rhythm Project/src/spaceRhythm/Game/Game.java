@@ -1,5 +1,6 @@
 package spaceRhythm.Game;
 
+import spaceRhythm.Audio.Sound;
 import spaceRhythm.Game.GameObjects.Block;
 import spaceRhythm.Game.GameObjects.Boss;
 import spaceRhythm.Game.GameObjects.ObjectID;
@@ -13,6 +14,7 @@ import spaceRhythm.UI.GameoverMenu;
 import spaceRhythm.UI.PauseMenu;
 import spaceRhythm.UI.StateID;
 import spaceRhythm.Window.Window;
+import sun.nio.ch.ThreadPool;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -23,7 +25,9 @@ public class Game extends Canvas implements Runnable {
     private static final long serialVersionUID = 1L;
     public static int hp;
     private boolean isRunning = false;
+    private Sound music = new Sound("spain");
     private Thread thread;
+    private Thread thread2;
     private GameState gameState;
     private GameoverMenu gameoverMenu;
     private PauseMenu pauseMenu;
@@ -71,6 +75,8 @@ public class Game extends Canvas implements Runnable {
         isRunning = true;
         thread = new Thread(this);
         thread.start();
+        thread2 = new Thread(music);
+        thread2.start();
     }
 
 
@@ -109,7 +115,7 @@ public class Game extends Canvas implements Runnable {
             //fps counter
             if (timer > 1000000000) {
                 timer = 0;
-                System.out.println(frames);
+                //System.out.println(frames);
                 frames = 0;
             }
         }

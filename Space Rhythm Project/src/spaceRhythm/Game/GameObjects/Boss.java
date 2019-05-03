@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 
 public class Boss extends GameObject {
     int hp = 4;
-    int timer = 100;
+    int timer = 5;
     int timer2 = 5;
     private Animation normal_anim;
     private Animation aggro_anim;
@@ -47,21 +47,23 @@ public class Boss extends GameObject {
 
         BulletPattern bulletPattern = new BulletPattern(handler, ss);
 
+        //boss follow
         float distX = x - player.getX() - 16;
         float distY = y - player.getY() - 22;
         float distance = (float) Math.sqrt(Math.pow(x - player.getX(), 2) + Math.pow(y - player.getY(), 2));
 
-        velX = (float) ((-1.0 / distance) * distX);
-        velY = (float) ((-1.0 / distance) * distY);
+        velX = (float) ((-1.5 / distance) * distX);
+        velY = (float) ((-1.5 / distance) * distY);
 
         timer--;
 //        timer2--;
 
         if (timer <= 0) {
-            bulletPattern.SpawnRed();
-            bulletPattern.SpawnBlue();
+            bulletPattern.Shotgun();
+//            bulletPattern.SpawnRed();
+//            bulletPattern.SpawnBlue();
             //bulletPattern.Spiral();
-            timer = 100;
+            timer = 5;
         }
 
 //        if (timer2 <= 0) {
