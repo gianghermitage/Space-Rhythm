@@ -14,7 +14,7 @@ public class BulletPattern {
     public static int shotgunState = 0;
     public static int radius = 5000;
     public static int radiusSmall = 20;
-    public static int offset = -30;
+    public static int offset = -60;
     private Handler handler;
     private GameObject boss;
     private GameObject player;
@@ -88,7 +88,6 @@ public class BulletPattern {
         for (int i = 0; i <= 360; i += 10) {
             addBullet(dirX(i, radius), dirY(i, radius));
         }
-
     }
 
     public void Spiral() {
@@ -161,12 +160,19 @@ public class BulletPattern {
     public void Shotgun() {
         setBoss();
         setPlayer();
-        addBullet(dirX(getAngle() + offset,r.nextInt(150 +1) +100),
-                dirY(getAngle() + offset,r.nextInt(150 +1) +100));
-        if (offset == 30) shotgunState = 1;
-        if (offset == -30) shotgunState = 0;
+        addBullet(dirX(getAngle() + offset, getDistance() + offset),
+                dirY(getAngle() + offset,getDistance() + offset));
+        if (offset == 60) shotgunState = 1;
+        if (offset == -60) shotgunState = 0;
         if (shotgunState == 0) offset+=15;
         if (shotgunState == 1) offset -=15;
+    }
+
+    public void Random() {
+        setBoss();
+        setPlayer();
+        addBullet(dirX(r.nextInt(360), getDistance()),
+                dirY(r.nextInt(360),getDistance()));
     }
     /////////////////////////////////////////////////////
 }

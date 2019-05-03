@@ -4,7 +4,6 @@ import java.awt.*;
 
 public class GameoverMenu {
 
-    public Rectangle playButton = new Rectangle(150, 520, 100, 50);
     public Rectangle quitButton = new Rectangle(200, 570, 100, 50);
 
 
@@ -18,8 +17,6 @@ public class GameoverMenu {
         g.drawString("GAME OVER", 100, 500);
         Font fnt1 = new Font("arial", Font.BOLD, 30);
         g.setFont(fnt1);
-        g.drawString("Retry", playButton.x + 5, playButton.y + 35);
-        g2d.draw(playButton);
         g.drawString("Quit", quitButton.x + 5, quitButton.y + 35);
         g2d.draw(quitButton);
 

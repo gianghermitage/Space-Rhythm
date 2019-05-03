@@ -11,7 +11,6 @@ import spaceRhythm.Input.MouseInput;
 import spaceRhythm.SpriteSheet.SpriteSheet;
 import spaceRhythm.UI.*;
 import spaceRhythm.Window.Window;
-import sun.nio.ch.ThreadPool;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;

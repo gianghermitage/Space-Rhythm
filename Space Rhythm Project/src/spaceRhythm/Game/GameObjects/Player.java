@@ -199,7 +199,7 @@ public class Player extends GameObject {
                     handler.removeObject(tempObject);
                     if (!handler.isEvade()) {
                         if (isHit) {
-                            game.hp = game.hp - 10;
+                            game.hp = game.hp - 5;
                             isHit = false;
                             new Timer().schedule(new TimerTask() {
                                                      public void run() {
@@ -217,7 +217,7 @@ public class Player extends GameObject {
                     handler.removeObject(tempObject);
                     if (!handler.isEvade()) {
                         if (isHit) {
-                            game.hp = game.hp - 10;
+                            game.hp = game.hp - 5;
                             isHit = false;
                             new Timer().schedule(new TimerTask() {
                                                      public void run() {
@@ -234,7 +234,7 @@ public class Player extends GameObject {
                     handler.removeObject(tempObject);
                     if (!handler.isEvade()) {
                         if (isHit) {
-                            game.hp = game.hp - 10;
+                            game.hp = game.hp - 1;
                             isHit = false;
                             new Timer().schedule(new TimerTask() {
                                                      public void run() {
@@ -274,7 +274,7 @@ public class Player extends GameObject {
     public void render(Graphics g) {
 //        g.setColor(Color.WHITE);
 //        g.fillRect((int)x, (int)y, 38, 54);
-        if(MouseInput.rmbCount % 2 == 0) {
+        if(MouseInput.rmbState == 1) {
             if(Game.gameOver){
                 g.drawImage(dead_sprite[0], (int) x, (int) y, null);
             }
@@ -286,7 +286,7 @@ public class Player extends GameObject {
                 else run_anim_blue.drawAnimation(g, x, y, 0);
             }
         }
-        if(MouseInput.rmbCount % 2 != 0) {
+        if(MouseInput.rmbState == -1) {
             if (handler.isEvade()) {
                 evade_anim_red.drawAnimation(g, x, y, 0);
             } else {

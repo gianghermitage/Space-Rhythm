@@ -98,8 +98,6 @@ public class BossMinionBlue extends GameObject {
 
     @Override
     public void render(Graphics g) {
-//        g.setColor(Color.blue);
-//        g.fillRect((int)x, (int)y, 32, 32);
         sprite_anim.drawAnimation(g, x, y, 0);
     }
 

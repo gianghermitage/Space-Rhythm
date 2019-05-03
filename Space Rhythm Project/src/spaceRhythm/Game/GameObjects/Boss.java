@@ -13,9 +13,10 @@ import java.util.TimerTask;
 
 public class Boss extends GameObject {
     int hp = 1000;
-    int timer = 100;
+    int phase = 1;
+    int timer = 1800;
+    double bossSpeed = 1.5;
 
-    int timer2 = 5;
     private Animation init_anim;
     private Animation normal_anim;
     private Animation aggro_anim;
@@ -24,10 +25,10 @@ public class Boss extends GameObject {
     private BufferedImage[] normal_sprite = new BufferedImage[3];
     private BufferedImage[] aggro_sprite = new BufferedImage[3];
     private BufferedImage[] dead_sprite = new BufferedImage[1];
+    private BulletPattern bulletPattern;
 
     private GameObject player;
     private GameState gameState;
-
 
     public Boss(int x, int y, ObjectID ID, Handler handler, SpriteSheet ss,GameState gameState) {
         super(x, y, ID, ss);
@@ -53,50 +54,87 @@ public class Boss extends GameObject {
         aggro_anim = new Animation(10, aggro_sprite);
 
         dead_sprite[0] = ss.grabImage(9,3,16,16);
-
+        this.bulletPattern = new BulletPattern(handler, ss);
     }
+
 
     @Override
     public void tick() {
-        x += velX;
-        y += velY;
-
+        //find player's position
         for (int i = 0; i < handler.object.size(); i++) {
             if (handler.object.get(i).getID() == ObjectID.Player)
                 player = handler.object.get(i);
         }
 
-        BulletPattern bulletPattern = new BulletPattern(handler, ss);
+        //phase 1:
+        if (hp > 700){
+            bossSpeed = 1.5;
+            if (timer > 1200) {
+                //follow
+                x += velX;
+                y += velY;
+                float distX = x - player.getX() - 16;
+                float distY = y - player.getY() - 22;
+                float distance = (float) Math.sqrt(Math.pow(x - player.getX(), 2) +
+                        Math.pow(y - player.getY(), 2));
+                velX = (float) ((-bossSpeed / distance) * distX);
+                velY = (float) ((-bossSpeed / distance) * distY);
 
-        //boss follow
-        float distX = x - player.getX() - 16;
-        float distY = y - player.getY() - 22;
-        float distance = (float) Math.sqrt(Math.pow(x - player.getX(), 2) + Math.pow(y - player.getY(), 2));
+                //Trace
+                if (timer % 5 == 0) {
+                    bulletPattern.Trace();
+                }
+            }
+            if (timer > 600 && timer <= 1200) {
+                //follow
+                x += velX;
+                y += velY;
+                float distX = x - player.getX() - 16;
+                float distY = y - player.getY() - 22;
+                float distance = (float) Math.sqrt(Math.pow(x - player.getX(), 2) +
+                        Math.pow(y - player.getY(), 2));
+                velX = (float) ((-bossSpeed / distance) * distX);
+                velY = (float) ((-bossSpeed / distance) * distY);
+                //Shotgun
+                if (timer % 5 == 0) {
+                    bulletPattern.Shotgun();
+                }
+            }
 
-        velX = (float) ((-1.5 / distance) * distX);
-        velY = (float) ((-1.5 / distance) * distY);
-
-        timer--;
-//        timer2--;
-
-        if (timer <= 0) {
-            bulletPattern.Shotgun();
-//            bulletPattern.SpawnRed();
-//            bulletPattern.SpawnBlue();
-            //bulletPattern.Spiral();
-            timer = 5;
+            if (timer < 600 && timer >= 0) {
+                //move to center
+                bossSpeed = 2;
+                x += velX;
+                y += velY;
+                float distX = x - 1024;
+                float distY = y - 1020;
+                float distance = (float) Math.sqrt(Math.pow(x - player.getX(), 2) +
+                        Math.pow(y - player.getY(), 2));
+                velX = (float) ((-bossSpeed / distance) * distX);
+                velY = (float) ((-bossSpeed / distance) * distY);
+                //Random
+                if (timer % 2 == 0) {
+                    bulletPattern.Random();
+                }
+            }
         }
 
-//        if (timer2 <= 0) {
-//            bulletPattern.Spiral();
-//            timer2 = 5;
-//        }
+        //phase 2:
+        //phase 3:
 
+        //reset timer
+        timer--;
+        if (timer <= 0) {
+            timer = 1800;
+        }
+
+        //check collision
         collision();
         init_anim.runAnimation();
         normal_anim.runAnimation();
         aggro_anim.runAnimation();
 
+        //dead
         if (hp <= 0) {
 
             new Timer().schedule(new TimerTask() {
@@ -131,12 +169,9 @@ public class Boss extends GameObject {
             if (tempObject.getID() == ObjectID.Player) {
                 if (checkCollision((x + velX), y, getBounds(), tempObject.getBounds())) {
                     velX = 0;
-                    //Game.hp--;
                 }
                 if (checkCollision(x, (y + velY), getBounds(), tempObject.getBounds())) {
                     velY = 0;
-                    //Game.hp--;
-
                 }
             }
             if (tempObject.getID() == ObjectID.BulletRed || tempObject.getID() == ObjectID.BulletBlue) {
@@ -162,8 +197,8 @@ public class Boss extends GameObject {
     public void render(Graphics g) {
 //        g.setColor(Color.yellow);
 //        g.fillRect((int)x, (int)y, 40,64 );
-        if(hp > 750) init_anim.drawAnimation(g,x,y,0);
-        else if (hp > 500) normal_anim.drawAnimation(g, x, y, 0);
+        if(hp > 700) init_anim.drawAnimation(g,x,y,0);
+        else if (hp > 400) normal_anim.drawAnimation(g, x, y, 0);
         else aggro_anim.drawAnimation(g, x, y, 0);
     }
 

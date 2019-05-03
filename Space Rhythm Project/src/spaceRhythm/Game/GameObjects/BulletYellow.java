@@ -19,7 +19,7 @@ public class BulletYellow extends GameObject {
     public void calculateVelocity(int fromX, int fromY,
                                   int toX, int toY) {
         double distance = Math.sqrt(Math.pow((toX - fromX), 2) + Math.pow((toY - fromY), 2));
-        double speed = 5;
+        double speed = 7;
         velY = (int) ((toY - fromY) * speed / distance);
         velX = (int) ((toX - fromX) * speed / distance);
     }

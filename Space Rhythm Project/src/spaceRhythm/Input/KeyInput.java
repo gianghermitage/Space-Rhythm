@@ -30,9 +30,6 @@ public class KeyInput extends KeyAdapter {
     public void keyPressed(KeyEvent e) {
         if (gameState.getID() == StateID.GAME) {
             int key = e.getKeyCode();
-            if (key == KeyEvent.VK_F5) {
-                game.initGame();
-            }
 
             for (int i = 0; i < handler.object.size(); i++) {
                 GameObject tempObject = handler.object.get(i);
