@@ -93,13 +93,10 @@ public class BossMinionRed extends GameObject {
             }
         }
         sprite_anim.runAnimation();
-
     }
 
     @Override
     public void render(Graphics g) {
-//        g.setColor(Color.RED);
-//        g.fillRect((int)x, (int)y, 32, 32);
         sprite_anim.drawAnimation(g, x, y, 0);
     }
 

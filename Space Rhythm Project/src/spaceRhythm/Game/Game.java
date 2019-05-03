@@ -1,5 +1,6 @@
 package spaceRhythm.Game;
 
+import spaceRhythm.Audio.Sound;
 import spaceRhythm.Game.GameObjects.Block;
 import spaceRhythm.Game.GameObjects.Boss;
 import spaceRhythm.Game.GameObjects.ObjectID;
@@ -21,6 +22,7 @@ public class Game extends Canvas implements Runnable {
     public static int hp;
     public static boolean gameOver = false;
     private boolean isRunning = false;
+    private Sound music = new Sound("spain");
     private Thread thread;
     private GameState gameState;
     private GameoverMenu gameoverMenu;
