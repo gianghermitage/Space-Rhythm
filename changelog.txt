@@ -68,14 +68,18 @@ Version 0.11
 
 
 Version 0.12
-	2/5/2019
+	3/5/2019
 	-Evade mechanic rework, add i-frame when evade
 	-Player now have special sprite and immune period when being hit 
 	-Player now has dedicated form (red/blue)
 	-Add victory screen
 
 Version 0.12.1
-	2/5/2019
+	3/5/2019
 	-remove restart mechanic (lot of problems related)
+
+Version 0.13
+	4/5/2019
+	-Add tutorial
 
 

@@ -6,7 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import spaceRhythm.Game.Game;
-
+import spaceRhythm.UI.Tutorial;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -17,7 +17,6 @@ public class Controller implements Initializable {
 
     @FXML
     private Button quitButton;
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -34,9 +33,12 @@ public class Controller implements Initializable {
 
     }
 
+    public void tutorial(ActionEvent event) {
+        new Tutorial();
+    }
+
     public void quitGame(ActionEvent event) {
         System.exit(1);
-
     }
 
 }
