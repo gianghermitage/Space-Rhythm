@@ -70,7 +70,7 @@ public class Game extends Canvas implements Runnable {
                                  public void run() {
                                      gameState.setID(StateID.GAME);
                                  }
-                             }, 500
+                             }, 1000
         );
     }
 
@@ -115,6 +115,7 @@ public class Game extends Canvas implements Runnable {
                 frames++;
 
             }
+
             //fps counter
             if (timer > 1000000000) {
                 timer = 0;
@@ -142,7 +143,7 @@ public class Game extends Canvas implements Runnable {
     private void render() {
         BufferStrategy bs = this.getBufferStrategy();
         if (bs == null) {
-            this.createBufferStrategy(4);    //load 3 frames ahead
+            this.createBufferStrategy(3);    //load 3 frames ahead
             return;
         }
 
@@ -195,7 +196,7 @@ public class Game extends Canvas implements Runnable {
     private void loadLevel(BufferedImage image) {
         int w = image.getWidth();
         int h = image.getHeight();
-//
+
         handler.addObject(new Player(1017, 1200,
                 ObjectID.Player, handler, ss, this, gameState));
 
