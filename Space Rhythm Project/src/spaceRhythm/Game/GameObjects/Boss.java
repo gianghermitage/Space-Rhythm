@@ -15,7 +15,7 @@ public class Boss extends GameObject {
     public static int blinkstate = 0;
     int hp = 1000;
     int timer = 1800;
-    int delay = 60;
+    int delay = 75;
     double bossSpeed = 1.5;
     private float distX;
     private float distY;
@@ -409,10 +409,10 @@ public class Boss extends GameObject {
             }
             if (tempObject.getID() == ObjectID.Player) {
                 if (checkCollision((x + velX), y, getBounds(), tempObject.getBounds())) {
-                    velX = 0;
+                    x += -1 * velX;
                 }
                 if (checkCollision(x, (y + velY), getBounds(), tempObject.getBounds())) {
-                    velY = 0;
+                    y += -1 * velY;
                 }
             }
             if (tempObject.getID() == ObjectID.BulletRed || tempObject.getID() == ObjectID.BulletBlue) {
