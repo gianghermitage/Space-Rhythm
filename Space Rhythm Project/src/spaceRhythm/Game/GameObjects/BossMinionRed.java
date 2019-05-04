@@ -1,7 +1,6 @@
 package spaceRhythm.Game.GameObjects;
 
 import spaceRhythm.Animation.Animation;
-import spaceRhythm.Game.Game;
 import spaceRhythm.Game.Handler;
 import spaceRhythm.SpriteSheet.SpriteSheet;
 

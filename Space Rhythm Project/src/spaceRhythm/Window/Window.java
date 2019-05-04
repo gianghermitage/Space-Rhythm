@@ -1,7 +1,6 @@
 package spaceRhythm.Window;
 
 import spaceRhythm.Game.Game;
-import spaceRhythm.UI.Tutorial;
 
 import javax.swing.*;
 import java.awt.*;

@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import spaceRhythm.Game.Game;
 import spaceRhythm.UI.Tutorial;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 

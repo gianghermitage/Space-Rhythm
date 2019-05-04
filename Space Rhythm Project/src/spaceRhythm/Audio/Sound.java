@@ -10,9 +10,9 @@ public class Sound implements Runnable {
     private int currentSongIndex;
     private int currentSongSeek;
 
-    public Sound (String... files) {
+    public Sound(String... files) {
         playList = new ArrayList<>();
-        for (String file: files) {
+        for (String file : files) {
             playList.add("./Audio/" + file + ".wav");
         }
     }
@@ -28,7 +28,7 @@ public class Sound implements Runnable {
             FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
             gainControl.setValue(-10);
             clip.start();
-        }catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

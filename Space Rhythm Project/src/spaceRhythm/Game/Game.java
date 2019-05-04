@@ -110,7 +110,7 @@ public class Game extends Canvas implements Runnable {
             //fps counter
             if (timer > 1000000000) {
                 timer = 0;
-                System.out.println(frames);
+//                System.out.println(frames);
                 frames = 0;
             }
         }
@@ -190,6 +190,9 @@ public class Game extends Canvas implements Runnable {
         int w = image.getWidth();
         int h = image.getHeight();
 
+        handler.addObject(new Player(1017, 1200,
+                ObjectID.Player, handler, ss, this, gameState));
+
         for (int iX = 0; iX < w; iX++) {
             for (int iY = 0; iY < h; iY++) {
                 int pixel = image.getRGB(iX, iY);
@@ -197,8 +200,7 @@ public class Game extends Canvas implements Runnable {
                 int green = (pixel >> 8) & 0xff;
                 int blue = (pixel) & 0xff;
                 if (red == 255) handler.addObject(new Block(iX * 32, iY * 32, ObjectID.Block, ss));
-                if (blue == 255) handler.addObject(new Player(iX * 32, iY * 32, ObjectID.Player, handler, ss, this, gameState));
-                if (green == 255) handler.addObject(new Boss(iX * 32, iY * 32, ObjectID.Boss, handler, ss,gameState));
+                if (green == 255) handler.addObject(new Boss(iX * 32, iY * 32, ObjectID.Boss, handler, ss, gameState));
             }
         }
     }
