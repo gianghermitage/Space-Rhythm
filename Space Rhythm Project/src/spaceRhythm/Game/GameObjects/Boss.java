@@ -84,18 +84,18 @@ public class Boss extends GameObject {
             bossSpeed = 1.5;
             if (timer > 1200) {
                 //follow
-                distX = x - plX - 16;
-                distY = y - plY - 22;
-                distance = (float) Math.sqrt(Math.pow(x - plX, 2) +
-                        Math.pow(y - plY, 2));
-                velX = (float) ((-bossSpeed / distance) * distX);
-                velY = (float) ((-bossSpeed / distance) * distY);
-                x += velX;
-                y += velY;
-                //Trace
-                if (timer % 5 == 0) {
-                    bulletPattern.Trace();
-                }
+//                distX = x - plX - 16;
+//                distY = y - plY - 22;
+//                distance = (float) Math.sqrt(Math.pow(x - plX, 2) +
+//                        Math.pow(y - plY, 2));
+//                velX = (float) ((-bossSpeed / distance) * distX);
+//                velY = (float) ((-bossSpeed / distance) * distY);
+//                x += velX;
+//                y += velY;
+//                //Trace
+//                if (timer % 5 == 0) {
+//                    bulletPattern.Trace();
+//                }
             }
             if (timer > 600 && timer <= 1200) {
                 //follow

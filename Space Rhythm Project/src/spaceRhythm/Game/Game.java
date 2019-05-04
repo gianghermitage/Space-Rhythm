@@ -15,6 +15,8 @@ import spaceRhythm.Window.Window;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class Game extends Canvas implements Runnable {
@@ -28,9 +30,9 @@ public class Game extends Canvas implements Runnable {
     private GameoverMenu gameoverMenu;
     private GameWonMenu gameWonMenu;
     private PauseMenu pauseMenu;
+    private LoadingScreen loadingScreen;
     private Handler handler;
     private SpriteSheet ss;
-    private BufferedImage bg = null;
     private BufferedImage map = null;
     private BufferedImage sprite_sheet = null;
     private BufferedImage floor = null;
@@ -48,12 +50,10 @@ public class Game extends Canvas implements Runnable {
         handler = new Handler();
         camera = new Camera(400, 850);
         gameState = new GameState();
-        gameState.setID(StateID.GAME);
         this.addKeyListener(new KeyInput(handler, gameState));
         BufferedImageLoader loader = new BufferedImageLoader();
         map = loader.loadImage("/map.png");
         sprite_sheet = loader.loadImage("/sprite_sheet.png");
-        bg = loader.loadImage("/image.png");
         ss = new SpriteSheet(sprite_sheet);
         floor = ss.grabImage(4, 6, 32, 32);
         loadLevel(map);
@@ -61,9 +61,17 @@ public class Game extends Canvas implements Runnable {
         Cursor c = Toolkit.getDefaultToolkit().createCustomCursor(cursor, new Point(1, 1), "cursor1");
         setCursor(c);
         this.addMouseListener(new MouseInput(handler, camera, ss, gameState));
+        loadingScreen = new LoadingScreen();
         gameoverMenu = new GameoverMenu();
         pauseMenu = new PauseMenu();
         gameWonMenu = new GameWonMenu();
+        gameState.setID(StateID.LOADING);
+        new Timer().schedule(new TimerTask() {
+                                 public void run() {
+                                     gameState.setID(StateID.GAME);
+                                 }
+                             }, 500
+        );
     }
 
 
@@ -110,7 +118,7 @@ public class Game extends Canvas implements Runnable {
             //fps counter
             if (timer > 1000000000) {
                 timer = 0;
-//                System.out.println(frames);
+                System.out.println(frames);
                 frames = 0;
             }
         }
@@ -119,7 +127,7 @@ public class Game extends Canvas implements Runnable {
 
     //update everything
     private void tick() {
-        if (gameState.getID() == StateID.GAME) {
+        if (gameState.getID() == StateID.GAME || gameState.getID() == StateID.LOADING ) {
             handler.tick();
             for (int i = 0; i < handler.object.size(); i++) {
                 if (handler.object.get(i).getID() == ObjectID.Player) {
@@ -134,7 +142,7 @@ public class Game extends Canvas implements Runnable {
     private void render() {
         BufferStrategy bs = this.getBufferStrategy();
         if (bs == null) {
-            this.createBufferStrategy(3);    //load 3 frames ahead
+            this.createBufferStrategy(4);    //load 3 frames ahead
             return;
         }
 
@@ -143,7 +151,7 @@ public class Game extends Canvas implements Runnable {
         g.fillRect(0, 0, 1920, 1080);
         //g.setColor(Color.black);
         ////////////////Draw things here///////////////
-        if (gameState.getID() == StateID.GAME) {
+        if (gameState.getID() == StateID.GAME ) {
             for (int xx = 0; xx < 30 * 72; xx += 32) {
                 for (int yy = 0; yy < 30 * 72; yy += 32) {
                     g.drawImage(floor, xx, yy, null);
@@ -162,22 +170,20 @@ public class Game extends Canvas implements Runnable {
             g.drawRect(5, 5, 200, 32);
 
 
-        } else if (gameState.getID() == StateID.GAMEOVER) {
-            setCursor(Cursor.getDefaultCursor());
+        } else if (gameState.getID() == StateID.LOADING) {
             g.fillRect(0, 0, 1920, 1080);
-            g.drawImage(bg, 0, 0, null);
+            loadingScreen.render(g);
+
+        } else if (gameState.getID() == StateID.GAMEOVER) {
+            g.fillRect(0, 0, 1920, 1080);
             gameoverMenu.render(g);
 
         } else if (gameState.getID() == StateID.VICTORY) {
-            setCursor(Cursor.getDefaultCursor());
             g.fillRect(0, 0, 1920, 1080);
-            g.drawImage(bg, 0, 0, null);
             gameWonMenu.render(g);
 
         } else if (gameState.getID() == StateID.PAUSE) {
-            setCursor(Cursor.getDefaultCursor());
             g.fillRect(0, 0, 1920, 1080);
-            g.drawImage(bg, 0, 0, null);
             pauseMenu.render(g);
         }
 
@@ -189,7 +195,7 @@ public class Game extends Canvas implements Runnable {
     private void loadLevel(BufferedImage image) {
         int w = image.getWidth();
         int h = image.getHeight();
-
+//
         handler.addObject(new Player(1017, 1200,
                 ObjectID.Player, handler, ss, this, gameState));
 

@@ -87,7 +87,7 @@ Version 1.0 beta 1
 	-Added boss' behaviors
 	-Minor bugs fixed
 	-Performance optimization
-	-Added some bullet patterns
+	-Added some bullet patterns 
 	-Closed beta
 
 Version 1.1 beta 2
@@ -115,6 +115,13 @@ Version 1.1 beta 2
 		+Small stutter when initialize game
 		+Sometime launch the game cant be fully loaded, fix by restart the game
 		+Lost cursor crosshair when pause and resume game
+
+Version 1.2
+	4/5/2019
+	
+	-fix null pointer bug
+	-add loading screen
+	-fix cursor bug
 
 		
 	
