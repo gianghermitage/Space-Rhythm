@@ -16,10 +16,10 @@ import java.awt.event.MouseEvent;
 
 
 public class MouseInput extends MouseAdapter {
+    public static boolean rmb = true;
     private Handler handler;
     private Camera camera;
     private GameState gameState;
-    public static boolean rmb = true;
     private SpriteSheet ss;
 
     public MouseInput(Handler handler, Camera camera, SpriteSheet ss, GameState gameState) {
@@ -34,15 +34,15 @@ public class MouseInput extends MouseAdapter {
             super.mousePressed(e);
             int mx = (int) (e.getX() + camera.getX());
             int my = (int) (e.getY() + camera.getY());
+//            System.out.println(mx + " " + my);
             if (e.getButton() == MouseEvent.BUTTON1) {
                 for (int i = 0; i < handler.object.size(); i++) {
                     GameObject tempObject = handler.object.get(i);
                     if (tempObject.getID() == ObjectID.Player) {
-                        if (rmb){
+                        if (rmb) {
                             handler.addObject(new BulletBlue((int) (tempObject.getX() + 16), (int) (tempObject.getY() + 24), ObjectID.BulletBlue, handler, mx, my, ss));
 
-                        }
-                        else{
+                        } else {
                             handler.addObject(new BulletRed((int) (tempObject.getX() + 16), (int) (tempObject.getY() + 24), ObjectID.BulletRed, handler, mx, my, ss));
                         }
 

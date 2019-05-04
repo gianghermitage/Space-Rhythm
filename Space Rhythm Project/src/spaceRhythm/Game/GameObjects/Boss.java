@@ -12,10 +12,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Boss extends GameObject {
+    public static int blinkstate = 0;
     int hp = 1000;
     int timer = 1800;
     double bossSpeed = 1.5;
-    public static int blinkstate = 0;
     private float distX;
     private float distY;
     private float distance;
@@ -32,10 +32,12 @@ public class Boss extends GameObject {
     private GameObject player;
     private GameState gameState;
 
-    public Boss(int x, int y, ObjectID ID, Handler handler, SpriteSheet ss,GameState gameState) {
+    public Boss(int x, int y, ObjectID ID, Handler handler, SpriteSheet ss, GameState gameState) {
         super(x, y, ID, ss);
         distX = 0;
         distY = 0;
+        velX = 0;
+        velY = 0;
         distance = 0;
         this.handler = handler;
         this.gameState = gameState;
@@ -58,8 +60,10 @@ public class Boss extends GameObject {
 
         aggro_anim = new Animation(10, aggro_sprite);
 
-        dead_sprite[0] = ss.grabImage(9,3,16,16);
+        dead_sprite[0] = ss.grabImage(9, 3, 16, 16);
         this.bulletPattern = new BulletPattern(handler, ss);
+
+
     }
 
     public int dirX(int degree, int radius) {
@@ -71,24 +75,23 @@ public class Boss extends GameObject {
     }
 
 
-    public void bossBehavior(){
+    public void bossBehavior(float plX, float plY) {
         distX = 0;
         distY = 0;
         distance = 0;
         //phase 1: Trace, Shotgun, Random, hp > 750
-        if (hp > 750){
+        if (hp > 750) {
             bossSpeed = 1.5;
             if (timer > 1200) {
                 //follow
-                x += velX;
-                y += velY;
-                distX = x - player.getX() - 16;
-                distY = y - player.getY() - 22;
-                distance = (float) Math.sqrt(Math.pow(x - player.getX(), 2) +
-                        Math.pow(y - player.getY(), 2));
+                distX = x - plX - 16;
+                distY = y - plY - 22;
+                distance = (float) Math.sqrt(Math.pow(x - plX, 2) +
+                        Math.pow(y - plY, 2));
                 velX = (float) ((-bossSpeed / distance) * distX);
                 velY = (float) ((-bossSpeed / distance) * distY);
-
+                x += velX;
+                y += velY;
                 //Trace
                 if (timer % 5 == 0) {
                     bulletPattern.Trace();
@@ -96,14 +99,14 @@ public class Boss extends GameObject {
             }
             if (timer > 600 && timer <= 1200) {
                 //follow
-                x += velX;
-                y += velY;
-                distX = x - player.getX() - 16;
-                distY = y - player.getY() - 22;
-                distance = (float) Math.sqrt(Math.pow(x - player.getX(), 2) +
-                        Math.pow(y - player.getY(), 2));
+                distX = x - plX - 16;
+                distY = y - plY - 22;
+                distance = (float) Math.sqrt(Math.pow(x - plX, 2) +
+                        Math.pow(y - plY, 2));
                 velX = (float) ((-bossSpeed / distance) * distX);
                 velY = (float) ((-bossSpeed / distance) * distY);
+                x += velX;
+                y += velY;
                 //Shotgun
                 if (timer % 5 == 0) {
                     bulletPattern.Shotgun();
@@ -113,14 +116,14 @@ public class Boss extends GameObject {
             if (timer < 600 && timer >= 0) {
                 //move to center
                 bossSpeed = 2;
-                x += velX;
-                y += velY;
                 distX = x - 1024;
                 distY = y - 1020;
-                distance = (float) Math.sqrt(Math.pow(x - player.getX(), 2) +
-                        Math.pow(y - player.getY(), 2));
+                distance = (float) Math.sqrt(Math.pow(x - plX, 2) +
+                        Math.pow(y - plY, 2));
                 velX = (float) ((-bossSpeed / distance) * distX);
                 velY = (float) ((-bossSpeed / distance) * distY);
+                x += velX;
+                y += velY;
                 //Random
                 if (timer % 2 == 0) {
                     bulletPattern.Random();
@@ -133,15 +136,14 @@ public class Boss extends GameObject {
             bossSpeed = 2;
             if (timer > 1200) {
                 //follow
-                x += velX;
-                y += velY;
-                distX = x - player.getX() - 16;
-                distY = y - player.getY() - 22;
-                distance = (float) Math.sqrt(Math.pow(x - player.getX(), 2) +
-                        Math.pow(y - player.getY(), 2));
+                distX = x - plX - 16;
+                distY = y - plY - 22;
+                distance = (float) Math.sqrt(Math.pow(x - plX, 2) +
+                        Math.pow(y - plY, 2));
                 velX = (float) ((-bossSpeed / distance) * distX);
                 velY = (float) ((-bossSpeed / distance) * distY);
-
+                x += velX;
+                y += velY;
                 //Super Trace
                 if (timer % 5 == 0) {
                     bulletPattern.superTrace();
@@ -149,15 +151,14 @@ public class Boss extends GameObject {
             }
             if (timer > 600 && timer <= 1200) {
                 //follow
-                x += velX;
-                y += velY;
-                distX = x - player.getX() - 16;
-                distY = y - player.getY() - 22;
-                distance = (float) Math.sqrt(Math.pow(x - player.getX(), 2) +
-                        Math.pow(y - player.getY(), 2));
+                distX = x - plX - 16;
+                distY = y - plY - 22;
+                distance = (float) Math.sqrt(Math.pow(x - plX, 2) +
+                        Math.pow(y - plY, 2));
                 velX = (float) ((-bossSpeed / distance) * distX);
                 velY = (float) ((-bossSpeed / distance) * distY);
-
+                x += velX;
+                y += velY;
                 //Cross
                 if (timer % 5 == 0) {
                     bulletPattern.Cross();
@@ -165,14 +166,14 @@ public class Boss extends GameObject {
             }
             if (timer < 600 && timer >= 0) {
                 //move to center
-                x += velX;
-                y += velY;
                 distX = x - 1024;
                 distY = y - 1020;
-                 distance = (float) Math.sqrt(Math.pow(x - player.getX(), 2) +
-                        Math.pow(y - player.getY(), 2));
+                distance = (float) Math.sqrt(Math.pow(x - plX, 2) +
+                        Math.pow(y - plY, 2));
                 velX = (float) ((-bossSpeed / distance) * distX);
                 velY = (float) ((-bossSpeed / distance) * distY);
+                x += velX;
+                y += velY;
                 //Cross Spawn
                 if (timer % 10 == 0) {
                     bulletPattern.Cross();
@@ -192,8 +193,8 @@ public class Boss extends GameObject {
                 y += velY;
                 distX = x - 1024;
                 distY = y - 1020;
-                distance = (float) Math.sqrt(Math.pow(x - player.getX(), 2) +
-                        Math.pow(y - player.getY(), 2));
+                distance = (float) Math.sqrt(Math.pow(x - plX, 2) +
+                        Math.pow(y - plY, 2));
                 velX = (float) ((-bossSpeed / distance) * distX);
                 velY = (float) ((-bossSpeed / distance) * distY);
 
@@ -219,19 +220,19 @@ public class Boss extends GameObject {
                     if (timer % 20 == 0) {
                         if (blinkstate == 0) {
                             x = dirX(45, 400);
-                            y = dirY(45,400);
+                            y = dirY(45, 400);
                         }
                         if (blinkstate == 1) {
                             x = dirX(135, 400);
-                            y = dirY(135,400);
+                            y = dirY(135, 400);
                         }
                         if (blinkstate == 2) {
                             x = dirX(225, 400);
-                            y = dirY(225,400);
+                            y = dirY(225, 400);
                         }
                         if (blinkstate == 3) {
                             x = dirX(315, 400);
-                            y = dirY(315,400);
+                            y = dirY(315, 400);
                         }
                         blinkstate++;
                         if (blinkstate > 3) blinkstate = 0;
@@ -240,15 +241,14 @@ public class Boss extends GameObject {
                 }
                 if (timer <= 300) {
                     //follow
-                    x += velX;
-                    y += velY;
-                    distX = x - player.getX() - 16;
-                    distY = y - player.getY() - 22;
-                    distance = (float) Math.sqrt(Math.pow(x - player.getX(), 2) +
-                            Math.pow(y - player.getY(), 2));
+                    distX = x - plX - 16;
+                    distY = y - plY - 22;
+                    distance = (float) Math.sqrt(Math.pow(x - plX, 2) +
+                            Math.pow(y - plY, 2));
                     velX = (float) ((-bossSpeed / distance) * distX);
                     velY = (float) ((-bossSpeed / distance) * distY);
-
+                    x += velX;
+                    y += velY;
                     //shotgun circle
                     if (timer % 2 == 0) {
                         bulletPattern.Shotgun();
@@ -265,14 +265,14 @@ public class Boss extends GameObject {
             bossSpeed = 4;
             if (timer > 1200) {
                 //follow
-                x += velX;
-                y += velY;
-                distX = x - player.getX() - 16;
-                distY = y - player.getY() - 22;
-                distance = (float) Math.sqrt(Math.pow(x - player.getX(), 2) +
-                        Math.pow(y - player.getY(), 2));
+                distX = x - plX - 16;
+                distY = y - plY - 22;
+                distance = (float) Math.sqrt(Math.pow(x - plX, 2) +
+                        Math.pow(y - plY, 2));
                 velX = (float) ((-bossSpeed / distance) * distX);
                 velY = (float) ((-bossSpeed / distance) * distY);
+                x += velX;
+                y += velY;
 
                 //superTrace + minion
                 if (timer % 5 == 0) {
@@ -300,19 +300,19 @@ public class Boss extends GameObject {
                 if (timer % 20 == 0) {
                     if (blinkstate == 0) {
                         x = dirX(45, 400);
-                        y = dirY(45,400);
+                        y = dirY(45, 400);
                     }
                     if (blinkstate == 1) {
                         x = dirX(135, 400);
-                        y = dirY(135,400);
+                        y = dirY(135, 400);
                     }
                     if (blinkstate == 2) {
                         x = dirX(225, 400);
-                        y = dirY(225,400);
+                        y = dirY(225, 400);
                     }
                     if (blinkstate == 3) {
                         x = dirX(315, 400);
-                        y = dirY(315,400);
+                        y = dirY(315, 400);
                     }
                     blinkstate++;
                     if (blinkstate > 3) blinkstate = 0;
@@ -331,11 +331,17 @@ public class Boss extends GameObject {
     @Override
     public void tick() {
         //find player's position
-        for (int i = 0; i < handler.object.size(); i++) {
+        float plX;
+        float plY;
+        int temp = handler.object.size();
+        for (int i = 0; i < temp; i++) {
             if (handler.object.get(i).getID() == ObjectID.Player)
                 player = handler.object.get(i);
         }
-        bossBehavior();
+        plX = player.getX();
+        plY = player.getY();
+
+        bossBehavior(plX, plY);
 
         //check collision
         collision();
@@ -396,7 +402,7 @@ public class Boss extends GameObject {
     public void render(Graphics g) {
 //        g.setColor(Color.yellow);
 //        g.fillRect((int)x, (int)y, 40,64 );
-        if(hp > 750) init_anim.drawAnimation(g,x,y,0);
+        if (hp > 750) init_anim.drawAnimation(g, x, y, 0);
         else if (hp > 500) normal_anim.drawAnimation(g, x, y, 0);
         else aggro_anim.drawAnimation(g, x, y, 0);
     }

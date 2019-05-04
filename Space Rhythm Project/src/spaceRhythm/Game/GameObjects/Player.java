@@ -79,7 +79,7 @@ public class Player extends GameObject {
         hit_sprite_blue[3] = ss.grabImage(8, 4, 60, 64);
         hit_anim_blue = new Animation(5, hit_sprite_blue);
 
-        dead_sprite[0] = ss.grabImage(9,3,16,16);
+        dead_sprite[0] = ss.grabImage(9, 3, 16, 16);
 
     }
 
@@ -153,7 +153,7 @@ public class Player extends GameObject {
 
             GameObject tempObject = handler.object.get(i);
             if (tempObject.getID() == ObjectID.Boss) {
-                if (checkCollision((x + velX), y, getBounds(), tempObject.getBounds()) ) {
+                if (checkCollision((x + velX), y, getBounds(), tempObject.getBounds())) {
 
                     if (x - pushBack * velX > 519 && x - pushBack * velX < 1499) x += -pushBack * velX;
                     else if (x - pushBack * velX < 519) {
@@ -275,26 +275,24 @@ public class Player extends GameObject {
     public void render(Graphics g) {
 //        g.setColor(Color.WHITE);
 //        g.fillRect((int)x, (int)y, 38, 54);
-        if(MouseInput.rmb) {
-            if(Game.gameOver){
+        if (MouseInput.rmb) {
+            if (Game.gameOver) {
                 g.drawImage(dead_sprite[0], (int) x, (int) y, null);
-            }
-            else if (handler.isEvade()) {
+            } else if (handler.isEvade()) {
                 evade_anim_blue.drawAnimation(g, x, y, 0);
             } else {
-                if(!isHit) hit_anim_blue.drawAnimation(g,x,y,0);
+                if (!isHit) hit_anim_blue.drawAnimation(g, x, y, 0);
                 else if (velX == 0 && velY == 0) g.drawImage(run_sprite_blue[1], (int) x, (int) y, null);
                 else run_anim_blue.drawAnimation(g, x, y, 0);
             }
         }
-        if(!MouseInput.rmb) {
-            if(Game.gameOver){
+        if (!MouseInput.rmb) {
+            if (Game.gameOver) {
                 g.drawImage(dead_sprite[0], (int) x, (int) y, null);
-            }
-            else if (handler.isEvade()) {
+            } else if (handler.isEvade()) {
                 evade_anim_red.drawAnimation(g, x, y, 0);
             } else {
-                if(!isHit) hit_anim_red.drawAnimation(g,x,y,0);
+                if (!isHit) hit_anim_red.drawAnimation(g, x, y, 0);
                 else if (velX == 0 && velY == 0) g.drawImage(run_sprite_red[1], (int) x, (int) y, null);
                 else run_anim_red.drawAnimation(g, x, y, 0);
             }

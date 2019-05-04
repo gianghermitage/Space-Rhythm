@@ -31,17 +31,16 @@ public class BulletPattern {
         return (int) (Math.sqrt(Math.pow((boss.getX() + 20) - player.getX(), 2) + Math.pow((boss.getY() + 32) - player.getY(), 2)));
     }
 
-    public int getAngle(){
-        if (player.getX() > (boss.getX() +20) && player.getY() > (boss.getY() + 32)) {
-            return (int) ((Math.atan(((boss.getY() + 32) - player.getY())/((boss.getX() + 20) - player.getX()))) * 180 / Math.PI);
+    public int getAngle() {
+        if (player.getX() > (boss.getX() + 20) && player.getY() > (boss.getY() + 32)) {
+            return (int) ((Math.atan(((boss.getY() + 32) - player.getY()) / ((boss.getX() + 20) - player.getX()))) * 180 / Math.PI);
         }
-        if (player.getX() < (boss.getX() +20)) {
-            return (int) ((Math.atan(((boss.getY() + 32) - player.getY())/((boss.getX() + 20) - player.getX()))) * 180 / Math.PI + 180);
+        if (player.getX() < (boss.getX() + 20)) {
+            return (int) ((Math.atan(((boss.getY() + 32) - player.getY()) / ((boss.getX() + 20) - player.getX()))) * 180 / Math.PI + 180);
         }
-        if (player.getX() > (boss.getX() +20) && player.getY() < (boss.getY() + 32)) {
-            return (int) ((Math.atan(((boss.getY() + 32) - player.getY())/((boss.getX() + 20) - player.getX()))) * 180 / Math.PI);
-        }
-        else return 0;
+        if (player.getX() > (boss.getX() + 20) && player.getY() < (boss.getY() + 32)) {
+            return (int) ((Math.atan(((boss.getY() + 32) - player.getY()) / ((boss.getX() + 20) - player.getX()))) * 180 / Math.PI);
+        } else return 0;
     }
 
     public void addBullet(int dirX, int dirY) {
@@ -166,7 +165,7 @@ public class BulletPattern {
     public void Trace() {
         setBoss();
         setPlayer();
-        addBullet((int)player.getX(), (int)player.getY());
+        addBullet((int) player.getX(), (int) player.getY());
     }
 
     public void superTrace() {
@@ -176,25 +175,25 @@ public class BulletPattern {
                 dirY(getAngle() + 20, getDistance()));
         addBullet(dirX(getAngle() - 20, getDistance()),
                 dirY(getAngle() - 20, getDistance()));
-        addBullet((int)player.getX(), (int)player.getY());
+        addBullet((int) player.getX(), (int) player.getY());
     }
 
     public void Shotgun() {
         setBoss();
         setPlayer();
         addBullet(dirX(getAngle() + offset, getDistance() + offset),
-                dirY(getAngle() + offset,getDistance() + offset));
+                dirY(getAngle() + offset, getDistance() + offset));
         if (offset == 60) shotgunState = 1;
         if (offset == -60) shotgunState = 0;
-        if (shotgunState == 0) offset+=15;
-        if (shotgunState == 1) offset -=15;
+        if (shotgunState == 0) offset += 15;
+        if (shotgunState == 1) offset -= 15;
     }
 
     public void Random() {
         setBoss();
         setPlayer();
         addBullet(dirX(r.nextInt(360), getDistance()),
-                dirY(r.nextInt(360),getDistance()));
+                dirY(r.nextInt(360), getDistance()));
     }
     /////////////////////////////////////////////////////
 }
