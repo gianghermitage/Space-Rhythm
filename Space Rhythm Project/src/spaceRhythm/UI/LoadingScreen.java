@@ -5,7 +5,6 @@ import java.awt.*;
 public class LoadingScreen {
 
 
-
     public void render(Graphics g) {
 
         g.setColor(Color.BLACK);

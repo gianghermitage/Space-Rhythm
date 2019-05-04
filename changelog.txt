@@ -119,9 +119,19 @@ Version 1.1 beta 2
 Version 1.2
 	4/5/2019
 	
-	-fix null pointer bug
-	-add loading screen
-	-fix cursor bug
+	-Fix null pointer bug
+	-Add loading screen
+	-Fix cursor bug
 
-		
+Version 1.3 final
+	4/5/2019
+	-Fixed boss behavior:
+		+Phase 1: mixed shotgun with trace
+		+Phase 2: boss now follows player when using flower and circle
+		+Phase 3: mixed cross with shotgun
+		+Phase 4: mixed circle with shotgun
+		+Changed minor minion's spawn timing
+		+Fixed boss' timing with loading screen added
+		+Bullet speed increased to 7 (was 6)
+	-Final release
 	

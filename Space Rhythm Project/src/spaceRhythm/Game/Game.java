@@ -127,7 +127,7 @@ public class Game extends Canvas implements Runnable {
 
     //update everything
     private void tick() {
-        if (gameState.getID() == StateID.GAME || gameState.getID() == StateID.LOADING ) {
+        if (gameState.getID() == StateID.GAME || gameState.getID() == StateID.LOADING) {
             handler.tick();
             for (int i = 0; i < handler.object.size(); i++) {
                 if (handler.object.get(i).getID() == ObjectID.Player) {
@@ -151,7 +151,7 @@ public class Game extends Canvas implements Runnable {
         g.fillRect(0, 0, 1920, 1080);
         //g.setColor(Color.black);
         ////////////////Draw things here///////////////
-        if (gameState.getID() == StateID.GAME ) {
+        if (gameState.getID() == StateID.GAME) {
             for (int xx = 0; xx < 30 * 72; xx += 32) {
                 for (int yy = 0; yy < 30 * 72; yy += 32) {
                     g.drawImage(floor, xx, yy, null);
