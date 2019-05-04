@@ -260,7 +260,7 @@ public class Player extends GameObject {
             if (tempObject.getID() == ObjectID.Pickup) {
                 if (getBounds().intersects(tempObject.getBounds())) {
                     handler.removeObject(tempObject);
-                    int recHP = 10;
+                    int recHP = 5;
                     if (Game.hp + recHP <= 100) Game.hp = Game.hp + recHP;
                     else if (Game.hp + recHP > 100) {
                         Game.hp = 100;
@@ -288,7 +288,10 @@ public class Player extends GameObject {
             }
         }
         if(!MouseInput.rmb) {
-            if (handler.isEvade()) {
+            if(Game.gameOver){
+                g.drawImage(dead_sprite[0], (int) x, (int) y, null);
+            }
+            else if (handler.isEvade()) {
                 evade_anim_red.drawAnimation(g, x, y, 0);
             } else {
                 if(!isHit) hit_anim_red.drawAnimation(g,x,y,0);

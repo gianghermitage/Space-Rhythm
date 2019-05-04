@@ -34,7 +34,7 @@ public class BossMinionBlue extends GameObject {
     public void spawmPickup() {
         Random rand = new Random();
         int spawnChance = rand.nextInt(101);
-        if (spawnChance <= 10) {
+        if (spawnChance <= 5) {
             handler.addObject(new Pickup((int) this.getX(), (int) this.getY(), ObjectID.Pickup, handler, ss));
         }
     }
@@ -63,8 +63,8 @@ public class BossMinionBlue extends GameObject {
             float distY = y - player.getY() - 22;
             float distance = (float) Math.sqrt(Math.pow(x - player.getX(), 2) + Math.pow(y - player.getY(), 2));
 
-            velX = (float) ((-1.0 / distance) * distX * 3);
-            velY = (float) ((-1.0 / distance) * distY * 3);
+            velX = (float) ((-1.3 / distance) * distX * 3);
+            velY = (float) ((-1.3 / distance) * distY * 3);
         }
 
         //collision
@@ -85,11 +85,6 @@ public class BossMinionBlue extends GameObject {
                     handler.removeObject(tempObject);
                     handler.removeObject(this);
                     spawmPickup();
-                }
-            }
-            if (tempObject.getID() == ObjectID.Pickup) {
-                if (getBounds().intersects(tempObject.getBounds())) {
-                    handler.removeObject(tempObject);
                 }
             }
         }

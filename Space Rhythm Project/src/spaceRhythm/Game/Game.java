@@ -30,8 +30,6 @@ public class Game extends Canvas implements Runnable {
     private PauseMenu pauseMenu;
     private Handler handler;
     private SpriteSheet ss;
-    private SpriteSheet mSprite;
-    private SpriteSheet eSprite;
     private BufferedImage bg = null;
     private BufferedImage map = null;
     private BufferedImage sprite_sheet = null;
@@ -39,7 +37,7 @@ public class Game extends Canvas implements Runnable {
     private Camera camera;
 
     public Game() {
-        new Window(1280, 720, "GameTest", this);
+        new Window(1280, 720, "Space Rhythm", this);
         start();
         initGame();
     }
@@ -51,18 +49,18 @@ public class Game extends Canvas implements Runnable {
         camera = new Camera(400, 850);
         gameState = new GameState();
         gameState.setID(StateID.GAME);
-        this.addKeyListener(new KeyInput(handler, gameState, this));
+        this.addKeyListener(new KeyInput(handler, gameState));
         BufferedImageLoader loader = new BufferedImageLoader();
         map = loader.loadImage("/map.png");
         sprite_sheet = loader.loadImage("/sprite_sheet.png");
         bg = loader.loadImage("/image.png");
         ss = new SpriteSheet(sprite_sheet);
         floor = ss.grabImage(4, 6, 32, 32);
+        loadLevel(map);
         BufferedImage cursor = loader.loadImage("/cursor.png");
         Cursor c = Toolkit.getDefaultToolkit().createCustomCursor(cursor, new Point(1, 1), "cursor1");
         setCursor(c);
-        this.addMouseListener(new MouseInput(handler, camera, ss, gameState, this));
-        loadLevel(map);
+        this.addMouseListener(new MouseInput(handler, camera, ss, gameState));
         gameoverMenu = new GameoverMenu();
         pauseMenu = new PauseMenu();
         gameWonMenu = new GameWonMenu();
@@ -112,7 +110,7 @@ public class Game extends Canvas implements Runnable {
             //fps counter
             if (timer > 1000000000) {
                 timer = 0;
-                //System.out.println(frames);
+                System.out.println(frames);
                 frames = 0;
             }
         }
@@ -199,8 +197,7 @@ public class Game extends Canvas implements Runnable {
                 int green = (pixel >> 8) & 0xff;
                 int blue = (pixel) & 0xff;
                 if (red == 255) handler.addObject(new Block(iX * 32, iY * 32, ObjectID.Block, ss));
-                if (blue == 255)
-                    handler.addObject(new Player(iX * 32, iY * 32, ObjectID.Player, handler, ss, this, gameState));
+                if (blue == 255) handler.addObject(new Player(iX * 32, iY * 32, ObjectID.Player, handler, ss, this, gameState));
                 if (green == 255) handler.addObject(new Boss(iX * 32, iY * 32, ObjectID.Boss, handler, ss,gameState));
             }
         }

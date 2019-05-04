@@ -14,17 +14,13 @@ import java.util.TimerTask;
 
 
 public class KeyInput extends KeyAdapter {
-    public static boolean restart = false;
     private Handler handler;
     private GameState gameState;
-    private int evadeTime = 1;
     private boolean canEvade = true;
-    private Game game;
 
-    public KeyInput(Handler handler, GameState gameState, Game game) {
+    public KeyInput(Handler handler, GameState gameState) {
         this.handler = handler;
         this.gameState = gameState;
-        this.game = game;
     }
 
     public void keyPressed(KeyEvent e) {
@@ -44,6 +40,26 @@ public class KeyInput extends KeyAdapter {
                         handler.setLeft(false);
                         handler.setDown(false);
                     }
+                    if (key == KeyEvent.VK_SPACE) {
+                        if (canEvade) {
+                            canEvade = false;
+                            handler.setEvade(true);
+                            new Timer().schedule(new TimerTask() {
+                                                     public void run() {
+                                                         canEvade = true;
+
+                                                     }
+                                                 }, 405
+                            );
+                            new Timer().schedule(new TimerTask() {
+                                                     public void run() {
+                                                         handler.setEvade(false);
+                                                     }
+                                                 }, 200
+                            );
+                        }
+
+                    }
                     if (key == KeyEvent.VK_F1) {
                         Game.hp = 1000;         //cheat code
                     }
@@ -62,26 +78,7 @@ public class KeyInput extends KeyAdapter {
                     if (key == KeyEvent.VK_S) handler.setDown(false);
                     if (key == KeyEvent.VK_A) handler.setLeft(false);
                     if (key == KeyEvent.VK_D) handler.setRight(false);
-                    if (key == KeyEvent.VK_SPACE) {
-                        if (canEvade) {
-                            canEvade = false;
-                            handler.setEvade(true);
-                            new Timer().schedule(new TimerTask() {
-                                                     public void run() {
-                                                         canEvade = true;
 
-                                                     }
-                                                 }, 400
-                            );
-                            new Timer().schedule(new TimerTask() {
-                                                     public void run() {
-                                                         handler.setEvade(false);
-                                                     }
-                                                 }, 200
-                            );
-                        }
-
-                    }
 
                 }
             }

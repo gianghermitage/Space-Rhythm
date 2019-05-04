@@ -21,15 +21,12 @@ public class MouseInput extends MouseAdapter {
     private GameState gameState;
     public static boolean rmb = true;
     private SpriteSheet ss;
-    private Game game;
-    public static boolean blueForm = true;
 
-    public MouseInput(Handler handler, Camera camera, SpriteSheet ss, GameState gameState, Game game) {
+    public MouseInput(Handler handler, Camera camera, SpriteSheet ss, GameState gameState) {
         this.handler = handler;
         this.camera = camera;
         this.ss = ss;
         this.gameState = gameState;
-        this.game = game;
     }
 
     public void mousePressed(MouseEvent e) {

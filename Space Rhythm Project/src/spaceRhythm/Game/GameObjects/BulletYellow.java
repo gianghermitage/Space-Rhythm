@@ -33,7 +33,6 @@ public class BulletYellow extends GameObject {
             if (tempObject.getID() == ObjectID.Block) {
                 if (getBounds().intersects(tempObject.getBounds())) {
                     handler.removeObject(this);
-                    //System.out.println("Hit");
                 }
             }
         }
