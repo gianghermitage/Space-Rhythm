@@ -15,6 +15,7 @@ public class Boss extends GameObject {
     public static int blinkstate = 0;
     int hp = 1000;
     int timer = 1800;
+    int delay = 60;
     double bossSpeed = 1.5;
     private float distX;
     private float distY;
@@ -84,18 +85,18 @@ public class Boss extends GameObject {
             bossSpeed = 1.5;
             if (timer > 1200) {
                 //follow
-//                distX = x - plX - 16;
-//                distY = y - plY - 22;
-//                distance = (float) Math.sqrt(Math.pow(x - plX, 2) +
-//                        Math.pow(y - plY, 2));
-//                velX = (float) ((-bossSpeed / distance) * distX);
-//                velY = (float) ((-bossSpeed / distance) * distY);
-//                x += velX;
-//                y += velY;
-//                //Trace
-//                if (timer % 5 == 0) {
-//                    bulletPattern.Trace();
-//                }
+                distX = x - plX - 16;
+                distY = y - plY - 22;
+                distance = (float) Math.sqrt(Math.pow(x - plX, 2) +
+                        Math.pow(y - plY, 2));
+                velX = (float) ((-bossSpeed / distance) * distX);
+                velY = (float) ((-bossSpeed / distance) * distY);
+                x += velX;
+                y += velY;
+                //Trace
+                if (timer % 5 == 0) {
+                    bulletPattern.Trace();
+                }
             }
             if (timer > 600 && timer <= 1200) {
                 //follow
@@ -110,6 +111,9 @@ public class Boss extends GameObject {
                 //Shotgun
                 if (timer % 5 == 0) {
                     bulletPattern.Shotgun();
+                }
+                if (timer % 10 == 0) {
+                    bulletPattern.Trace();
                 }
             }
 
@@ -163,6 +167,9 @@ public class Boss extends GameObject {
                 if (timer % 5 == 0) {
                     bulletPattern.Cross();
                 }
+                if (timer % 4 == 0) {
+                    bulletPattern.Shotgun();
+                }
             }
             if (timer < 600 && timer >= 0) {
                 //move to center
@@ -177,6 +184,9 @@ public class Boss extends GameObject {
                 //Cross Spawn
                 if (timer % 10 == 0) {
                     bulletPattern.Cross();
+                }
+                if (timer % 50 == 0) {
+                    bulletPattern.Circle();
                 }
                 if (timer % 150 == 0) {
                     bulletPattern.SpawnBlue();
@@ -200,13 +210,23 @@ public class Boss extends GameObject {
 
                 //Spiral & reverse Spiral
                 if (timer > 1500 && timer % 5 == 0) {
+                    bulletPattern.Shotgun();
                     bulletPattern.Spiral();
                 }
                 if (timer <= 1500 && timer % 5 == 0) {
+                    bulletPattern.Shotgun();
                     bulletPattern.reverseSpiral();
                 }
             }
             if (timer > 600 && timer <= 1200) {
+                distX = x - plX - 16;
+                distY = y - plY - 22;
+                distance = (float) Math.sqrt(Math.pow(x - plX, 2) +
+                        Math.pow(y - plY, 2));
+                velX = (float) ((-bossSpeed / distance) * distX);
+                velY = (float) ((-bossSpeed / distance) * distY);
+                x += velX;
+                y += velY;
                 //Flower & circle
                 if (timer % 5 == 0) {
                     bulletPattern.Flower();
@@ -284,16 +304,14 @@ public class Boss extends GameObject {
                 }
             }
             if (timer > 600 && timer <= 1200) {
-                //Flower & circle
-                if (timer % 5 == 0) {
-                    bulletPattern.Random();
-                }
+                //circle & shotgun
+                bulletPattern.Shotgun();
                 if (timer % 20 == 0) {
                     bulletPattern.Circle();
                 }
             }
             if (timer < 600 && timer >= 0) {
-                if (timer % 100 == 0) {
+                if (timer % 120 == 0) {
                     bulletPattern.SpawnRed();
                     bulletPattern.SpawnBlue();
                 }
@@ -341,7 +359,15 @@ public class Boss extends GameObject {
         plX = player.getX();
         plY = player.getY();
 
-        bossBehavior(plX, plY);
+
+        //loading
+        if (delay > 0) {
+            delay--;
+        }
+        if (delay == 0) {
+            bossBehavior(plX, plY);
+        }
+
 
         //check collision
         collision();
