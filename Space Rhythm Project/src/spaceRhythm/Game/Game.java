@@ -50,7 +50,7 @@ public class Game extends Canvas implements Runnable {
         handler = new Handler();
         camera = new Camera(400, 850);
         gameState = new GameState();
-        this.addKeyListener(new KeyInput(handler, gameState));
+        this.addKeyListener(new KeyInput(handler, gameState, this));
         BufferedImageLoader loader = new BufferedImageLoader();
         map = loader.loadImage("/map.png");
         sprite_sheet = loader.loadImage("/sprite_sheet.png");
@@ -65,6 +65,19 @@ public class Game extends Canvas implements Runnable {
         gameoverMenu = new GameoverMenu();
         pauseMenu = new PauseMenu();
         gameWonMenu = new GameWonMenu();
+        gameState.setID(StateID.LOADING);
+        new Timer().schedule(new TimerTask() {
+                                 public void run() {
+                                     gameState.setID(StateID.GAME);
+                                 }
+                             }, 1000
+        );
+    }
+
+    public void restartGame() {
+        handler.removeALL();
+        hp = 100;
+        loadLevel(map);
         gameState.setID(StateID.LOADING);
         new Timer().schedule(new TimerTask() {
                                  public void run() {

@@ -35,6 +35,9 @@ public class BulletYellow extends GameObject {
                     handler.removeObject(this);
                 }
             }
+            if (handler.isUltimate()) {
+                handler.removeObject(this);
+            }
         }
     }
 

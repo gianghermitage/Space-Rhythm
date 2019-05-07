@@ -10,7 +10,16 @@ public class Handler {
     public final ArrayList<GameObject> object = new ArrayList<>();
     public long startTime;
     private boolean up = false, down = false, left = false, right = false;
+    private boolean ultimate = false;
     private boolean evade = false;
+
+    public boolean isUltimate() {
+        return ultimate;
+    }
+
+    public void setUltimate(boolean ultimate) {
+        this.ultimate = ultimate;
+    }
 
     public boolean isEvade() {
         return evade;
@@ -74,5 +83,10 @@ public class Handler {
     public void removeObject(GameObject tempObject) {
         object.remove(tempObject);
     }
+
+    public void removeALL() {
+        this.object.clear();
+    }
+
 
 }
